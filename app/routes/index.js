@@ -85,13 +85,13 @@ import UsersResults from './Apps/UsersResults';
 import VideosResults from './Apps/VideosResults';
 
 import ComingSoon from './Pages/ComingSoon';
-import Confirmation from './Pages/Confirmation';
+import Confirmation from './Auth/Confirmation';
 import Danger from './Pages/Danger';
-import Error404 from './Pages/Error404';
-import ForgotPassword from './Pages/ForgotPassword';
-import LockScreen from './Pages/LockScreen';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
+import Error404 from './Error/Error404';
+import ForgotPassword from './Auth/ForgotPassword';
+import LockScreen from './Auth/LockScreen';
+import Login from './Auth/Login';
+import Register from './Auth/Register';
 import Success from './Pages/Success';
 import Timeline from './Pages/Timeline';
 
@@ -202,20 +202,20 @@ export const RoutedContent = () => {
 
             { /*    Pages Routes    */}
             <Route component={ComingSoon} path="/pages/coming-soon"/>
-            <Route component={Confirmation} path="/pages/confirmation"/>
+            <Route component={Confirmation} path="/auth/confirmation"/>
             <Route component={Danger} path="/pages/danger"/>
-            <Route component={Error404} path="/pages/error-404"/>
-            <Route component={ForgotPassword} path="/pages/forgot-password"/>
-            <Route component={LockScreen} path="/pages/lock-screen"/>
-            <Route component={Login} path="/pages/login"/>
-            <Route component={Register} path="/pages/register"/>
+            <Route component={Error404} path="/error/error-404"/>
+            <Route component={ForgotPassword} path="/auth/forgot-password"/>
+            <Route component={LockScreen} path="/auth/lock-screen"/>
+            <Route component={Login} path="/auth/login"/>
+            <Route component={Register} path="/auth/register"/>
             <Route component={Success} path="/pages/success"/>
             <Route component={Timeline} path="/pages/timeline"/>
 
             <Route path='/icons' exact component={Icons}/>
 
             { /*    404    */}
-            <Redirect to="/pages/error-404"/>
+            <Redirect to="/error/error-404"/>
         </Switch>
     );
 };

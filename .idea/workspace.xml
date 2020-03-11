@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5bbea290-04fa-4f2e-8507-c013ddc0a297" name="Default Changelist" comment="" />
+    <list default="true" id="f8f5341e-c7e7-4572-bdc9-c0d5056c89a4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout/components/SidebarMiddleNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout/components/SidebarMiddleNav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Confirmation/Confirmation.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/Confirmation/Confirmation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Confirmation/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/Confirmation/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Error404/Error404.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Error404/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/ForgotPassword/ForgotPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/ForgotPassword/ForgotPassword.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/ForgotPassword/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/ForgotPassword/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/LockScreen/LockScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/LockScreen/LockScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/LockScreen/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/LockScreen/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/Login/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/Login/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/Register/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Register/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Auth/Register/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,18 +32,10 @@
       <executable />
     </execution>
   </component>
-  <component name="FavoritesManager">
-    <favorites_list name="Projektlabor" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectId" id="1YUloYrfouV5M7eZI1rs0lQYZOn" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="1YxA6UbXFyGuBClS4KlxnpGqAOp" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -32,65 +44,30 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../react-redux-jwt-auth-example" />
     <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.jscs" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.jscs" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.jscs" value="" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\GitHub\Projektlabor\app\config" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitHub\Projektlabor-Control-System\app\routes\Error" />
+      <recent name="C:\GitHub\Projektlabor-Control-System\app\routes\Auth" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="VersionSelector.js" type="MongoRunConfiguration" factoryName="Mongo" temporary="true">
-      <module name="Projektlabor" />
-      <setting name="path" value="$PROJECT_DIR$/app/routes/components/VersionSelector.js" />
-      <setting name="shellParams" value="" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Mongo.VersionSelector.js" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5bbea290-04fa-4f2e-8507-c013ddc0a297" name="Default Changelist" comment="" />
-      <created>1583005228860</created>
+      <changelist id="f8f5341e-c7e7-4572-bdc9-c0d5056c89a4" name="Default Changelist" comment="" />
+      <created>1583874001502</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1583005228860</updated>
-      <workItem from="1583005233197" duration="8278000" />
-      <workItem from="1583061664780" duration="169000" />
-      <workItem from="1583061843202" duration="129000" />
-      <workItem from="1583062050593" duration="696000" />
-      <workItem from="1583062766316" duration="1381000" />
-      <workItem from="1583086390152" duration="5775000" />
-      <workItem from="1583142976009" duration="36000" />
-      <workItem from="1583174221105" duration="2101000" />
-      <workItem from="1583394869134" duration="17000" />
-      <workItem from="1583437444804" duration="35000" />
-      <workItem from="1583437508753" duration="618000" />
-      <workItem from="1583440985513" duration="1092000" />
-      <workItem from="1583510533120" duration="3536000" />
-      <workItem from="1583515593813" duration="1635000" />
-      <workItem from="1583518879293" duration="7464000" />
-      <workItem from="1583610060707" duration="10544000" />
-      <workItem from="1583666751141" duration="10137000" />
-      <workItem from="1583693818691" duration="8422000" />
-      <workItem from="1583754072588" duration="9771000" />
+      <updated>1583874001502</updated>
+      <workItem from="1583874003301" duration="101000" />
+      <workItem from="1583943601346" duration="8029000" />
+      <workItem from="1583956746591" duration="66000" />
     </task>
     <servers />
   </component>
@@ -98,66 +75,21 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="552" y="183" key="#Updates" timestamp="1583666902999">
+    <state x="552" y="183" key="#Inspections" timestamp="1583952257918">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="552" y="183" key="#Updates/0.0.1920.1050@0.0.1920.1050" timestamp="1583666902999" />
-    <state x="199" y="249" key="#VersionSelector.js" timestamp="1583521920420">
+    <state x="552" y="183" key="#Inspections/0.0.1920.1050@0.0.1920.1050" timestamp="1583952257918" />
+    <state x="268" y="279" key="FileChooserDialogImpl" timestamp="1583956797581">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="199" y="249" key="#VersionSelector.js/0.0.1920.1050@0.0.1920.1050" timestamp="1583521920420" />
-    <state x="238" y="400" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1583010337780">
+    <state x="268" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1583956797581" />
+    <state x="204" y="250" key="RollbackChangesDialog" timestamp="1583945291367">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="238" y="400" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1920.1050@0.0.1920.1050" timestamp="1583010337780" />
-    <state x="490" y="180" key="DBNavigator.ProjectSettingsDialog" timestamp="1583061882202">
+    <state x="204" y="250" key="RollbackChangesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583945291367" />
+    <state x="176" y="260" width="607" height="536" key="find.popup" timestamp="1583945747513">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="490" y="180" key="DBNavigator.ProjectSettingsDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583061882202" />
-    <state x="121" y="303" key="EditFileWatcherDialog" timestamp="1583695039364">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="121" y="303" key="EditFileWatcherDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583695039364" />
-    <state x="740" y="280" key="FileChooserDialogImpl" timestamp="1583438122861">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1583438122861" />
-    <state x="314" y="451" key="NewPhpFileDialog" timestamp="1583682228166">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="314" y="451" key="NewPhpFileDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583682228166" />
-    <state x="251" y="170" key="SettingsEditor" timestamp="1583666835875">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="251" y="170" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1583666835875" />
-    <state x="227" y="260" width="615" height="536" key="find.popup" timestamp="1583764535743">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="227" y="260" width="615" height="536" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583764535743" />
-    <state x="136" y="247" key="run.anything.popup" timestamp="1583675056962">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="136" y="247" key="run.anything.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583675056962" />
-    <state x="2111" y="-54" width="896" height="911" key="search.everywhere.popup" timestamp="1583755627885">
-      <screen x="1920" y="-367" width="2560" height="1410" />
-    </state>
-    <state x="2111" y="-54" width="896" height="911" key="search.everywhere.popup/0.0.1920.1050/1920.-367.2560.1410@1920.-367.2560.1410" timestamp="1583755627885" />
-    <state x="143" y="233" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583681552376" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/app/routes/Dashboards/Analytics/Analytics.js</url>
-          <line>70</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/app/routes/components/Pages/HeaderAuth.js</url>
-          <line>7</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="176" y="260" width="607" height="536" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583945747513" />
   </component>
 </project>

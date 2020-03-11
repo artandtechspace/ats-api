@@ -128,12 +128,12 @@ export function SidebarMiddleNav() {
             </SidebarMenu.Item>
             { /* -------- Pages ---------*/}
             <SidebarMenu.Item icon={<i className="fa fa-fw fa-copy"></i>} title="Pages">
-                <SidebarMenu.Item title="Register" to="/pages/register"/>
-                <SidebarMenu.Item title="Login" to="/pages/login"/>
-                <SidebarMenu.Item title="Forgot Password" to="/pages/forgot-password"/>
-                <SidebarMenu.Item title="Lock Screen" to="/pages/lock-screen"/>
+                <SidebarMenu.Item title="Register" to="/auth/register"/>
+                <SidebarMenu.Item title="Login" to="/auth/login"/>
+                <SidebarMenu.Item title="Forgot Password" to="/auth/forgot-password"/>
+                <SidebarMenu.Item title="Lock Screen" to="/auth/lock-screen"/>
                 <SidebarMenu.Item title="Error 404" to="/pages/error-404"/>
-                <SidebarMenu.Item title="Confirmation" to="/pages/confirmation"/>
+                <SidebarMenu.Item title="Confirmation" to="/auth/confirmation"/>
                 <SidebarMenu.Item title="Success" to="/pages/success"/>
                 <SidebarMenu.Item title="Danger" to="/pages/danger"/>
                 <SidebarMenu.Item title="Coming Soon" to="/pages/coming-soon"/>
