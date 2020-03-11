@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5bbea290-04fa-4f2e-8507-c013ddc0a297" name="Default Changelist" comment="" />
+    <list default="true" id="5bbea290-04fa-4f2e-8507-c013ddc0a297" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-danger.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-danger.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-indigo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-indigo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-info.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-info.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-pink.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-pink.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-primary.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-primary.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-purple.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-purple.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-success.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-success.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-warning.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-warning.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-white.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-white.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/images/logos/logo-yellow.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/images/logos/logo-yellow.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/Pages/Register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/Pages/Register/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +37,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1YUloYrfouV5M7eZI1rs0lQYZOn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -35,14 +53,17 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.jscs" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.jscs" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.jscs" value="" />
+    <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.3.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -52,15 +73,10 @@
   <component name="RunManager">
     <configuration name="VersionSelector.js" type="MongoRunConfiguration" factoryName="Mongo" temporary="true">
       <module name="Projektlabor" />
-      <setting name="path" value="$PROJECT_DIR$/app/routes/components/VersionSelector.js" />
+      <setting name="path" value="" />
       <setting name="shellParams" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Mongo.VersionSelector.js" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -91,6 +107,8 @@
       <workItem from="1583666751141" duration="10137000" />
       <workItem from="1583693818691" duration="8422000" />
       <workItem from="1583754072588" duration="9771000" />
+      <workItem from="1583776422377" duration="362000" />
+      <workItem from="1583776793779" duration="7947000" />
     </task>
     <servers />
   </component>
@@ -98,6 +116,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="872" y="358" key="#ESLint" timestamp="1583783780023">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="872" y="358" key="#ESLint/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1583783780023" />
     <state x="552" y="183" key="#Updates" timestamp="1583666902999">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -122,14 +144,35 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1583438122861" />
+    <state width="2517" height="208" key="GridCell.Tab.0.bottom" timestamp="1583776784568">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="208" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1583776784568" />
+    <state width="2517" height="208" key="GridCell.Tab.0.center" timestamp="1583776784568">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="208" key="GridCell.Tab.0.center/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1583776784568" />
+    <state width="2517" height="208" key="GridCell.Tab.0.left" timestamp="1583776784568">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="208" key="GridCell.Tab.0.left/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1583776784568" />
+    <state width="2517" height="208" key="GridCell.Tab.0.right" timestamp="1583776784568">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="208" key="GridCell.Tab.0.right/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1583776784568" />
     <state x="314" y="451" key="NewPhpFileDialog" timestamp="1583682228166">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="314" y="451" key="NewPhpFileDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583682228166" />
-    <state x="251" y="170" key="SettingsEditor" timestamp="1583666835875">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="335" y="227" key="SettingsEditor" timestamp="1583776448501">
+      <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="251" y="170" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1583666835875" />
+    <state x="335" y="227" key="SettingsEditor/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1583776448501" />
+    <state x="1089" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583784929069">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1089" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1583784929069" />
     <state x="227" y="260" width="615" height="536" key="find.popup" timestamp="1583764535743">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
