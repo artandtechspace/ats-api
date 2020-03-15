@@ -8,7 +8,6 @@ import {ChangeLanguage} from "../../components/Dropdowns/ChangeLanguage";
 import {AvField, AvForm} from 'availity-reactstrap-validation';
 
 class Register extends Component {
-
     render() {
         // eslint-disable-next-line react/prop-types
         const {t} = this.props;
@@ -38,7 +37,7 @@ class Register extends Component {
                             <AvField type="password" name="repeatPassword" id="repeatPassword"
                                      placeholder={t('Register.passwordPlaceholder')}
                                      minLength={8}
-                                     validate={{match:{value:'originalEmail'}}}
+                                     validate={{match: {value: 'originalEmail'}}}
                                      className="bg-white"/>
                         </FormGroup>
                         <FormGroup>
@@ -78,7 +77,6 @@ class Register extends Component {
 
     constructor(props) {
         super(props);
-
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
         this.handleInvalidSubmit = this.handleInvalidSubmit.bind(this);
         this.state = {email: false};
@@ -94,4 +92,3 @@ class Register extends Component {
 }
 
 export default withTranslation()(Register);
-
