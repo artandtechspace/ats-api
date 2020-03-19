@@ -16,7 +16,7 @@ class SidebarMenu extends React.Component {
         location: PropTypes.object,
         pageConfig: PropTypes.object,
         disabled: PropTypes.bool
-    }
+    };
 
     containerRef = React.createRef();
 
@@ -67,7 +67,7 @@ class SidebarMenu extends React.Component {
                 return activeId(parentEntry, entries, activeIds);
             }
             return previous;
-        }
+        };
 
         const activeChild = _.find(this.state.entries, (entry) => {
             const {pathname} = this.props.location;
