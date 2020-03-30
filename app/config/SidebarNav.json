@@ -1,0 +1,463 @@
+{
+  "SidebarMenu": [
+    {
+      "title": "SidebarMiddleNav.dashboard",
+      "icon": "fa fa-fw fa-home",
+      "subitem": [
+        {
+          "title": "SidebarMiddleNav.overview",
+          "to": "/dashboards/analytics"
+        },
+        {
+          "title": "SidebarMiddleNav.maker",
+          "to": "/dashboards/projects"
+        },
+        {
+          "title": "SidebarMiddleNav.projektlabor",
+          "to": "/dashboards/system"
+        },
+        {
+          "title": "SidebarMiddleNav.projects",
+          "to": "/dashboards/stock"
+        },
+        {
+          "title": "SidebarMiddleNav.delivery",
+          "to": "/dashboards/reports"
+        },
+        {
+          "title": "SidebarMiddleNav.inventory",
+          "to": "/dashboards/monitor"
+        },
+        {
+          "title": "SidebarMiddleNav.finances",
+          "to": "/dashboards/financial"
+        },
+        {
+          "title": "SidebarMiddleNav.events",
+          "to": "/dashboards/stock"
+        },
+        {
+          "title": "SidebarMiddleNav.server",
+          "to": "/dashboards/stock"
+        },
+        {
+          "title": "SidebarMiddleNav.server",
+          "to": "/dashboards/reports"
+        }
+      ]
+    },
+    {
+      "title": "Widgets",
+      "icon": "fa fa-fw fa-th",
+      "to": "/widgets"
+    },
+    {
+      "title": "Cards",
+      "icon": "fa fa-fw fa-clone",
+      "subitem": [
+        {
+          "title": "Cards",
+          "to": "/cards/cards"
+        },
+        {
+          "title": "Cards Headers",
+          "to": "/cards/cardsheaders"
+        }
+      ]
+    },
+    {
+      "title": "Layouts",
+      "icon": "fa fa-fw fa-columns",
+      "subitem": [
+        {
+          "title": "Navbar",
+          "to": "/layouts/navbar"
+        },
+        {
+          "title": "Sidebar",
+          "to": "/layouts/sidebar"
+        },
+        {
+          "title": "Sidebar A",
+          "to": "/layouts/sidebar-a"
+        },
+        {
+          "title": "Sidebar With Navbar",
+          "to": "/layouts/sidebar-with-navbar"
+        },
+        {
+          "title": "Drag &amp; Drop",
+          "to": "/layouts/dnd-layout"
+        }
+      ]
+    },
+    {
+      "title": "Interface",
+      "icon": "fa fa-fw fa-toggle-on",
+      "subitem": [
+        {
+          "title": "Colors",
+          "to": "/interface/colors"
+        },
+        {
+          "title": "Typography",
+          "to": "/interface/typography"
+        },
+        {
+          "title": "Buttons",
+          "to": "/interface/buttons"
+        },
+        {
+          "title": "Paginations",
+          "to": "/interface/paginations"
+        },
+        {
+          "title": "Images",
+          "to": "/interface/images"
+        },
+        {
+          "title": "Avatars",
+          "to": "/interface/avatars"
+        },
+        {
+          "title": "Progress Bars",
+          "to": "/interface/progress-bars"
+        },
+        {
+          "title": "Badges &amp; Labels",
+          "to": "/interface/badges-and-labels"
+        },
+        {
+          "title": "Media Objects",
+          "to": "/interface/media-objects"
+        },
+        {
+          "title": "List Groups",
+          "to": "/interface/list-groups"
+        },
+        {
+          "title": "Alerts",
+          "to": "/interface/alerts"
+        },
+        {
+          "title": "Accordions",
+          "to": "/interface/accordions"
+        },
+        {
+          "title": "Tabs Pills",
+          "to": "/interface/tabs-pills"
+        },
+        {
+          "title": "Tooltips &amp; Popovers",
+          "to": "/interface/tooltips-and-popovers"
+        },
+        {
+          "title": "Dropdowns",
+          "to": "/interface/dropdowns"
+        },
+        {
+          "title": "Modals",
+          "to": "/interface/modals"
+        },
+        {
+          "title": "Breadcrumbs",
+          "to": "/interface/breadcrumbs"
+        },
+        {
+          "title": "Navbars",
+          "to": "/interface/navbars"
+        },
+        {
+          "title": "Notifications",
+          "to": "/interface/notifications"
+        },
+        {
+          "title": "Crop Image",
+          "to": "/interface/crop-image"
+        },
+        {
+          "title": "Drag &amp; Drop Elements",
+          "to": "/interface/drag-and-drop-elements"
+        },
+        {
+          "title": "Calendar",
+          "to": "/interface/calendar"
+        }
+      ]
+    },
+    {
+      "title": "Graphs",
+      "icon": "fa fa-fw fa-pie-chart",
+      "subitem": [
+        {
+          "title": "ReCharts",
+          "to": "/graphs/re-charts"
+        }
+      ]
+    },
+    {
+      "title": "Forms",
+      "icon": "fa fa-fw fa-check-square-o",
+      "subitem": [
+        {
+          "title": "Forms",
+          "to": "/forms/forms"
+        },
+        {
+          "title": "Forms Layouts",
+          "to": "/forms/forms-layouts"
+        },
+        {
+          "title": "Input Groups",
+          "to": "/forms/input-groups"
+        },
+        {
+          "title": "Wizard",
+          "to": "/forms/wizard"
+        },
+        {
+          "title": "Text Mask",
+          "to": "/forms/text-mask"
+        },
+        {
+          "title": "Typeahead",
+          "to": "/forms/typeahead"
+        },
+        {
+          "title": "Toggles",
+          "to": "/forms/toggles"
+        },
+        {
+          "title": "Editor",
+          "to": "/forms/editor"
+        },
+        {
+          "title": "Date Picker",
+          "to": "/forms/date-picker"
+        },
+        {
+          "title": "Dropzone",
+          "to": "/forms/dropzone"
+        },
+        {
+          "title": "Sliders",
+          "to": "/forms/sliders"
+        }
+      ]
+    },
+    {
+      "title": "Tables",
+      "icon": "fa fa-fw fa-trello",
+      "subitem": [
+        {
+          "title": "Tables",
+          "to": "/tables/tables"
+        },
+        {
+          "title": "Extended Tables",
+          "to": "/tables/extended-table"
+        },
+        {
+          "title": "AgGrid",
+          "to": "/tables/ag-grid"
+        }
+      ]
+    },
+    {
+      "title": "Kommunikation",
+      "icon": "fa fa-fw fa-mouse-pointer",
+      "subitem": [
+        {
+          "title": "Projects",
+          "subitem": [
+            {
+              "title": "Projects List",
+              "to": "/apps/projects/list"
+            },
+            {
+              "title": "Projects Grid",
+              "to": "/apps/projects/grid"
+            }
+          ]
+        },
+        {
+          "title": "Tasks",
+          "subitem": [
+            {
+              "title": "Tasks List",
+              "to": "/apps/tasks/list"
+            },
+            {
+              "title": "Tasks Grid",
+              "to": "/apps/tasks/grid"
+            },
+            {
+              "title": "Tasks Details",
+              "to": "/apps/task-details"
+            }
+          ]
+        },
+        {
+          "title": "Files",
+          "subitem": [
+            {
+              "title": "Files List",
+              "to": "/apps/files/list"
+            },
+            {
+              "title": "Files Grid",
+              "to": "/apps/files/grid"
+            }
+          ]
+        },
+        {
+          "title": "Search Results",
+          "subitem": [
+            {
+              "title": "Search Results",
+              "to": "/apps/search-results"
+            },
+            {
+              "title": "Images Results",
+              "to": "/apps/images-results"
+            },
+            {
+              "title": "Videos Results",
+              "to": "/apps/videos-results"
+            },
+            {
+              "title": "Users Results",
+              "to": "/apps/users-results"
+            }
+          ]
+        },
+        {
+          "title": "Users",
+          "subitem": [
+            {
+              "title": "Users List",
+              "to": "/apps/users/list"
+            },
+            {
+              "title": "Users Grid",
+              "to": "/apps/users/grid"
+            }
+          ]
+        },
+        {
+          "title": "Gallery",
+          "subitem": [
+            {
+              "title": "Gallery Grid",
+              "to": "/apps/gallery-grid"
+            },
+            {
+              "title": "Gallery Table",
+              "to": "/apps/gallery-table"
+            }
+          ]
+        },
+        {
+          "title": "Mailbox",
+          "subitem": [
+            {
+              "title": "Inbox",
+              "to": "/apps/inbox"
+            },
+            {
+              "title": "New Email",
+              "to": "/apps/new-email"
+            },
+            {
+              "title": "Email Details",
+              "to": "/apps/email-details"
+            }
+          ]
+        },
+        {
+          "title": "Profile",
+          "subitem": [
+            {
+              "title": "Profile Details",
+              "to": "/apps/profile-details"
+            },
+            {
+              "title": "Profile Edit",
+              "to": "/apps/profile-edit"
+            },
+            {
+              "title": "Account Edit",
+              "to": "/apps/account-edit"
+            },
+            {
+              "title": "Billing Edit",
+              "to": "/apps/billing-edit"
+            },
+            {
+              "title": "Settings Edit",
+              "to": "/apps/settings-edit"
+            },
+            {
+              "title": "Sessions Edit",
+              "to": "/apps/sessions-edit"
+            }
+          ]
+        },
+        {
+          "title": "Clients",
+          "to": "/apps/clients"
+        },
+        {
+          "title": "Chat",
+          "to": "/apps/chat"
+        }
+      ]
+    },
+    {
+      "title": "Pages",
+      "icon": "fa fa-fw fa-copy",
+      "subitem": [
+        {
+          "title": "Register",
+          "to": "/auth/register"
+        },
+        {
+          "title": "Login",
+          "to": "/auth/login"
+        },
+        {
+          "title": "Forgot Password",
+          "to": "/auth/forgot-password"
+        },
+        {
+          "title": "Lock Screen",
+          "to": "/auth/lock-screen"
+        },
+        {
+          "title": "Error 404",
+          "to": "/auth/lock-screen"
+        },
+        {
+          "title": "Confirmation",
+          "to": "/pages/error-404"
+        },
+        {
+          "title": "Success",
+          "to": "/pages/success"
+        },
+        {
+          "title": "Danger",
+          "to": "/pages/danger"
+        },
+        {
+          "title": "Coming Soon",
+          "to": "/pages/coming-soon"
+        },
+        {
+          "title": "Timeline",
+          "to": "/pages/timeline"
+        }
+      ]
+    }
+  ]
+}
