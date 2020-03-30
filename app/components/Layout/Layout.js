@@ -44,7 +44,7 @@ class Layout extends React.Component {
         sidebarSlim: PropTypes.bool,
         location: PropTypes.object,
         favIcons: PropTypes.array
-    }
+    };
 
     constructor(props) {
         super(props);

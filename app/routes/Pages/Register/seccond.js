@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
-import {withTranslation} from 'react-i18next';
-import {Button, CustomInput, EmptyLayout, FormGroup, Label, ThemeConsumer} from "../../../components";
+import React from 'react';
+import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { Button } from 'reactstrap';
+import {CustomInput, EmptyLayout, Form, FormGroup, Input, Label, ThemeConsumer} from "../../../components";
 import {HeaderAuth} from "../../components/Pages/HeaderAuth";
 import {Link} from "react-router-dom";
 import {FooterAuth} from "../../components/Pages/FooterAuth";
 import {ChangeLanguage} from "../../components/Dropdowns/ChangeLanguage";
-import {AvField, AvForm} from 'availity-reactstrap-validation';
+import {useTranslation} from "react-i18next";
 
-class Register extends Component {
+export default class Register extends React.Component {
     render() {
-        // eslint-disable-next-line react/prop-types
-        const {t} = this.props;
+        const {t} = useTranslation();
         return (
             <EmptyLayout>
                 <EmptyLayout.Section center width={480}>
@@ -18,36 +18,33 @@ class Register extends Component {
                     <HeaderAuth title={t('Register.title')} subtitle={t('Register.subtitle')}/>
                     { /* END Header */}
                     { /* START Form */}
-                    <AvForm className="mb-3">
+                    <Form className="mb-3">
                         <FormGroup>
                             <Label for="username">{t('Register.username')}</Label>
-                            <AvField type="text" name="text" id="username"
-                                     placeholder={t('Register.usernamePlaceholder')}
-                                     className="bg-white" required/>
+                            <Input type="text" name="text" id="username"
+                                   placeholder={t('Register.usernamePlaceholder')}
+                                   className="bg-white"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="password">{t('Register.password')}</Label>
-                            <AvField type="password" name="password" id="password"
-                                     placeholder={t('Register.passwordPlaceholder')}
-                                     minLength={8}
-                                     className="bg-white"/>
+                            <Input type="password" name="password" id="password"
+                                   placeholder={t('Register.passwordPlaceholder')}
+                                   className="bg-white"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="repeatPassword">{t('Register.repeatPassword')}</Label>
-                            <AvField type="password" name="repeatPassword" id="repeatPassword"
-                                     placeholder={t('Register.passwordPlaceholder')}
-                                     minLength={8}
-                                     validate={{match: {value: 'originalEmail'}}}
-                                     className="bg-white"/>
+                            <Input type="password" name="password" id="repeatPassword"
+                                   placeholder={t('Register.passwordPlaceholder')}
+                                   className="bg-white"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="emailAddress">{t('Register.email')}</Label>
-                            <AvField type="email" name="email" id="emailAddress"
-                                     placeholder={t('Register.emailPlaceholder')}
-                                     className="bg-white"/>
+                            <Input type="email" name="email" id="emailAddress"
+                                   placeholder={t('Register.emailPlaceholder')}
+                                   className="bg-white"/>
                         </FormGroup>
                         <FormGroup>
-                            <CustomInput type="checkbox" id="acceptTerms" label={t('Register.terms')} inline required/>
+                            <CustomInput type="checkbox" id="acceptTerms" label={t('Register.terms')} inline/>
                         </FormGroup>
                         <ThemeConsumer>
                             {
@@ -57,7 +54,7 @@ class Register extends Component {
                                 )
                             }
                         </ThemeConsumer>
-                    </AvForm>
+                    </Form>
                     { /* END Form */}
                     { /* START Bottom Links */}
                     <div className="d-flex mb-5">
@@ -72,11 +69,12 @@ class Register extends Component {
                     { /* END Footer */}
                 </EmptyLayout.Section>
             </EmptyLayout>
-        )
+        );
     }
 
     constructor(props) {
         super(props);
+
         this.handleValidSubmit = this.handleValidSubmit.bind(this);
         this.handleInvalidSubmit = this.handleInvalidSubmit.bind(this);
         this.state = {email: false};
@@ -90,5 +88,3 @@ class Register extends Component {
         this.setState({email: values.email, error: true});
     }
 }
-
-export default withTranslation()(Register);

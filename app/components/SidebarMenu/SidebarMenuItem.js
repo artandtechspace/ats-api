@@ -9,6 +9,7 @@ import {MenuContext} from './MenuContext';
 /**
  * Renders a collapse trigger or a ReactRouter Link
  */
+
 const SidebarMenuItemLink = (props) => (
     (props.to || props.href) ? (
         props.to ? (
@@ -30,12 +31,16 @@ const SidebarMenuItemLink = (props) => (
         <a
             href="javascript:;"
             className={`${props.classBase}__entry__link`}
-            onClick={() => props.onToggle()}
+            onClick={ev => {
+                ev.preventDefault();
+                props.onToggle();
+                return false; // old browsers, may not be needed
+            }}
         >
             {props.children}
         </a>
     )
-)
+);
 SidebarMenuItemLink.propTypes = {
     to: PropTypes.string,
     href: PropTypes.string,
@@ -43,7 +48,7 @@ SidebarMenuItemLink.propTypes = {
     onToggle: PropTypes.func,
     children: PropTypes.node,
     classBase: PropTypes.string
-}
+};
 
 /**
  * The main menu entry component
@@ -63,6 +68,7 @@ export class SidebarMenuItem extends React.Component {
         slim: PropTypes.bool,
         // User props
         icon: PropTypes.node,
+        customIcon: PropTypes.node,
         title: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node
@@ -71,11 +77,11 @@ export class SidebarMenuItem extends React.Component {
         href: PropTypes.string,
         exact: PropTypes.bool,
         noCaret: PropTypes.bool,
-    }
+    };
 
     static defaultProps = {
         exact: true
-    }
+    };
 
     constructor(props) {
         super(props);

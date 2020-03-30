@@ -11,13 +11,12 @@ export class SidebarContent extends React.Component {
         collapsed: PropTypes.bool,
         animationsDisabled: PropTypes.bool,
         pageConfig: PropTypes.object
-    }
+    };
 
     sidebarRef = React.createRef();
 
     constructor(props) {
         super(props);
-
         this.state = {
             entryAnimationFinished: false,
         };
