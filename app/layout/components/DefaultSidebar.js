@@ -3,11 +3,12 @@ import {Link} from 'react-router-dom';
 
 import {Sidebar, SidebarTrigger,} from './../../components';
 
-import {SidebarMiddleNav} from './SidebarMiddleNav';
+import SidebarMiddleNav from './SidebarMiddleNav';
 
 import {SidebarTopA} from '../../routes/components/Sidebar/SidebarTopA'
 import {SidebarBottomA} from '../../routes/components/Sidebar/SidebarBottomA'
 import {LogoThemed} from '../../routes/components/LogoThemed/LogoThemed';
+
 
 export const DefaultSidebar = () => (
     <Sidebar>
