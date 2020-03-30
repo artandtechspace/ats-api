@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Sidebar, SidebarTrigger} from './../../components';
 
-import {SidebarMiddleNav} from './SidebarMiddleNav';
+import SidebarMiddleNav from './SidebarMiddleNav';
 
 import {SidebarTopB} from '../../routes/components/Sidebar/SidebarTopB'
 import {SidebarBottomB} from '../../routes/components/Sidebar/SidebarBottomB'
