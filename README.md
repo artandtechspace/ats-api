@@ -5,9 +5,9 @@ Roadmap - Features
 
 
 - Account
-  - singin
-  - singup
-  - password change
+  - singin (finished - api)
+  - singup (finished - api)
+  - password change (finished - api)
   - singin over tel
   - subscribtion newsletter
   - subscribtion pl membership (payed)
