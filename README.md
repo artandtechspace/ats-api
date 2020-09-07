@@ -41,5 +41,20 @@ Roadmap - Features
   - user
     - see all door preveliges
     - request prevelige
-    
+- monitoring
+  - simple server monitoring
+    - storage
+    - cpu
+    - Ram
+    - network
+- log
+  - user
+    - add
+    - remove
+    - subscriber
+  - door
+    - access
+    - add user
+    - add group
+
    
