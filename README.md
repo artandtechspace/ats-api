@@ -32,6 +32,7 @@ Roadmap - Features
 - Accesscontroll
   - door
     - add new door
+    - open door for time
     - remove door
     - preveliges
       - time based
