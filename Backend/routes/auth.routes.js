@@ -26,6 +26,11 @@ router.post(
     AuthorizeMiddleware.check_access,
     AuthController.logout
 );
+router.get(
+    "/auth/session/verify",
+    AuthorizeMiddleware.check_access,
+    AuthController.sessionVerify
+);
 router.post(
     "/auth/session/logout/all",
     AuthorizeMiddleware.check_access,
