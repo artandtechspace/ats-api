@@ -35,9 +35,7 @@ const signUp = {
             type: "string",
             minLength: 2,
             maxLength: 50,
-            pattern: "^[a-zA-Z0-9_ ]*$",
             errorMessage: {
-                pattern: "Field 'firstname' can contain only letters and spaces",
                 type: "Field 'firstname' should be a string"
             }
         },
@@ -45,9 +43,7 @@ const signUp = {
             type: "string",
             minLength: 2,
             maxLength: 50,
-            pattern: "^[a-zA-Z0-9_ ]*$",
             errorMessage: {
-                pattern: "Field 'lastname' can contain only letters and spaces",
                 type: "Field 'lastname' should be a string"
             }
         },
