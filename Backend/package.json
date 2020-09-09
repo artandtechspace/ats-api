@@ -33,6 +33,7 @@
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "kamil-mailcomposer": "^0.1.34",
+    "lodash": "^4.17.20",
     "mongoose": "^5.9.28",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
