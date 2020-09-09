@@ -8,25 +8,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8f5341e-c7e7-4572-bdc9-c0d5056c89a4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/lo.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/auth/store/forgotPasswordSlice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/fuse-layouts/shared-components/PurchaseButton.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/main/forgot-password/ForgotPasswordPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/main/forgot-password/ForgotPasswordPageConfig.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/main/lock/LockPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/main/lock/LockPageConfig.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/main/reset-password/ResetPasswordPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/main/reset-password/ResetPasswordPageConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/exeptions/client.error.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/exeptions/client.error.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/models/user.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/models/user.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/routes/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/routes/auth.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/schemas/auth.schemas.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/schemas/auth.schemas.js" afterDir="false" />
-    </list>
+    <list default="true" id="f8f5341e-c7e7-4572-bdc9-c0d5056c89a4" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,7 +92,7 @@
       <workItem from="1599040356724" duration="2360000" />
       <workItem from="1599202323611" duration="2525000" />
       <workItem from="1599222132160" duration="3691000" />
-      <workItem from="1599510217502" duration="56327000" />
+      <workItem from="1599510217502" duration="56750000" />
     </task>
     <servers />
   </component>
