@@ -3,7 +3,7 @@ class ClientError extends Error {
         super(message);
         this.status = httpCode;
         res.status(httpCode).send({
-            errorCode: message
+            error: message
         });
     }
 }
