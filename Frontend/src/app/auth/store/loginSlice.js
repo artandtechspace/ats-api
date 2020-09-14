@@ -1,18 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { showMessage } from 'app/store/fuse/messageSlice';
 import jwtService from 'app/services/jwtService';
+import bowser from 'bowser';
 import { setUserData } from './userSlice';
 
-export const submitLogin = ({ email, password }) => async dispatch => {
+export const submitLogin = ({ email, password, remember }) => async dispatch => {
 	return jwtService
-		.signInWithEmailAndPassword(email, password)
+		.signInWithEmailAndPassword(email, password, remember, {
+			environment: bowser.getParser(window.navigator.userAgent)
+		})
 		.then(user => {
 			dispatch(setUserData(user));
 
 			return dispatch(loginSuccess());
 		})
 		.catch(error => {
-			return dispatch(showMessage({ message: error.message }));
+			return dispatch(loginError(error));
 		});
 };
 
