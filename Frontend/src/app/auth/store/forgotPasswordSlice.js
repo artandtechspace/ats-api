@@ -16,7 +16,7 @@ export const submitfPassword = ({ email }) => async dispatch => {
 const initialState = {
 	success: false,
 	error: {
-		username: null
+		email: null
 	}
 };
 
