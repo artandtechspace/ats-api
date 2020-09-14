@@ -9,19 +9,19 @@
     "debug": "nodemon --exec SET NODE_ENV=development DEBUG=http,express:* babel-node server.js"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.1",
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
     "@babel/node": "^7.10.5",
     "@babel/plugin-proposal-decorators": "^7.10.5",
-    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-env": "^7.11.5",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.6.0",
+    "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0"
   },
   "dependencies": {
-    "ajv": "^6.12.3",
+    "ajv": "^6.12.5",
     "ajv-errors": "^1.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -34,7 +34,7 @@
     "jsonwebtoken": "^8.5.1",
     "kamil-mailcomposer": "^0.1.34",
     "lodash": "^4.17.20",
-    "mongoose": "^5.9.28",
+    "mongoose": "^5.10.5",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
     "nodemailer": "^6.4.11",
