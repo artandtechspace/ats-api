@@ -1,16 +1,13 @@
-import { TextFieldFormsy } from '@fuse/core/formsy';
+import { TextFieldFormsy, CheckboxFormsy } from '@fuse/core/formsy';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitLogin } from 'app/auth/store/loginSlice';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { Link } from 'react-router-dom';
 
 function JWTLoginTab(props) {
 	const dispatch = useDispatch();
@@ -22,7 +19,7 @@ function JWTLoginTab(props) {
 	const formRef = useRef(null);
 
 	useEffect(() => {
-		if (login.error && (login.error.email || login.error.password)) {
+		if (login.error && (login.error.email || login.error.password || login.error.remember)) {
 			formRef.current.updateInputsWithError({
 				...login.error
 			});
@@ -105,14 +102,12 @@ function JWTLoginTab(props) {
 					required
 				/>
 				<div className="flex items-center justify-between">
-					<FormControl>
-						<FormControlLabel control={<Checkbox name="remember" checked="false" />} label="Remember Me" />
-					</FormControl>
-
+					<CheckboxFormsy name="remember" label="Remember Me" />
 					<Link className="font-medium" to="/forgot-password">
 						Forgot Password?
 					</Link>
 				</div>
+
 				<Button
 					type="submit"
 					variant="contained"
