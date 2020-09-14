@@ -23,8 +23,6 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-
-
 function ForgotPasswordPage(props) {
 	const dispatch = useDispatch();
 	const fPassword = useSelector(({ auth }) => auth.fPassword);
