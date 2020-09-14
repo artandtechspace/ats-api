@@ -56,101 +56,111 @@ const UserSchema = new Schema(
     },
     data: {
       settings: {
+        customScrollbars: {
+          type: Boolean,
+          default: true,
+          required: false,
+        },
+        animations: {
+          type: Boolean,
+          default: true,
+          required: false,
+        },
+        direction: {
+          type: String,
+          default: "ltr",
+          required: false,
+        },
         layout: {
           style: {
             type: String,
             default: "layout1",
-            required: true,
+            required: false,
           },
           config: {
             scroll: {
               type: String,
               default: "content",
-              required: true,
+              required: false,
             },
             navbar: {
               display: {
                 type: Boolean,
                 default: true,
-                required: true,
+                required: false,
               },
               folded: {
                 type: Boolean,
                 default: true,
-                required: true,
+                required: false,
               },
               position: {
                 type: String,
                 default: "left",
-                required: true,
+                required: false,
               },
             },
             toolbar: {
               display: {
                 type: Boolean,
                 default: true,
-                required: true,
+                required: false,
               },
               style: {
                 type: String,
                 default: "fixed",
-                required: true,
+                required: false,
               },
               position: {
                 type: String,
                 default: "below",
-                required: true,
+                required: false,
               },
             },
             footer: {
               display: {
                 type: Boolean,
                 default: true,
-                required: true,
+                required: false,
               },
               style: {
                 type: String,
                 default: "fixed",
-                required: true,
+                required: false,
               },
               position: {
                 type: String,
                 default: "below",
-                required: true,
+                required: false,
               },
             },
             mode: {
               type: String,
               default: "fullwidth",
-              required: true,
+              required: false,
             },
           },
-        },
-        customScrollbars: {
-          type: Boolean,
-          default: true,
-          required: true,
         },
         theme: {
           main: {
             type: String,
             default: "defaultDark",
-            required: true,
+            required: false,
           },
           navbar: {
             type: String,
             default: "defaultDark",
-            required: true,
+            required: false,
           },
           toolbar: {
             type: String,
             default: "defaultDark",
-            required: true,
+            required: false,
           },
           footer: {
             type: String,
             default: "defaultDark",
-            required: true,
+            required: false,
           },
         },
       },
