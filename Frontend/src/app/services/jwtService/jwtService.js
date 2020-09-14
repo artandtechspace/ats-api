@@ -15,7 +15,30 @@ class JwtService extends FuseUtils.EventEmitter {
 		this.handleAuthentication();
 	}
 
-	setInterceptors = () => {};
+	setInterceptors = () => {
+		api.interceptors.response.use(
+			response => {
+				return response;
+			},
+			err => {
+				return new Promise((resolve, reject) => {
+					if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
+						// if you ever get an unauthorized response, logout the user
+						this.emit('onAutoLogout', 'Invalid access_token');
+						this.setSession(null);
+					}
+					throw err;
+				});
+			}
+		);
+	};
+
+	handleError = (reject, err) => {
+		if (!err.status) {
+			return reject(new Error('Internal Server Error'));
+		}
+		return reject(err.response.data.error);
+	};
 
 	handleAuthentication = () => {
 		const access_token = this.getAccessToken();
@@ -40,11 +63,13 @@ class JwtService extends FuseUtils.EventEmitter {
 		return new Promise((resolve, reject) => {
 			api.post('/auth/signup', data)
 				.then(response => {
+					console.log(response);
 					this.setSession(response.data.webToken.accessToken, response.data.webToken.refreshToken);
 					resolve(response.data.user);
 				})
 				.catch(error => {
-					reject(error.response.data.error);
+					console.error('error', error);
+					this.handleError(reject, error);
 				});
 		});
 	};
@@ -60,7 +85,7 @@ class JwtService extends FuseUtils.EventEmitter {
 					resolve(response.data.user);
 				})
 				.catch(error => {
-					reject(error.response.data.error);
+					this.handleError(reject, error);
 				});
 		});
 	};
@@ -74,7 +99,7 @@ class JwtService extends FuseUtils.EventEmitter {
 					resolve(response.data.user);
 				})
 				.catch(error => {
-					reject(error.response.data.error);
+					this.handleError(reject, error);
 				});
 		});
 	};

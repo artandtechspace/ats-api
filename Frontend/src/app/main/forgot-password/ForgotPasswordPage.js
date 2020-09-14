@@ -23,21 +23,20 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+
+
 function ForgotPasswordPage(props) {
 	const dispatch = useDispatch();
 	const fPassword = useSelector(({ auth }) => auth.fPassword);
 
 	const classes = useStyles();
-	const { form, handleChange, resetForm } = useForm({
-		email: ''
-	});
 
 	const [isFormValid, setIsFormValid] = useState(false);
 
 	const formRef = useRef(null);
 
 	useEffect(() => {
-		if (fPassword.error && (fPassword.error.email || fPassword.error.password)) {
+		if (fPassword.error && fPassword.error.email) {
 			formRef.current.updateInputsWithError({
 				...fPassword.error
 			});
