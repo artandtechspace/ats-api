@@ -22,7 +22,8 @@ const initialState = {
 	success: false,
 	error: {
 		username: null,
-		password: null
+		password: null,
+		remember: null
 	}
 };
 
