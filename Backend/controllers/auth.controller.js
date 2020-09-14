@@ -5,7 +5,6 @@ import TryCatchErrorDecorator from "../decorators/TryCatchError.decorator";
 import TokenService from "../services/token.service";
 import AppError from "../exeptions/app.error";
 import MailerService from "../services/mailer.service";
-import jwt from "jsonwebtoken";
 import _ from "lodash";
 
 class AuthController {
