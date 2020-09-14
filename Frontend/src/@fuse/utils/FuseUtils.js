@@ -346,15 +346,15 @@ class FuseUtils {
 		 */
 		// console.info("auth arr:", authArr);
 		/*
-            Check if user role is array,
-            */
+        Check if user role is array,
+        */
 		if (userRole && Array.isArray(userRole)) {
 			return authArr.some(r => userRole.indexOf(r) >= 0);
 		}
 
 		/*
-            Check if user role is string,
-            */
+        Check if user role is string,
+        */
 		return authArr.includes(userRole);
 	}
 }

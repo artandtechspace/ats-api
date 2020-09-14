@@ -94,6 +94,7 @@ function ProjectDashboardApp(props) {
 			menuEl: null
 		});
 	}
+
 	// return null;
 	if (_.isEmpty(widgets) || _.isEmpty(projects)) {
 		return null;
