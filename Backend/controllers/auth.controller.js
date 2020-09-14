@@ -12,17 +12,34 @@ class AuthController {
   @TryCatchErrorDecorator
   static async signin(req, res) {
     res.set({ "content-type": "application/json; charset=utf-8" });
+
     const user = await UserModel.findOne({ email: req.body.email });
+
     if (!user) {
-      throw new ClientError(res, "User not found", 404);
+      throw new ClientError(
+        res,
+        { email: user ? null : "Check your username/email" },
+        404
+      );
     }
+
     const checkPassword = await PasswordService.checkPassword(
       req.body.password,
       user.password
     );
 
     if (!checkPassword) {
-      throw new ClientError(res, "Incorrect email or password", 401);
+      throw new ClientError(
+        res,
+        {
+          email: user ? null : "Check your username/email",
+          password:
+            user && user.password === req.body.password
+              ? null
+              : "Check your password",
+        },
+        401
+      );
     }
 
     const webToken = await TokenService.addWebTokensUser(
@@ -63,20 +80,20 @@ class AuthController {
 
     await user.save();
     /*   await MailerService.sendWithTemplate(
-                                             {
-                                               from: '"Projektlabor Team 👻" <it@projektlabor.org>',
-                                               to: user.email,
-                                               subject: "Thanks for registering ✔",
-                                             },
-                                             {
-                                               template: "singup",
-                                               data: {
-                                                 email: user.email,
-                                                 firstname: user.firstname,
-                                                 lastname: user.lastname,
-                                               },
-                                             }
-                                           );*/
+                                                                 {
+                                                                   from: '"Projektlabor Team 👻" <it@projektlabor.org>',
+                                                                   to: user.email,
+                                                                   subject: "Thanks for registering ✔",
+                                                                 },
+                                                                 {
+                                                                   template: "singup",
+                                                                   data: {
+                                                                     email: user.email,
+                                                                     firstname: user.firstname,
+                                                                     lastname: user.lastname,
+                                                                   },
+                                                                 }
+                                                               );*/
 
     user.webTokens = [];
     user.password = "";
