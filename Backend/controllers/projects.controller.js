@@ -29,8 +29,8 @@ class ProjectsController {
             }
         });
     }
-    static async update(req,res){
 
+    static async update(req,res){
         res.json({
             project: {
                 id: project.id,
