@@ -131,6 +131,20 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	updateUserDataSettings = settings => {
+		return new Promise((resolve, reject) => {
+			api.post('/user/update/settings', {
+				settings
+			})
+				.then(response => {
+					resolve(response);
+				})
+				.catch(error => {
+					this.handleError(reject, error);
+				});
+		});
+	};
+
 	setSession = (accessToken, refreshToken) => {
 		if (accessToken && refreshToken) {
 			localStorage.setItem('jwt_access_token', accessToken);
