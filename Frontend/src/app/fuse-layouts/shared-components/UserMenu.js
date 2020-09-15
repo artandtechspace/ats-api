@@ -82,15 +82,9 @@ function UserMenu(props) {
 					<>
 						<MenuItem component={Link} to="/pages/profile" onClick={userMenuClose} role="button">
 							<ListItemIcon className="min-w-40">
-								<Icon>account_circle</Icon>
+								<Icon>settings</Icon>
 							</ListItemIcon>
-							<ListItemText primary="My Profile" />
-						</MenuItem>
-						<MenuItem component={Link} to="/apps/mail" onClick={userMenuClose} role="button">
-							<ListItemIcon className="min-w-40">
-								<Icon>mail</Icon>
-							</ListItemIcon>
-							<ListItemText primary="Inbox" />
+							<ListItemText primary="Profile settings" />
 						</MenuItem>
 						<MenuItem
 							onClick={() => {
