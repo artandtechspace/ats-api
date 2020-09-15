@@ -1,8 +1,6 @@
 import AppBar from '@material-ui/core/AppBar';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import PoweredByLinks from 'app/fuse-layouts/shared-components/PoweredByLinks';
-
 import DocumentationButton from 'app/fuse-layouts/shared-components/DocumentationButton';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -23,10 +21,6 @@ function FooterLayout3(props) {
 				<Toolbar className="container min-h-48 md:min-h-64 px-8 sm:px-12 lg:px-20 py-0 flex items-center overflow-x-auto">
 					<div className="flex flex-grow flex-shrink-0">
 						<DocumentationButton className="mx-4" />
-					</div>
-
-					<div className="flex flex-grow flex-shrink-0 px-12 justify-end">
-						<PoweredByLinks />
 					</div>
 				</Toolbar>
 			</AppBar>
