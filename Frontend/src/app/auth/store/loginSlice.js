@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import jwtService from 'app/services/jwtService';
-import bowser from 'bowser';
+import Browser from 'bowser';
 import { setUserData } from './userSlice';
 
 export const submitLogin = ({ email, password, remember }) => async dispatch => {
 	return jwtService
 		.signInWithEmailAndPassword(email, password, remember, {
-			environment: bowser.getParser(window.navigator.userAgent)
+			environment: Browser.getParser(window.navigator.userAgent)
 		})
 		.then(user => {
 			dispatch(setUserData(user));
