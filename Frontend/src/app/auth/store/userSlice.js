@@ -17,32 +17,7 @@ export const setUserData = user => async (dispatch, getState) => {
 	/*
     Set User Settings
      */
-	dispatch(
-		setDefaultSettings({
-			layout: {
-				style: 'layout1',
-				config: {
-					scroll: 'content',
-					navbar: {
-						display: true,
-						folded: true,
-						position: 'left'
-					},
-					toolbar: {
-						display: true,
-						style: 'fixed',
-						position: 'below'
-					},
-					footer: {
-						display: true,
-						style: 'fixed',
-						position: 'below'
-					},
-					mode: 'fullwidth'
-				}
-			}
-		})
-	);
+	dispatch(setDefaultSettings(user.data.settings));
 
 	dispatch(setUser(user));
 };
@@ -51,7 +26,7 @@ export const updateUserSettings = settings => async (dispatch, getState) => {
 	const oldUser = getState().auth.user;
 	const user = _.merge({}, oldUser, { data: { settings } });
 
-	dispatch(updateUserData(user));
+	dispatch(updateUserDataSettings(settings, user));
 
 	return dispatch(setUserData(user));
 };
@@ -97,6 +72,21 @@ export const updateUserData = user => async (dispatch, getState) => {
 	}
 	jwtService
 		.updateUserData(user)
+		.then(() => {
+			dispatch(showMessage({ message: 'User data saved with api' }));
+		})
+		.catch(error => {
+			dispatch(showMessage({ message: error.message }));
+		});
+};
+
+export const updateUserDataSettings = (settings, user) => async (dispatch, getState) => {
+	if (!user.role || user.role.length === 0) {
+		// is guest
+		return;
+	}
+	jwtService
+		.updateUserDataSettings(settings)
 		.then(() => {
 			dispatch(showMessage({ message: 'User data saved with api' }));
 		})
