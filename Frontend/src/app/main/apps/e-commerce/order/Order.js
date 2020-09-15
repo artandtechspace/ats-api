@@ -8,11 +8,9 @@ import Icon from '@material-ui/core/Icon';
 import { useTheme } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import withReducer from 'app/store/withReducer';
-import GoogleMap from 'google-map-react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -21,14 +19,6 @@ import reducer from '../store';
 import { getOrder } from '../store/orderSlice';
 import OrderInvoice from './OrderInvoice';
 import OrdersStatus from './OrdersStatus';
-
-function Marker(props) {
-	return (
-		<Tooltip title={props.text} placement="top">
-			<Icon className="text-red">place</Icon>
-		</Tooltip>
-	);
-}
 
 function Order(props) {
 	const dispatch = useDispatch();
@@ -169,24 +159,6 @@ function Order(props) {
 												<Typography className="w-full md:max-w-256 mb-16 md:mb-0">
 													{order.customer.shippingAddress.address}
 												</Typography>
-												<div className="w-full h-320">
-													<GoogleMap
-														bootstrapURLKeys={{
-															key: process.env.REACT_APP_MAP_KEY
-														}}
-														defaultZoom={15}
-														defaultCenter={[
-															order.customer.shippingAddress.lat,
-															order.customer.shippingAddress.lng
-														]}
-													>
-														<Marker
-															text={order.customer.shippingAddress.address}
-															lat={order.customer.shippingAddress.lat}
-															lng={order.customer.shippingAddress.lng}
-														/>
-													</GoogleMap>
-												</div>
 											</AccordionDetails>
 										</Accordion>
 
@@ -202,24 +174,6 @@ function Order(props) {
 												<Typography className="w-full md:max-w-256 mb-16 md:mb-0">
 													{order.customer.invoiceAddress.address}
 												</Typography>
-												<div className="w-full h-320">
-													<GoogleMap
-														bootstrapURLKeys={{
-															key: process.env.REACT_APP_MAP_KEY
-														}}
-														defaultZoom={15}
-														defaultCenter={[
-															order.customer.invoiceAddress.lat,
-															order.customer.invoiceAddress.lng
-														]}
-													>
-														<Marker
-															text={order.customer.invoiceAddress.address}
-															lat={order.customer.invoiceAddress.lat}
-															lng={order.customer.invoiceAddress.lng}
-														/>
-													</GoogleMap>
-												</div>
 											</AccordionDetails>
 										</Accordion>
 									</div>
