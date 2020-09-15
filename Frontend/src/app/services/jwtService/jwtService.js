@@ -2,8 +2,6 @@ import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
-/* eslint-disable camelcase */
-
 const api = axios.create({
 	baseURL: 'http://localhost:3003/api',
 	timeout: 10000
@@ -41,17 +39,17 @@ class JwtService extends FuseUtils.EventEmitter {
 	};
 
 	handleAuthentication = () => {
-		const access_token = this.getAccessToken();
-		const refresh_token = this.getRefreshToken();
+		const accessToken = this.getAccessToken();
+		const refreshToken = this.getRefreshToken();
 
-		if (!access_token) {
+		if (!accessToken) {
 			this.emit('onNoAccessToken');
 
 			return;
 		}
 
-		if (this.isAuthTokenValid(access_token.split('::')[1])) {
-			this.setSession(access_token, refresh_token);
+		if (this.isAuthTokenValid(accessToken.split('::')[1])) {
+			this.setSession(accessToken, refreshToken);
 			this.emit('onAutoLogin', true);
 		} else {
 			this.setSession(null, null);
@@ -149,11 +147,11 @@ class JwtService extends FuseUtils.EventEmitter {
 		this.setSession(null);
 	};
 
-	isAuthTokenValid = access_token => {
-		if (!access_token) {
+	isAuthTokenValid = accessToken => {
+		if (!accessToken) {
 			return false;
 		}
-		const decoded = jwtDecode(access_token);
+		const decoded = jwtDecode(accessToken);
 		const currentTime = Date.now() / 1000;
 		if (decoded.exp < currentTime) {
 			console.log('access token expired');
