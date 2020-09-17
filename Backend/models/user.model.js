@@ -164,6 +164,10 @@ const UserSchema = new Schema(
           },
         },
       },
+      shortcuts: {
+        type: Array,
+        required: false,
+      }
     },
   },
   {
