@@ -15,7 +15,29 @@ class UserController {
         401
       );
     }
-    user.data.settings = settings;
+    _.merge(user.data.settings,settings);
+    await user.save();
+
+    user.webTokens = [];
+    user.password = "";
+
+    res.json({
+      user,
+    });
+  }
+
+  @TryCatchErrorDecorator
+  static async updateShortcuts(req, res) {
+    const user = await UserModel.findOne({ _id: req.userId });
+    const shortcuts = req.body.shortcuts;
+    if (!shortcuts) {
+      throw new ClientError(
+        res,
+        "shortcuts is required to update user settings",
+        401
+      );
+    }
+    _.merge(user.data.shortcuts,shortcuts);
     await user.save();
 
     user.webTokens = [];
