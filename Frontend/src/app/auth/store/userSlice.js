@@ -26,9 +26,20 @@ export const updateUserSettings = settings => async (dispatch, getState) => {
 	const oldUser = getState().auth.user;
 	const user = _.merge({}, oldUser, { data: { settings } });
 
-	dispatch(updateUserDataSettings(settings, user));
+	if (!user.role || user.role.length === 0) {
+		// is guest
+		return;
+	}
 
-	return dispatch(setUserData(user));
+	jwtService
+		.updateUserDataSettings(settings)
+		.then(() => {
+			dispatch(showMessage({ message: 'User data saved with api' }));
+			return dispatch(setUserData(user));
+		})
+		.catch(error => {
+			dispatch(showMessage({ message: error.message }));
+		});
 };
 
 export const updateUserShortcuts = shortcuts => async (dispatch, getState) => {
@@ -41,9 +52,16 @@ export const updateUserShortcuts = shortcuts => async (dispatch, getState) => {
 		}
 	};
 
-	dispatch(updateUserData(user));
-
-	return dispatch(setUserData(newUser));
+	dispatch(updateUserData(shortcuts));
+	jwtService
+		.updateUserDataShortcuts(shortcuts)
+		.then(() => {
+			dispatch(showMessage({ message: 'User data saved with api' }));
+			return dispatch(setUserData(newUser));
+		})
+		.catch(error => {
+			dispatch(showMessage({ message: error.message }));
+		});
 };
 
 export const logoutUser = () => async (dispatch, getState) => {
@@ -80,19 +98,11 @@ export const updateUserData = user => async (dispatch, getState) => {
 		});
 };
 
-export const updateUserDataSettings = (settings, user) => async (dispatch, getState) => {
+export const checkUserRoll = user => async (dispatch, getState) => {
 	if (!user.role || user.role.length === 0) {
 		// is guest
-		return;
+		dispatch();
 	}
-	jwtService
-		.updateUserDataSettings(settings)
-		.then(() => {
-			dispatch(showMessage({ message: 'User data saved with api' }));
-		})
-		.catch(error => {
-			dispatch(showMessage({ message: error.message }));
-		});
 };
 
 const initialState = {
