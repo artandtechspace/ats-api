@@ -10,4 +10,10 @@ router.post(
   UserController.updateSettings
 );
 
+router.post(
+  "/user/update/shortcuts",
+  AuthorizeMiddleware.check_access,
+  UserController.updateShortcuts
+);
+
 export default router;
