@@ -183,7 +183,7 @@ function Login() {
 
 						<div className="flex flex-col items-center justify-center pt-32 pb-24">
 							<span className="font-medium">Don't have an account?</span>
-							<Link className="font-medium" to="/pages/auth/register-2">
+							<Link className="font-medium" to="/register">
 								Create an account
 							</Link>
 						</div>
