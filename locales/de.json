@@ -1,0 +1,10 @@
+{
+  "registration": {
+    "SUBJECT": "Bestätige deine E-Mail für ARTandTECH.space",
+    "MESSAGE": "<p>Hallo %s.</p> <p>Welcome! im ARTandTECH.space bitte cestätige deine E-Mail, Hierfür einfach auf diesen Link klicken:</p> <p>%s/verify/%s</p> <p>Thank you.</p>"
+  },
+  "forgotPassword": {
+    "SUBJECT": "Password recovery at myProject",
+    "MESSAGE": "<p>To recover the password for user: %s</p> <p>click the following link:</p> <p>%s/reset/%s</p> <p>If this was a mistake, you can ignore this message.</p> <p>Thank you.</p>"
+  }
+}
