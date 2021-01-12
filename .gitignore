@@ -118,3 +118,6 @@ dist
 
 # idea files
 .idea/
+
+# project
+package-lock.json
