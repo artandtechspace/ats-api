@@ -1,10 +1,10 @@
 {
-  "name": "Projektlabor-Control-System",
+  "name": "ats-api",
   "version": "0.0.2",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Projektlabor-Rheine/Projektlabor-Control-System/"
+    "url": "https://github.com/Projektlabor-Rheine/ats-api/"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=production pm2 start server.js --watch --name \"API-Server\"",
