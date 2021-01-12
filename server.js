@@ -1,35 +1,74 @@
-import mongoose from "mongoose";
-import express from "express";
-import bodyParser from "body-parser";
-import cors from "cors";
-import morgan from "morgan";
-import httpError from "http-errors";
-import routes from "./routes";
-import config from "./config/server.config";
-import errorHandler from "./middleware/errorhandler.middleware";
+require('dotenv-safe').config()
+const express = require('express')
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
+const compression = require('compression')
+const helmet = require('helmet')
+const cors = require('cors')
+const passport = require('passport')
+const app = express()
+const i18n = require('i18n')
+const initMongo = require('./config/mongo')
+const path = require('path')
 
-const app = express();
+// Setup express server port from ENV, default: 3000
+app.set('port', process.env.PORT || 3000)
 
-const morganFormat = config.isDev ? "dev" : "combined";
-app.use(morgan(morganFormat));
+// Enable only in development HTTP request logger middleware
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
-mongoose
-    .connect(config.mongoUri, {useUnifiedTopology: true, useNewUrlParser: true,})
-    .then(() => console.log('DB Connected!'))
-    .catch(err => {console.log({err});});
+// Redis cache enabled by env variable
+if (process.env.USE_REDIS === 'true') {
+  const getExpeditiousCache = require('express-expeditious')
+  const cache = getExpeditiousCache({
+    namespace: 'expresscache',
+    defaultTtl: '1 minute',
+    engine: require('expeditious-engine-redis')({
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT
+    })
+  })
+  app.use(cache)
+}
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(cors());
+// for parsing json
+app.use(
+  bodyParser.json({
+    limit: '20mb'
+  })
+)
+// for parsing application/x-www-form-urlencoded
+app.use(
+  bodyParser.urlencoded({
+    limit: '20mb',
+    extended: true
+  })
+)
 
-app.use("/api", ...routes);
+// i18n
+i18n.configure({
+  locales: ['en', 'es'],
+  directory: `${__dirname}/locales`,
+  defaultLocale: 'en',
+  objectNotation: true
+})
+app.use(i18n.init)
 
-app.use((req, res, next) => {
-    next(httpError(404));
-});
+// Init all other stuff
+app.use(cors())
+app.use(passport.initialize())
+app.use(compression())
+app.use(helmet())
+app.use(express.static('public'))
+app.set('views', path.join(__dirname, 'views'))
+app.engine('html', require('ejs').renderFile)
+app.set('view engine', 'html')
+app.use(require('./app/routes'))
+app.listen(app.get('port'))
 
-app.use(errorHandler);
+// Init MongoDB
+initMongo()
 
-app.listen(config.port, () => {
-    console.log(`Server started ${config.host}:${config.port}`);
-});
+module.exports = app // for testing
