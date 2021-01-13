@@ -34,7 +34,7 @@ module.exports = {
             let encrypted = cipher.update(text);
             encrypted = Buffer.concat([encrypted, cipher.final()]);
             return iv.toString('hex') + ':' + encrypted.toString('hex');
-        }catch (err){
+        } catch (err) {
             return err
         }
     },
@@ -52,7 +52,7 @@ module.exports = {
             let decrypted = decipher.update(encryptedText);
             decrypted = Buffer.concat([decrypted, decipher.final()]);
             return decrypted.toString();
-        }catch (err){
+        } catch (err) {
             return err
         }
     }

@@ -405,7 +405,7 @@ const forgotPasswordResponse = item => {
  * @param {Object} data - data object
  * @param {*} next - next callback
  */
-const checkPermissions = async (data,req, next) => {
+const checkPermissions = async (data, req, next) => {
     return new Promise((resolve, reject) => {
         User.findById(data.id, (err, result) => {
             utils.itemNotFound(err, result, reject, 'NOT_FOUND')
