@@ -52,22 +52,10 @@ const createItem = async req => {
  * Get items function called by route
  * @param type
  */
-exports.getItems = type => async (req, res) => {
+exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQueryString(req.query)
-        let data;
-        switch (type) {
-            case "permissions":
-                data = {
-                    id: query.user._id,
-                    permissions: query.user.permissions
-                }
-                break;
-            default:
-                data = query;
-                break;
-        }
-        res.status(200).json(await db.getItems(req, model, data))
+        res.status(200).json(await db.getItems(req, model, query))
     } catch (error) {
         utils.handleError(res, error)
     }
