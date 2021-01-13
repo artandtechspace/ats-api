@@ -33,7 +33,7 @@ const createItem = async (user, req) => {
                                           loginAttempts,
                                           ...rest
                                       }) => rest
-            resolve(item)
+            resolve(removeProperties(item.toObject()))
         })
     })
 }
@@ -51,40 +51,10 @@ const findUserById = async userId => {
     })
 }
 
-/**
- * Gets user id from token
- * @param {string} token - Encrypted and encoded token
- */
-const getUserIdFromToken = async token => {
-    return new Promise((resolve, reject) => {
-        // Decrypts, verifies and decode token
-        jwt.verify(auth.decrypt(token), process.env.JWT_SECRET, (err, decoded) => {
-            if (err) {
-                reject(utils.buildErrObject(409, 'BAD_TOKEN'))
-            }
-            resolve(decoded.data._id)
-        })
-    })
-}
-
-/**
- * Checks if blockExpires from user is greater than now
- * @param {Object} user - user object
- */
-const userIsBlocked = async user => {
-    return new Promise((resolve, reject) => {
-        if (user.blockExpires > new Date()) {
-            reject(utils.buildErrObject(409, 'BLOCKED_USER'))
-        }
-        resolve(true)
-    })
-}
-
 exports.getItems = async (req, res) => {
     try {
         const data = matchedData(req)
         const user = await findUserById(data.id)
-        await userIsBlocked(user)
         const _data = {
             permission: user.permission
         }
@@ -122,7 +92,8 @@ exports.getItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
-        const id = await utils.isIDGood(req.body.id)
+        console.log(req)
+        const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
         await permissioner.permissionIsIdGood(req.body.permission)
         console.log(await permissioner.permissionIsAssigned(user, req.body.permission))
