@@ -1,10 +1,12 @@
-const User = require('../models/permission')
-const {itemAlreadyExists} = require('../middleware/utils')
+const permModel = require('../models/permission')
+const userModel = require('../models/user')
+const {itemAlreadyExists, itemNotFound} = require('../middleware/utils')
+const db = require('../middleware/db')
 
 module.exports = {
     async permissionExists(permission) {
         return new Promise((resolve, reject) => {
-            User.findOne(
+            permModel.findOne(
                 {
                     permission
                 },
@@ -15,4 +17,23 @@ module.exports = {
             )
         })
     },
+
+    async permissionIsIdGood(id) {
+        return new Promise((resolve, reject) => {
+            permModel.findById(id,
+                (err, item) => {
+                    itemNotFound(err, item, reject, 'PERMISSION_DOES_NOT_EXISTS')
+                    resolve(true)
+                }
+            )
+        })
+    },
+
+    async permissionIsAssigned(user, id) {
+        return new Promise((resolve, reject) => {
+            const item = user.permissions.find(buffer=>buffer.permissionId === id);
+            itemAlreadyExists(null, item, reject, 'PERMISSION_ALREADY_ASSIGNED')
+            resolve(true)
+        })
+    }
 }
