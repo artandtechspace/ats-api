@@ -1,16 +1,12 @@
 const User = require('../models/permission')
 const {itemAlreadyExists} = require('../middleware/utils')
 
-
 module.exports = {
-    async permissionExists(id, permission) {
+    async permissionExists(permission) {
         return new Promise((resolve, reject) => {
             User.findOne(
                 {
-                    permission,
-                    _id: {
-                        $ne: id
-                    }
+                    permission
                 },
                 (err, item) => {
                     itemAlreadyExists(err, item, reject, 'PERMISSION_ALREADY_EXISTS')
