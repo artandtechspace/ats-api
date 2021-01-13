@@ -17,6 +17,7 @@ const trimRequest = require('trim-request')
 /*
  * Get item route
  */
+
 router.get(
     '/:id',
     requireAuth,
@@ -27,12 +28,12 @@ router.get(
 )
 
 router.post(
-    '/',
+    '/:id',
     requireAuth,
     AuthController.roleAuthorization(['admin']),
     trimRequest.all,
+    validate.createItem,
     controller.createItem
 )
-
 
 module.exports = router
