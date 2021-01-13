@@ -21,19 +21,19 @@ const LOGIN_ATTEMPTS = 5
  */
 const generateToken = user => {
     // Gets expiration time
-    const expiration =
-        Math.floor(Date.now() / 1000) + 60 * process.env.JWT_EXPIRATION_IN_MINUTES
-
+    const expiration = Math.floor(Date.now() / 1000) + 60 * process.env.JWT_EXPIRATION_IN_MINUTES
     // returns signed and encrypted token
-    return auth.encrypt(
-        jwt.sign(
-            {
-                data: {
-                    _id: user
-                },
-                exp: expiration
+    return auth.encrypt(jwt.sign(
+        {
+            data: {
+                _id: user
             },
-            process.env.JWT_SECRET
+            exp: expiration
+        },
+        process.env.JWT_SECRET,
+        {
+            algorithm: 'HS512',
+        }
         )
     )
 }
@@ -405,23 +405,11 @@ const forgotPasswordResponse = item => {
  * @param {Object} data - data object
  * @param {*} next - next callback
  */
-const checkPermissions = async (data, next) => {
+const checkPermissions = async (data,req, next) => {
     return new Promise((resolve, reject) => {
         User.findById(data.id, (err, result) => {
             utils.itemNotFound(err, result, reject, 'NOT_FOUND')
             if (data.roles.indexOf(result.role) > -1) {
-                return resolve(next())
-            }
-            return reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
-        })
-    })
-}
-
-const checkPermissionsMachine = async (data, next) => {
-    return new Promise((resolve, reject) => {
-        User.findById(data.id, (err, result) => {
-            utils.itemNotFound(err, result, reject, 'NOT_FOUND')
-            if (result.permissions.findOne({permission: "test"}) !== null) {
                 return resolve(next())
             }
             return reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
@@ -581,19 +569,7 @@ exports.roleAuthorization = roles => async (req, res, next) => {
             id: req.user._id,
             roles
         }
-        await checkPermissions(data, next)
-    } catch (error) {
-        utils.handleError(res, error)
-    }
-}
-
-exports.permissionsAuthorization = permissions => async (req, res, next) => {
-    try {
-        const data = {
-            id: req.user._id,
-            permissions
-        }
-        await checkPermissionsMachine(data, next)
+        await checkPermissions(data, req, next)
     } catch (error) {
         utils.handleError(res, error)
     }
