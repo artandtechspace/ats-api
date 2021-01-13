@@ -92,7 +92,6 @@ exports.getItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
-        console.log(req)
         const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
         await permissioner.permissionIsIdGood(req.body.permission)
