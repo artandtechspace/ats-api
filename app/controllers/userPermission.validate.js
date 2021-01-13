@@ -18,15 +18,23 @@ exports.getItem = [
 ]
 
 /**
- * Validates delete item request
+ * Validates create new item request
  */
-exports.deleteItem = [
+exports.createItem =[
     check('id')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('permission')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('PERMISSIONID_NOT_MONGOID'),
     (req, res, next) => {
         validationResult(req, res, next)
     }
