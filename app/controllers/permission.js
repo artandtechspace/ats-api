@@ -15,7 +15,6 @@ const createItem = async req => {
             type: req.type,
             description: req.description,
         })
-        console.log(req.permission)
         permission.save((err, item) => {
             if (err) {
                 reject(utils.buildErrObject(422, err.message))
@@ -32,8 +31,6 @@ const createItem = async req => {
  */
 exports.createItem = async (req, res) => {
     try {
-        // Gets locale from header 'Accept-Language'
-        const locale = req.getLocale()
         req = matchedData(req)
         const doesPermissionExists = await permissioner.permissionExists(req.permission)
         if (!doesPermissionExists) {
