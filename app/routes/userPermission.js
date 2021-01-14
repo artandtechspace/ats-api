@@ -36,4 +36,12 @@ router.post(
     controller.createItem
 )
 
+router.post(
+    '/revoke/:id',
+    requireAuth,
+    AuthController.roleAuthorization(['admin']),
+    trimRequest.all,
+    controller.revokeItem
+)
+
 module.exports = router
