@@ -41,6 +41,7 @@ router.post(
     requireAuth,
     AuthController.roleAuthorization(['admin']),
     trimRequest.all,
+validate.revokeItem,
     controller.revokeItem
 )
 
@@ -49,6 +50,7 @@ router.post(
     requireAuth,
     AuthController.roleAuthorization(['admin']),
     trimRequest.all,
+    validate.pardonRevokeItem,
     controller.pardonRevokeItem
 )
 

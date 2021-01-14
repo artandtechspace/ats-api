@@ -11,7 +11,9 @@ exports.getItem = [
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('USERID_NOT_MONGOID'),
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -26,7 +28,9 @@ exports.createItem = [
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('USERID_NOT_MONGOID'),
     check('permission')
         .exists()
         .withMessage('MISSING')
@@ -35,6 +39,62 @@ exports.createItem = [
         .withMessage('IS_EMPTY')
         .isMongoId()
         .withMessage('PERMISSIONID_NOT_MONGOID'),
+    (req, res, next) => {
+        validationResult(req, res, next)
+    }
+]
+
+/**
+ * Validates revoke new item request
+ */
+exports.revokeItem = [
+    check('id')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('USERID_NOT_MONGOID'),
+    check('permissionIdLink')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('PERMISSIONIDLINK_NOT_MONGOID'),
+    check('revokemessage')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    (req, res, next) => {
+        validationResult(req, res, next)
+    }
+]
+
+/**
+ * Validates revoke new item request
+ */
+exports.pardonRevokeItem = [
+    check('id')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('USERID_NOT_MONGOID'),
+    check('permissionIdLink')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('PERMISSIONIDLINK_NOT_MONGOID'),
     (req, res, next) => {
         validationResult(req, res, next)
     }
