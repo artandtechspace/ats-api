@@ -44,4 +44,12 @@ router.post(
     controller.revokeItem
 )
 
+router.post(
+    '/revoke/pardon/:id',
+    requireAuth,
+    AuthController.roleAuthorization(['admin']),
+    trimRequest.all,
+    controller.pardonRevokeItem
+)
+
 module.exports = router
