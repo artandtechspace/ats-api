@@ -12,8 +12,7 @@ const UserPermissionRevokeSchema = new mongoose.Schema(
             required: true
         },
         revokeMessage: {
-            type: String,
-            default: "Reason is not assignt"
+            type: String
         },
         revokeIsActive: {
             type: Boolean,
