@@ -1,9 +1,12 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
 const mongoosePaginate = require('mongoose-paginate-v2')
 
 const UserPermissionRevokeSchema = new mongoose.Schema(
     {
+        permissionIdLink: {
+            type: String,
+            required: true
+        },
         addedAdminId: {
             type: String,
             required: true
