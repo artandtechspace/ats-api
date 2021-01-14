@@ -1,10 +1,7 @@
-const jwt = require('jsonwebtoken')
 const userModel = require('../models/user')
-const permModel = require('../models/permission')
 const utils = require('../middleware/utils')
 const permissioner = require('../middleware/permissioner')
 const {matchedData} = require('express-validator')
-const auth = require('../middleware/auth')
 const db = require('../middleware/db')
 
 
@@ -39,8 +36,39 @@ const createItem = async (user, req) => {
 }
 
 /**
+ * Creates a new item in database
+ * @param user
+ * @param {Object} req - request object
+ */
+const createRevokeItem = async (user, req) => {
+    return new Promise((resolve, reject) => {
+        user.permissionsRevoke.push({
+            permissionIdLink: req.body.permissionIdLink,
+            addedAdminId: req.user._id,
+            revokeMessage: req.body.revokeMessage
+        })
+        user.save((err, item) => {
+            if (err) {
+                reject(utils.buildErrObject(422, err.message))
+            }
+            // Removes properties with rest operator
+            const removeProperties = ({
+                                          // eslint-disable-next-line no-unused-vars
+                                          password,
+                                          // eslint-disable-next-line no-unused-vars
+                                          blockExpires,
+                                          // eslint-disable-next-line no-unused-vars
+                                          loginAttempts,
+                                          ...rest
+                                      }) => rest
+            resolve(removeProperties(item.toObject()))
+        })
+    })
+}
+
+/**
  * Finds user by ID
- * @param {string} id - user´s id
+ * @param userId
  */
 const findUserById = async userId => {
     return new Promise((resolve, reject) => {
@@ -51,6 +79,11 @@ const findUserById = async userId => {
     })
 }
 
+/**
+ * Create item function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
 exports.getItems = async (req, res) => {
     try {
         const data = matchedData(req)
@@ -95,8 +128,27 @@ exports.createItem = async (req, res) => {
         const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
         await permissioner.permissionIsIdGood(req.body.permission)
-        console.log(await permissioner.permissionIsAssigned(user, req.body.permission))
+        await permissioner.permissionIsAssigned(user, req.body.permission)
         const item = await createItem(user, req)
+        res.status(201).json(item)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+/**
+ * Create item function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.revokeItem = async (req, res) => {
+    try {
+        const id = await utils.isIDGood(req.params.id)
+        let user = await db.getItem(id, userModel)
+        console.log(req.body)
+        await permissioner.permissionIdIsLinkAssigned(user, req.body.permissionIdLink)
+        await permissioner.permissionIsRevokeActive(user, req.body.permissionIdLink)
+        const item = await createRevokeItem(user, req)
         res.status(201).json(item)
     } catch (error) {
         utils.handleError(res, error)
