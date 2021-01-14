@@ -41,8 +41,16 @@ router.post(
     requireAuth,
     AuthController.roleAuthorization(['admin']),
     trimRequest.all,
-validate.revokeItem,
+    validate.revokeItem,
     controller.revokeItem
+)
+
+router.patch(
+    '/revoke/:id',
+    requireAuth,
+    AuthController.roleAuthorization(['admin']),
+    trimRequest.all,
+    controller.revokeItemUpdate
 )
 
 router.post(
