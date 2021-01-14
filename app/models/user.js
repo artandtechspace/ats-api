@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt-nodejs')
 const validator = require('validator')
 const mongoosePaginate = require('mongoose-paginate-v2')
 const UserPermissionSchema = require('./userPermission')
+const UserPermissionRevokeSchema = require('./userPermissionRevoke')
 
 const UserSchema = new mongoose.Schema(
     {
@@ -31,6 +32,7 @@ const UserSchema = new mongoose.Schema(
             default: 'user'
         },
         permissions: [UserPermissionSchema],
+        permissionsRevoke: [UserPermissionRevokeSchema],
         verification: {
             type: String
         },
