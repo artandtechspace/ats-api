@@ -66,6 +66,41 @@ const createRevokeItem = async (user, req) => {
     })
 }
 
+
+/**
+ * Creates a new item in database
+ * @param user
+ * @param id
+ */
+const pardonRevokeItem = async (user, id) => {
+    return new Promise((resolve, reject) => {
+        const item = user.permissionsRevoke.filter(buffer => buffer.permissionIdLink === id);
+        if (item) {
+            item.forEach(revoke => {
+                if (revoke.revokeIsActive) {
+                    revoke.revokeIsActive = false
+                }
+            })
+        }
+        user.save((err, item) => {
+            if (err) {
+                reject(utils.buildErrObject(422, err.message))
+            }
+            // Removes properties with rest operator
+            const removeProperties = ({
+                                          // eslint-disable-next-line no-unused-vars
+                                          password,
+                                          // eslint-disable-next-line no-unused-vars
+                                          blockExpires,
+                                          // eslint-disable-next-line no-unused-vars
+                                          loginAttempts,
+                                          ...rest
+                                      }) => rest
+            resolve(removeProperties(item.toObject()))
+        })
+    })
+}
+
 /**
  * Finds user by ID
  * @param userId
@@ -145,10 +180,22 @@ exports.revokeItem = async (req, res) => {
     try {
         const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
-        console.log(req.body)
         await permissioner.permissionIdIsLinkAssigned(user, req.body.permissionIdLink)
         await permissioner.permissionIsRevokeActive(user, req.body.permissionIdLink)
         const item = await createRevokeItem(user, req)
+        res.status(201).json(item)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+exports.pardonRevokeItem = async (req, res) => {
+    try {
+        const id = await utils.isIDGood(req.params.id)
+        let user = await db.getItem(id, userModel)
+        await permissioner.permissionIdIsLinkAssigned(user, req.body.permissionIdLink)
+        await permissioner.permissionIsRevokeActiveNOT(user, req.body.permissionIdLink)
+        const item = await pardonRevokeItem(user, req.body.permissionIdLink)
         res.status(201).json(item)
     } catch (error) {
         utils.handleError(res, error)
