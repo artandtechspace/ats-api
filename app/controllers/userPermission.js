@@ -4,7 +4,6 @@ const permissioner = require('../middleware/permissioner')
 const {matchedData} = require('express-validator')
 const db = require('../middleware/db')
 
-
 /**
  * Creates a new item in database
  * @param user
@@ -45,7 +44,7 @@ const createRevokeItem = async (user, req) => {
         user.permissionsRevoke.push({
             permissionIdLink: req.body.permissionIdLink,
             addedAdminId: req.user._id,
-            revokeMessage: req.body.revokeMessage
+            revokeMessage: req.body.revokemessage
         })
         user.save((err, item) => {
             if (err) {
@@ -79,9 +78,34 @@ const pardonRevokeItem = async (user, id) => {
             item.forEach(revoke => {
                 if (revoke.revokeIsActive) {
                     revoke.revokeIsActive = false
+                    revoke.revokeMessage = "awdawdawd"
                 }
             })
         }
+        console.log(item)
+        user.save((err, item) => {
+            if (err) {
+                reject(utils.buildErrObject(422, err.message))
+            }
+            // Removes properties with rest operator
+            const removeProperties = ({
+                                          // eslint-disable-next-line no-unused-vars
+                                          password,
+                                          // eslint-disable-next-line no-unused-vars
+                                          blockExpires,
+                                          // eslint-disable-next-line no-unused-vars
+                                          loginAttempts,
+                                          ...rest
+                                      }) => rest
+            resolve(removeProperties(item.toObject()))
+        })
+    })
+}
+
+const revokeItemUpdate = async (user, req) => {
+    return new Promise((resolve, reject) => {
+        let item = user.permissionsRevoke.find(buffer =>JSON.parse(JSON.stringify(buffer._id)) === req.body.revokeid)
+        item.revokeMessage = req.body.revokemessage
         user.save((err, item) => {
             if (err) {
                 reject(utils.buildErrObject(422, err.message))
@@ -196,6 +220,18 @@ exports.pardonRevokeItem = async (req, res) => {
         await permissioner.permissionIdIsLinkAssigned(user, req.body.permissionIdLink)
         await permissioner.permissionIsRevokeActiveNOT(user, req.body.permissionIdLink)
         const item = await pardonRevokeItem(user, req.body.permissionIdLink)
+        res.status(201).json(item)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+exports.revokeItemUpdate = async (req, res) => {
+    try {
+        const id = await utils.isIDGood(req.params.id)
+        let user = await db.getItem(id, userModel)
+        await permissioner.permissionRevokeExists(user, req.body.revokeid)
+        const item = await revokeItemUpdate(user, req)
         res.status(201).json(item)
     } catch (error) {
         utils.handleError(res, error)
