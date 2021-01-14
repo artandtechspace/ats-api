@@ -20,7 +20,7 @@ exports.getItem = [
 /**
  * Validates create new item request
  */
-exports.createItem =[
+exports.createItem = [
     check('id')
         .exists()
         .withMessage('MISSING')

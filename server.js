@@ -16,43 +16,43 @@ app.set('port', process.env.PORT || 3000)
 
 // Enable only in development HTTP request logger middleware
 if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'))
+    app.use(morgan('dev'))
 }
 
 // Redis cache enabled by env variable
 if (process.env.USE_REDIS === 'true') {
-  const getExpeditiousCache = require('express-expeditious')
-  const cache = getExpeditiousCache({
-    namespace: 'expresscache',
-    defaultTtl: '1 minute',
-    engine: require('expeditious-engine-redis')({
-      host: process.env.REDIS_HOST,
-      port: process.env.REDIS_PORT
+    const getExpeditiousCache = require('express-expeditious')
+    const cache = getExpeditiousCache({
+        namespace: 'expresscache',
+        defaultTtl: '1 minute',
+        engine: require('expeditious-engine-redis')({
+            host: process.env.REDIS_HOST,
+            port: process.env.REDIS_PORT
+        })
     })
-  })
-  app.use(cache)
+    app.use(cache)
 }
 
 // for parsing json
 app.use(
-  bodyParser.json({
-    limit: '20mb'
-  })
+    bodyParser.json({
+        limit: '20mb'
+    })
 )
 // for parsing application/x-www-form-urlencoded
 app.use(
-  bodyParser.urlencoded({
-    limit: '20mb',
-    extended: true
-  })
+    bodyParser.urlencoded({
+        limit: '20mb',
+        extended: true
+    })
 )
 
 // i18n
 i18n.configure({
-  locales: ['en', 'es'],
-  directory: `${__dirname}/locales`,
-  defaultLocale: 'en',
-  objectNotation: true
+    locales: ['en', 'es'],
+    directory: `${__dirname}/locales`,
+    defaultLocale: 'en',
+    objectNotation: true
 })
 app.use(i18n.init)
 
