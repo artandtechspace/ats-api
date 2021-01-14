@@ -57,5 +57,19 @@ module.exports = {
             }
             resolve(true)
         })
+    },
+
+    async permissionIsRevokeActiveNOT(user, id) {
+        return new Promise((resolve, reject) => {
+            const item = user.permissionsRevoke.filter(buffer => buffer.permissionIdLink === id);
+            if (item) {
+                item.forEach(revoke => {
+                    if (revoke.revokeIsActive) {
+                        resolve(true)
+                    }
+                })
+            }
+            itemAlreadyExists(null, item, reject, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED')
+        })
     }
 }
