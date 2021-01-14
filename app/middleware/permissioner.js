@@ -59,6 +59,15 @@ module.exports = {
         })
     },
 
+    async permissionRevokeExists(user, id) {
+        return new Promise((resolve, reject) => {
+            user = JSON.parse(JSON.stringify(user))
+            const item = user.permissionsRevoke.find(buffer => buffer._id === id);
+            itemNotFound(null, item, reject, 'PERMISSION_REVOKE_DOES_NOT_EXISTS')
+            resolve(true)
+        })
+    },
+
     async permissionIsRevokeActiveNOT(user, id) {
         return new Promise((resolve, reject) => {
             const item = user.permissionsRevoke.filter(buffer => buffer.permissionIdLink === id);
