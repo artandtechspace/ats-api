@@ -99,3 +99,28 @@ exports.pardonRevokeItem = [
         validationResult(req, res, next)
     }
 ]
+
+/**
+ * Validates revoke new item request
+ */
+exports.revokeItemUpdate = [
+    check('id')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('USERID_NOT_MONGOID'),
+    check('revokeid')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isMongoId()
+        .withMessage('REVOKE_ID_NOT_MONGOID'),
+    (req, res, next) => {
+        validationResult(req, res, next)
+    }
+]
