@@ -1,6 +1,5 @@
 const permModel = require('../models/permission')
 const {itemAlreadyExists, itemNotFound} = require('../middleware/utils')
-const mongoose = require('mongoose')
 
 module.exports = {
     async permissionExists(permission) {
