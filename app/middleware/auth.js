@@ -2,6 +2,7 @@ const crypto = require('crypto')
 const algorithm = 'aes-256-cbc'
 const secret = process.env.JWT_SECRET
 const IV_LENGTH = 16
+
 module.exports = {
     /**
      * Checks is password matches
