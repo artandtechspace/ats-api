@@ -1,5 +1,6 @@
 require('dotenv-safe').config()
 const express = require('express')
+const listEndpoints = require("express-list-endpoints");
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const compression = require('compression')
@@ -10,7 +11,6 @@ const app = express()
 const i18n = require('i18n')
 const initMongo = require('./config/mongo')
 const path = require('path')
-
 // Setup express server port from ENV, default: 3000
 app.set('port', process.env.PORT || 3000)
 
@@ -67,8 +67,7 @@ app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
 app.use(require('./app/routes'))
 app.listen(app.get('port'))
-
+console.table(listEndpoints(app),['path','methods'])
 // Init MongoDB
 initMongo()
-
 module.exports = app // for testing
