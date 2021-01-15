@@ -3,13 +3,14 @@ const router = express.Router()
 const fs = require('fs')
 const routesPath = `${__dirname}/`
 const {removeExtensionFromFile} = require('../middleware/utils')
-
+const apiVersion = 1
+const apiVersionString = "/api/v"+apiVersion+"/"
 /*
  * Load routes statically and/or dynamically
  */
 
 // Load Auth route
-router.use('/', require('./auth'))
+router.use(apiVersionString, require('./auth'))
 
 // Loop routes path and loads every file as a route except this file and Auth route
 fs.readdirSync(routesPath).filter(file => {
@@ -17,14 +18,14 @@ fs.readdirSync(routesPath).filter(file => {
     const routeFile = removeExtensionFromFile(file)
     // Prevents loading of this file and auth file
     return routeFile !== 'index' && routeFile !== 'auth'
-        ? router.use(`/${routeFile}`, require(`./${routeFile}`))
+        ? router.use(apiVersionString+routeFile, require(`./${routeFile}`))
         : ''
 })
 
 /*
  * Setup routes for index
  */
-router.get('/', (req, res) => {
+router.get(apiVersionString, (req, res) => {
     res.render('index')
 })
 
