@@ -50,6 +50,7 @@ router.patch(
     requireAuth,
     AuthController.roleAuthorization(['admin']),
     trimRequest.all,
+    validate.revokeItemUpdate,
     controller.revokeItemUpdate
 )
 
