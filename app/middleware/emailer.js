@@ -118,6 +118,19 @@ module.exports = {
         prepareToSendEmail(user, subject, htmlMessage)
     },
 
+    async sendChangeEmailMessage(locale, user) {
+        i18n.setLocale(locale)
+        const subject = i18n.__('changeEmail.SUBJECT')
+        const htmlMessage = i18n.__(
+            'changeEmail.MESSAGE',
+            user.name,
+            user.changeEmail,
+            process.env.FRONTEND_URL,
+            user.verification
+        )
+        prepareToSendEmail(user, subject, htmlMessage)
+    },
+
     /**
      * Sends reset password email
      * @param {string} locale - locale
