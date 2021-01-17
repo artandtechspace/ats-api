@@ -31,7 +31,7 @@ router.get(
 router.patch(
     '/',
     requireAuth,
-    AuthController.roleAuthorization(['admin']),
+    AuthController.roleAuthorization(['user', 'admin']),
     trimRequest.all,
     validate.updateProfile,
     controller.updateProfile
