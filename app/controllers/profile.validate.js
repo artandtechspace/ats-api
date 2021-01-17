@@ -33,6 +33,13 @@ exports.updateProfile = [
         .isEmpty()
         .withMessage('IS_EMPTY')
         .trim(),
+    check('email')
+        .optional()
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isEmail()
+        .withMessage('EMAIL_IS_NOT_VALID'),
     check('urlTwitter')
         .optional()
         .custom(v => (v === '' ? true : validator.isURL(v)))
