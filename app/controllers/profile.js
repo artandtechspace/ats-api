@@ -2,6 +2,8 @@ const model = require('../models/user')
 const utils = require('../middleware/utils')
 const {matchedData} = require('express-validator')
 const auth = require('../middleware/auth')
+const emailer = require('../middleware/emailer')
+const uuid = require('uuid')
 
 /*********************
  * Private functions *
@@ -27,6 +29,10 @@ const getProfileFromDB = async id => {
  */
 const updateProfileInDB = async (req, id) => {
     return new Promise((resolve, reject) => {
+        if (req.email) {
+            req.changeEmail = req.email
+            delete req.email
+        }
         model.findByIdAndUpdate(
             id,
             req,
@@ -115,9 +121,21 @@ exports.getProfile = async (req, res) => {
  */
 exports.updateProfile = async (req, res) => {
     try {
+        // Gets locale from header 'Accept-Language'
+        const locale = req.getLocale()
         const id = await utils.isIDGood(req.user._id)
         req = matchedData(req)
-        res.status(200).json(await updateProfileInDB(req, id))
+        if (req.email) {
+            const doesEmailExists = await emailer.emailExists(req.email)
+            if (!doesEmailExists) {
+                req.verification = uuid.v4()
+                const user = await updateProfileInDB(req, id)
+                await emailer.sendChangeEmailMessage(locale, user)
+                res.status(200).json(user)
+            }
+        }else{
+            res.status(200).json(await updateProfileInDB(req, id))
+        }
     } catch (error) {
         utils.handleError(res, error)
     }
