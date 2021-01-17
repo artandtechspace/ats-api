@@ -21,6 +21,16 @@ const UserSchema = new mongoose.Schema(
             unique: true,
             required: true
         },
+        changeEmail: {
+            type: String,
+            validate: {
+                validator: validator.isEmail,
+                message: 'EMAIL_IS_NOT_VALID'
+            },
+            lowercase: true,
+            unique: true,
+            required: true
+        },
         password: {
             type: String,
             required: true,
