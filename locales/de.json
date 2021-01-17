@@ -6,5 +6,9 @@
   "forgotPassword": {
     "SUBJECT": "Password recovery at myProject",
     "MESSAGE": "<p>To recover the password for user: %s</p> <p>click the following link:</p> <p>%s/reset/%s</p> <p>If this was a mistake, you can ignore this message.</p> <p>Thank you.</p>"
+  },
+  "changeEmail": {
+    "SUBJECT": "Verify your email at myProject",
+    "MESSAGE": "<p>Hello %s.</p> <p>Welcome! To verify the change to the email(%s), please click in this link:</p> <p>%s/verify/email/change/%s</p> <p>Thank you.</p>"
   }
 }
