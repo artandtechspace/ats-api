@@ -258,16 +258,25 @@ const returnRegisterToken = (item, userInfo) => {
  */
 const verificationExists = async id => {
     return new Promise((resolve, reject) => {
-        User.findOne(
-            {
-                verification: id,
-                verified: false
+        User.findOne({
+                verified: false,
+                verification: id
             },
             (err, user) => {
+                console.log(user)
                 utils.itemNotFound(err, user, reject, 'NOT_FOUND_OR_ALREADY_VERIFIED')
                 resolve(user)
             }
         )
+    })
+}
+
+const isVerificationIdGood = async id => {
+    return new Promise((resolve, reject) => {
+        id = auth.decrypt(id)
+        if (id.split(":")[0] === "v" || id.split(":")[0] === "vEC") {
+            resolve(id)
+        } else utils.itemNotFound(null, null, reject, 'ID_MALFORMED')
     })
 }
 
@@ -493,7 +502,11 @@ exports.register = async (req, res) => {
 exports.verify = async (req, res) => {
     try {
         req = matchedData(req)
-        const user = await verificationExists(req.id)
+        const id = await isVerificationIdGood(req.id)
+        const user = await verificationExists(id)
+        user.email = user.changeEmail
+        user.changeEmail = undefined
+        if (id.split(":")[0] === "vEC") user.verifiedCEmail = true
         res.status(200).json(await verifyUser(user))
     } catch (error) {
         utils.handleError(res, error)
