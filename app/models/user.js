@@ -29,7 +29,6 @@ const UserSchema = new mongoose.Schema(
             },
             lowercase: true,
             unique: true,
-            required: true
         },
         password: {
             type: String,
@@ -46,6 +45,9 @@ const UserSchema = new mongoose.Schema(
         verification: {
             type: String
         },
+        verificationEmailChange:{
+            type: String
+        },
         verified: {
             type: Boolean,
             default: false
@@ -59,25 +61,18 @@ const UserSchema = new mongoose.Schema(
         country: {
             type: String
         },
-        urlTwitter: {
+        idDiscord: {
             type: String,
-            validate: {
-                validator(v) {
-                    return v === '' ? true : validator.isURL(v)
-                },
-                message: 'NOT_A_VALID_URL'
-            },
             lowercase: true
         },
-        urlGitHub: {
+        idGitHub: {
             type: String,
             validate: {
-                validator(v) {
-                    return v === '' ? true : validator.isURL(v)
-                },
-                message: 'NOT_A_VALID_URL'
+                validator: validator.isEmail,
+                message: 'EMAIL_IS_NOT_VALID'
             },
-            lowercase: true
+            lowercase: true,
+            unique: true,
         },
         loginAttempts: {
             type: Number,
