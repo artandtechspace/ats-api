@@ -55,7 +55,7 @@ const updateProfileInDB = async (req, id) => {
  */
 const findUser = async id => {
     return new Promise((resolve, reject) => {
-        model.findById(id, 'password email', (err, user) => {
+        model.findById(id, (err, user) => {
             utils.itemNotFound(err, user, reject, 'USER_DOES_NOT_EXIST')
             resolve(user)
         })
@@ -124,18 +124,27 @@ exports.updateProfile = async (req, res) => {
         // Gets locale from header 'Accept-Language'
         const locale = req.getLocale()
         const id = await utils.isIDGood(req.user._id)
+        // Gets only req.body
         req = matchedData(req)
         if (req.email) {
             const doesEmailExists = await emailer.emailExists(req.email)
             if (!doesEmailExists) {
-                req.verification = uuid.v4()
-                const user = await updateProfileInDB(req, id)
-                await emailer.sendChangeEmailMessage(locale, user)
-                res.status(200).json(user)
+                const verification = await findUser(id)
+                if (verification.verifiedCEmail) {
+                    const id = "v:" + uuid.v4()
+                    req.verification = id
+                    verification.verification = auth.encrypt(id)
+                } else {
+                    const id = "vEC:" + uuid.v4()
+                    req.verification = id
+                    verification.verification = auth.encrypt(id)
+                    verification.email = req.email
+                }
+                req.verified = false
+                await emailer.sendChangeEmailMessage(locale, verification)
             }
-        }else{
-            res.status(200).json(await updateProfileInDB(req, id))
         }
+        res.status(200).json(await updateProfileInDB(req, id))
     } catch (error) {
         utils.handleError(res, error)
     }
