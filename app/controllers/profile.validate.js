@@ -40,14 +40,14 @@ exports.updateProfile = [
         .withMessage('IS_EMPTY')
         .isEmail()
         .withMessage('EMAIL_IS_NOT_VALID'),
-    check('urlTwitter')
+    check('idDiscord')
         .optional()
-        .custom(v => (v === '' ? true : validator.isURL(v)))
-        .withMessage('NOT_A_VALID_URL'),
+        .isNumeric()
+        .withMessage('NOT_A_VALID_DISCORD_ID'),
     check('urlGitHub')
         .optional()
-        .custom(v => (v === '' ? true : validator.isURL(v)))
-        .withMessage('NOT_A_VALID_URL'),
+        .isEmail()
+        .withMessage('NOT_A_VALID_EMAIL'),
     (req, res, next) => {
         validationResult(req, res, next)
     }
