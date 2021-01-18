@@ -104,7 +104,7 @@ const pardonRevokeItem = async (user, id) => {
 
 const revokeItemUpdate = async (user, req) => {
     return new Promise((resolve, reject) => {
-        let item = user.permissionsRevoke.find(buffer =>JSON.parse(JSON.stringify(buffer._id)) === req.body.revokeid)
+        let item = user.permissionsRevoke.find(buffer => JSON.parse(JSON.stringify(buffer._id)) === req.body.revokeid)
         item.revokeMessage = req.body.revokemessage
         user.save((err, item) => {
             if (err) {
