@@ -29,6 +29,7 @@ const UserSchema = new mongoose.Schema(
             },
             lowercase: true,
             unique: true,
+            sparse: true
         },
         password: {
             type: String,
@@ -45,8 +46,9 @@ const UserSchema = new mongoose.Schema(
         verification: {
             type: String
         },
-        verificationEmailChange:{
-            type: String
+        verifiedCEmail: {
+            type: Boolean,
+            default: false
         },
         verified: {
             type: Boolean,
@@ -73,6 +75,7 @@ const UserSchema = new mongoose.Schema(
             },
             lowercase: true,
             unique: true,
+            sparse: true
         },
         loginAttempts: {
             type: Number,
