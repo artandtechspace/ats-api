@@ -163,9 +163,7 @@ exports.getItems = async (req, res) => {
  */
 exports.getItem = async (req, res) => {
     try {
-        console.log("lol", req)
         req = matchedData(req)
-        console.log(req)
         const id = await utils.isIDGood(req.id)
         let data = await db.getItem(id, userModel)
         data = {
