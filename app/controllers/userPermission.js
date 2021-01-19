@@ -203,7 +203,7 @@ exports.revokeItem = async (req, res) => {
         const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
         await permissioner.permissionIdIsLinkAssigned(user, req.body.permissionIdLink)
-        await permissioner.permissionIsRevokeActive(user, req.body.permissionIdLink)
+        await permissioner.permissionIsRevokedActive(user, req.body.permissionIdLink, 'PERMISSION_IS_REVOKED', true)
         const item = await createRevokeItem(user, req)
         res.status(201).json(item)
     } catch (error) {
@@ -216,7 +216,7 @@ exports.pardonRevokeItem = async (req, res) => {
         const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
         await permissioner.permissionIdIsLinkAssigned(user, req.body.permissionIdLink)
-        await permissioner.permissionIsRevokeActiveNOT(user, req.body.permissionIdLink)
+        await permissioner.permissionIsRevokedActive(user, req.body.permissionIdLink, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED', true)
         const item = await pardonRevokeItem(user, req.body.permissionIdLink)
         res.status(201).json(item)
     } catch (error) {
