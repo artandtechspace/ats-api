@@ -13,10 +13,19 @@ const PermissionSchema = new mongoose.Schema(
             enum: ["machine", "door", "equipment"],
             required: true
         },
+        ipaddress:{
+            type: String,
+            validate: {
+                validator: validator.isIP,
+                message: 'IPADDRESS_IS_NOT_VALID'
+            },
+            required:true,
+            unique:true
+        },
         description: {
             type: String,
             required: true
-        }
+        },
     },
     {
         versionKey: false,

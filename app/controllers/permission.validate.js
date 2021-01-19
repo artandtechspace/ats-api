@@ -14,6 +14,14 @@ exports.createItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('ipaddress')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isIP()
+        .withMessage('IPADDRESS_IS_NOT_VALID'),
     check('description')
         .exists()
         .withMessage('MISSING')
