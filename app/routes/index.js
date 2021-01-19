@@ -4,7 +4,7 @@ const fs = require('fs')
 const routesPath = `${__dirname}/`
 const {removeExtensionFromFile} = require('../middleware/utils')
 const apiVersion = 1
-const apiVersionString = "/api/v"+apiVersion+"/"
+const apiVersionString = "/api/v" + apiVersion + "/"
 /*
  * Load routes statically and/or dynamically
  */
@@ -18,7 +18,7 @@ fs.readdirSync(routesPath).filter(file => {
     const routeFile = removeExtensionFromFile(file)
     // Prevents loading of this file and auth file
     return routeFile !== 'index' && routeFile !== 'auth'
-        ? router.use(apiVersionString+routeFile, require(`./${routeFile}`))
+        ? router.use(apiVersionString + routeFile, require(`./${routeFile}`))
         : ''
 })
 

@@ -67,7 +67,9 @@ app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
 app.use(require('./app/routes'))
 app.listen(app.get('port'))
-console.table(listEndpoints(app),['path','methods'])
+console.table(listEndpoints(app), ['path', 'methods'])
+
 // Init MongoDB
 initMongo()
+
 module.exports = app // for testing

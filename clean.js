@@ -37,5 +37,4 @@ const clean = async () => {
         process.exit(0)
     }
 }
-
 clean()
