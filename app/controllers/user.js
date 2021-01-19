@@ -50,7 +50,8 @@ const createItem = async req => {
 
 /**
  * Get items function called by route
- * @param type
+ * @param req
+ * @param res
  */
 exports.getItems = async (req, res) => {
     try {
