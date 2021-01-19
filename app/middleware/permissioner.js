@@ -2,6 +2,11 @@ const permModel = require('../models/permission')
 const {itemAlreadyExists, itemNotFound} = require('../middleware/utils')
 
 module.exports = {
+
+    /**
+     * Checks if permission name exists
+     * @param permission
+     */
     async permissionExists(permission) {
         return new Promise((resolve, reject) => {
             permModel.findOne(
@@ -16,6 +21,10 @@ module.exports = {
         })
     },
 
+    /**
+     * Checks if permission id exists
+     * @param id
+     */
     async permissionIsIdGood(id) {
         return new Promise((resolve, reject) => {
             permModel.findById(id,
@@ -27,6 +36,11 @@ module.exports = {
         })
     },
 
+    /**
+     * Checks if _id exists in user document under permissions
+     * @param user
+     * @param id
+     */
     async permissionIdIsLinkAssigned(user, id) {
         return new Promise((resolve, reject) => {
             user = JSON.parse(JSON.stringify(user))
@@ -36,28 +50,24 @@ module.exports = {
         })
     },
 
+    /**
+     * Checks if permission id exists in user document
+     * @param {Object} user - user as model
+     * @param {string} id - permissionId
+     */
     async permissionIsAssigned(user, id) {
         return new Promise((resolve, reject) => {
             const item = user.permissions.find(buffer => buffer.permissionId === id);
             itemAlreadyExists(null, item, reject, 'PERMISSION_ALREADY_ASSIGNED')
-            resolve(true)
+            resolve(item)
         })
     },
 
-    async permissionIsRevokeActive(user, id) {
-        return new Promise((resolve, reject) => {
-            const item = user.permissionsRevoke.filter(buffer => buffer.permissionIdLink === id);
-            if (item) {
-                item.forEach(revoke => {
-                    if (revoke.revokeIsActive) {
-                        itemAlreadyExists(null, item, reject, 'PERMISSION_REVOKE_ALREADY_ASSIGNED')
-                    }
-                })
-            }
-            resolve(true)
-        })
-    },
-
+    /**
+     * Checks if permission revoke exists
+     * @param user
+     * @param id
+     */
     async permissionRevokeExists(user, id) {
         return new Promise((resolve, reject) => {
             user = JSON.parse(JSON.stringify(user))
@@ -67,17 +77,28 @@ module.exports = {
         })
     },
 
-    async permissionIsRevokeActiveNOT(user, id) {
+    async permissionIsRevokedActive(user, permission, message, invert = false) {
         return new Promise((resolve, reject) => {
             const item = user.permissionsRevoke.filter(buffer => buffer.permissionIdLink === id);
             if (item) {
                 item.forEach(revoke => {
                     if (revoke.revokeIsActive) {
-                        resolve(true)
+                        if (invert) itemAlreadyExists(null, item, reject, message)
+                        else resolve(revoke)
                     }
                 })
             }
-            itemAlreadyExists(null, item, reject, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED')
+            if (invert) resolve(true)
+            else itemAlreadyExists(null, item, reject, message)
+        })
+    },
+
+    async permissionGetId(permission) {
+        return new Promise((resolve, reject) => {
+            permModel.findOne({permission: permission}, (err, item) => {
+                itemNotFound(err, item, reject, 'PERMISSION_DOES_NOT_EXISTS')
+                resolve(item.permissionId)
+            })
         })
     }
 }
