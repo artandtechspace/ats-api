@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
 
 const UserPermissionAccessSchema = new mongoose.Schema(
     {
@@ -7,9 +6,21 @@ const UserPermissionAccessSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        userNameCache: {
+            type: String,
+            required: true
+        },
         permissionId: {
             type: String,
             required: true
+        },
+        permissionNameCache: {
+            type: String,
+            required: true
+        },
+        end: {
+            type: Boolean,
+            default: false
         }
     },
     {
@@ -17,4 +28,5 @@ const UserPermissionAccessSchema = new mongoose.Schema(
         timestamps: true
     }
 )
+
 module.exports = mongoose.model('UserPermissionAccess', UserPermissionAccessSchema)
