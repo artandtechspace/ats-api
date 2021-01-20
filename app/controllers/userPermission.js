@@ -185,7 +185,7 @@ exports.createItem = async (req, res) => {
         const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
         await permissioner.permissionIsIdGood(req.body.permission)
-        await permissioner.permissionIsAssigned(user, req.body.permission)
+        await permissioner.permissionIsAssigned(user, req.body.permission, 'PERMISSION_ALREADY_ASSIGNED')
         const item = await createItem(user, req)
         res.status(201).json(item)
     } catch (error) {
