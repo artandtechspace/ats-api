@@ -9,11 +9,7 @@ module.exports = {
      */
     async permissionExists(permission) {
         return new Promise((resolve, reject) => {
-            permModel.findOne(
-                {
-                    permission
-                },
-                (err, item) => {
+            permModel.findOne({permission}, (err, item) => {
                     itemAlreadyExists(err, item, reject, 'PERMISSION_ALREADY_EXISTS')
                     resolve(false)
                 }
@@ -27,8 +23,7 @@ module.exports = {
      */
     async permissionIsIdGood(id) {
         return new Promise((resolve, reject) => {
-            permModel.findById(id,
-                (err, item) => {
+            permModel.findById(id, (err, item) => {
                     itemNotFound(err, item, reject, 'PERMISSION_DOES_NOT_EXISTS')
                     resolve(true)
                 }
@@ -54,11 +49,13 @@ module.exports = {
      * Checks if permission id exists in user document
      * @param {Object} user - user as model
      * @param {string} id - permissionId
+     * @param {string} message - error json message
+     * @return {Object} permission
      */
-    async permissionIsAssigned(user, id) {
+    async permissionIsAssigned(user, id, message) {
         return new Promise((resolve, reject) => {
-            const item = user.permissions.find(buffer => buffer.permissionId === id);
-            itemAlreadyExists(null, item, reject, 'PERMISSION_ALREADY_ASSIGNED')
+            const item = user.permissions.find(buffer => buffer.permissionId === id.toString());
+            itemNotFound(null, item, reject, message)
             resolve(item)
         })
     },
@@ -79,7 +76,7 @@ module.exports = {
 
     async permissionIsRevokedActive(user, permission, message, invert = false) {
         return new Promise((resolve, reject) => {
-            const item = user.permissionsRevoke.filter(buffer => buffer.permissionIdLink === id);
+            const item = user.permissionsRevoke.filter(buffer => buffer.permissionIdLink === permission);
             if (item) {
                 item.forEach(revoke => {
                     if (revoke.revokeIsActive) {
