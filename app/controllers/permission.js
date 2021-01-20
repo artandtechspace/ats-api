@@ -12,8 +12,10 @@ const createItem = async req => {
     return new Promise((resolve, reject) => {
         const permission = new model({
             permission: req.permission,
+            permissionName: req.permissionname,
             type: req.type,
             description: req.description,
+            ipaddress: req.ipaddress
         })
         permission.save((err, item) => {
             if (err) {
