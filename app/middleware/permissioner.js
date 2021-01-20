@@ -93,11 +93,20 @@ module.exports = {
         })
     },
 
-    async permissionGetId(permission) {
+    async permissionGetById(id) {
+        return new Promise((resolve, reject) => {
+            permModel.findOne({_id: id}, (err, item) => {
+                itemNotFound(err, item, reject, 'PERMISSION_DOES_NOT_EXISTS')
+                resolve(item)
+            })
+        })
+    },
+
+    async permissionGetByName(permission) {
         return new Promise((resolve, reject) => {
             permModel.findOne({permission: permission}, (err, item) => {
                 itemNotFound(err, item, reject, 'PERMISSION_DOES_NOT_EXISTS')
-                resolve(item.permissionId)
+                resolve(item)
             })
         })
     }
