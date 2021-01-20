@@ -8,6 +8,12 @@ exports.createItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('permissionname')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('type')
         .exists()
         .withMessage('MISSING')
