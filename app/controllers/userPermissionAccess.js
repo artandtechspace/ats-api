@@ -53,7 +53,7 @@ exports.createItem = async (req, res) => {
         data.userNameCache = user.name
         data.permissionNameCache = data.perm.permission
         data.permissionId = data.perm._id
-        const permission = await permissioner.permissionIsAssigned(user, data.perm._id,'PERMISSION_IS_NOT_ASSIGNED')
+        const permission = await permissioner.permissionIsAssigned(user, data.perm._id, 'PERMISSION_IS_NOT_ASSIGNED')
         await permissioner.permissionIsRevokedActive(user, permission._id, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED', true)
         //check if Machine is in use(add machiner)
         //unlock Machine

@@ -9,7 +9,7 @@ const PermissionSchema = new mongoose.Schema(
             required: true,
             unique: true
         },
-        permissionName:{
+        permissionName: {
             type: String,
             required: true,
         },

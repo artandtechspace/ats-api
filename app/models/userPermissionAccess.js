@@ -21,7 +21,7 @@ const UserPermissionAccessSchema = new mongoose.Schema(
         end: {
             type: Boolean,
             default: false,
-            required:true
+            required: true
         }
     },
     {
