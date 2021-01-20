@@ -9,6 +9,10 @@ const PermissionSchema = new mongoose.Schema(
             required: true,
             unique: true
         },
+        permissionName:{
+            type: String,
+            required: true,
+        },
         type: {
             type: String,
             enum: ["machine", "door", "equipment"],
