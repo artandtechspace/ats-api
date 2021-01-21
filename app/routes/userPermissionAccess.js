@@ -1,5 +1,5 @@
 const controller = require('../controllers/userPermissionAccess')
-const validate = require('../controllers/userPermissionAccess')
+const validate = require('../controllers/userPermissionAccess.validate')
 const AuthController = require('../controllers/auth')
 const express = require('express')
 const router = express.Router()
@@ -15,30 +15,23 @@ const {check, oneOf} = require('express-validator')
  * UserPermissionAccess routes
  */
 
+/*
+ * Get items route
+ */
+router.get(
+    '/',
+    requireAuth,
+    AuthController.roleAuthorization(['user', 'admin']),
+    trimRequest.all,
+    controller.getItems
+)
+
 router.post(
     '/',
     requireAuth,
     AuthController.roleAuthorization(['user', 'admin']),
     trimRequest.all,
-    oneOf([
-        check('permissionId')
-            .exists()
-            .withMessage('MISSING')
-            .not()
-            .isEmpty()
-            .withMessage('IS_EMPTY')
-            .isMongoId()
-            .withMessage('USERID_NOT_MONGOID'),
-        check('permission')
-            .exists()
-            .withMessage('MISSING')
-            .not()
-            .isEmpty()
-            .withMessage('IS_EMPTY'),
-    ]),
-    (req, res, next) => {
-        validationResult(req, res, next)
-    },
+    validate.createItem,
     controller.createItem
 )
 
