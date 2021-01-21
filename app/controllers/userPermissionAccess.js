@@ -31,6 +31,22 @@ const createAccessItem = async req => {
     })
 }
 
+const closeAccessItem = async id => {
+    return new Promise((resolve, reject) => {
+        userPermissionsAccessModel.findByIdAndUpdate({_id: id}, {end: true},
+            {
+                new: true,
+                runValidators: true,
+            },
+            (err, item) => {
+                if (err) {
+                    reject(utils.buildErrObject(422, err.message))
+                }
+                resolve(item)
+            })
+    })
+}
+
 /**
  * Finds user by ID
  * @param userId
@@ -56,7 +72,7 @@ exports.createItem = async (req, res) => {
         data.permissionId = data.perm._id
         const permission = await permissioner.permissionIsAssigned(user, data.perm._id, 'PERMISSION_IS_NOT_ASSIGNED')
         await permissioner.permissionIsRevokedActive(user, permission._id, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED', true)
-        await machiner.isMachineActive(data.permissionId)
+        await machiner.isMachineActiveByPermId(data.permissionId)
         //unlock Machine
         const resolve = await createAccessItem(data)
         res.status(201).json(resolve)
@@ -67,8 +83,8 @@ exports.createItem = async (req, res) => {
 
 exports.closeItem = async (req, res) => {
     try {
-        const data = {status: "error function not ready"}
-        // add everything smile
+
+        await machiner.isMachineActiveByAccessId(data.permissionId)
         res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)
