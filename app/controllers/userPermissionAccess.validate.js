@@ -1,6 +1,6 @@
 const {validationResult} = require('../middleware/utils')
-const validator = require('validator')
-const {check} = require('express-validator')
+
+const {check, oneOf} = require('express-validator');
 
 
 /**
@@ -21,8 +21,8 @@ exports.createItem = [
             .withMessage('MISSING')
             .not()
             .isEmpty()
-            .withMessage('IS_EMPTY')
-    ],"ONEOF_permissionId_permission"),
+            .withMessage('IS_EMPTY'),
+    ], "ONEOF_permissionId_permission"),
     (req, res, next) => {
         validationResult(req, res, next)
     }
