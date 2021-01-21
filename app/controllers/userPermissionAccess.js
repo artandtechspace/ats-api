@@ -4,6 +4,7 @@ const permModel = require('../models/permission')
 const userPermissionsAccessModel = require('../models/userPermissionAccess')
 const utils = require('../middleware/utils')
 const permissioner = require('../middleware/permissioner')
+const machiner = require('../middleware/machiner')
 const {matchedData} = require('express-validator')
 const auth = require('../middleware/auth')
 const db = require('../middleware/db')
@@ -55,7 +56,7 @@ exports.createItem = async (req, res) => {
         data.permissionId = data.perm._id
         const permission = await permissioner.permissionIsAssigned(user, data.perm._id, 'PERMISSION_IS_NOT_ASSIGNED')
         await permissioner.permissionIsRevokedActive(user, permission._id, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED', true)
-        //check if Machine is in use(add machiner)
+        await machiner.isMachineActive(data.permissionId)
         //unlock Machine
         const resolve = await createAccessItem(data)
         res.status(201).json(resolve)
