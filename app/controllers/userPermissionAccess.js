@@ -74,3 +74,12 @@ exports.closeItem = async (req, res) => {
         utils.handleError(res, error)
     }
 }
+
+exports.getItems = async (req, res) => {
+    try {
+        const query = await db.checkQueryString(req.query)
+        res.status(200).json(await db.getItems(req, userPermissionsAccessModel, query))
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
