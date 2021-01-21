@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 
 const UserPermissionAccessSchema = new mongoose.Schema(
     {
@@ -30,4 +31,5 @@ const UserPermissionAccessSchema = new mongoose.Schema(
     }
 )
 
+UserPermissionAccessSchema.plugin(mongoosePaginate)
 module.exports = mongoose.model('UserPermissionAccess', UserPermissionAccessSchema)
