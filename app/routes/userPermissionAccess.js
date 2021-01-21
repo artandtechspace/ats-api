@@ -9,8 +9,7 @@ const requireAuth = passport.authenticate('jwt', {
     session: false
 })
 const trimRequest = require('trim-request')
-const {validationResult} = require("../middleware/utils");
-const {check, oneOf} = require('express-validator')
+
 /*
  * UserPermissionAccess routes
  */
@@ -33,6 +32,14 @@ router.post(
     trimRequest.all,
     validate.createItem,
     controller.createItem
+)
+
+router.post(
+    '/:id',
+    requireAuth,
+    AuthController.roleAuthorization(['user', 'admin']),
+    trimRequest.all,
+    controller.closeItem
 )
 
 module.exports = router
