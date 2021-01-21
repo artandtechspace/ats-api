@@ -22,8 +22,8 @@ exports.createItem = [
             .not()
             .isEmpty()
             .withMessage('IS_EMPTY'),
-    ], "ONEOF_permissionId_permission"),
+    ]),
     (req, res, next) => {
         validationResult(req, res, next)
-    }
+    },
 ]
