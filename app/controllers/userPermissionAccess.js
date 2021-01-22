@@ -19,8 +19,8 @@ const createAccessItem = async req => {
         const userPermissionsAccess = new userPermissionsAccessModel({
             userid: req.userid,
             userNameCache: req.userNameCache,
-            permissionId: req.permissionId,
-            permissionNameCache: req.permissionNameCache
+            permissionId: req.perm._id,
+            permissionNameCache: req.perm.permission
         })
         userPermissionsAccess.save((err, item) => {
             if (err) {
@@ -33,10 +33,9 @@ const createAccessItem = async req => {
 
 const closeAccessItem = async id => {
     return new Promise((resolve, reject) => {
-        userPermissionsAccessModel.findByIdAndUpdate({_id: id}, {end: true},
+        userPermissionsAccessModel.findByIdAndUpdate(id, {end: true},
             {
-                new: true,
-                runValidators: true,
+                new: true
             },
             (err, item) => {
                 if (err) {
@@ -47,33 +46,20 @@ const closeAccessItem = async id => {
     })
 }
 
-/**
- * Finds user by ID
- * @param userId
- */
-const findUserById = async userId => {
-    return new Promise((resolve, reject) => {
-        userModel.findById(userId, (err, item) => {
-            utils.itemNotFound(err, item, reject, 'USER_DOES_NOT_EXIST')
-            resolve(item)
-        })
-    })
-}
-
 exports.createItem = async (req, res) => {
     try {
-        const user = await findUserById(req.user._id)
+        const user = req.user
         const data = matchedData(req);
         if (data.permissionId !== undefined) data.perm = await permissioner.permissionGetById(data.permissionId)
         if (data.permission !== undefined) data.perm = await permissioner.permissionGetByName(data.permission)
         data.userid = user._id
         data.userNameCache = user.name
-        data.permissionNameCache = data.perm.permission
-        data.permissionId = data.perm._id
-        const permission = await permissioner.permissionIsAssigned(user, data.perm._id, 'PERMISSION_IS_NOT_ASSIGNED')
-        await permissioner.permissionIsRevokedActive(user, permission._id, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED', true)
-        await machiner.isMachineActiveByPermId(data.permissionId)
-        //unlock Machine
+        const assignedPermission = await permissioner.permissionIsAssigned(user, data.perm._id, 'PERMISSION_IS_NOT_ASSIGNED')
+        await permissioner.permissionIsRevokedActive(user, assignedPermission._id, 'PERMISSION_REVOKE_IS_ASSIGNED', true)
+        await machiner.isMachineActiveByPermId(data.permissionId, 'MACHINE_ALREADY_IN_USE')
+        const act = {ipaddress: data.perm.ipaddress, userId: user._id, userName: user.name}
+        if (process.env.NODE_ENV === 'production') await machiner.activateMachine(act)
+        else console.log("activate:", act)
         const resolve = await createAccessItem(data)
         res.status(201).json(resolve)
     } catch (error) {
@@ -83,9 +69,18 @@ exports.createItem = async (req, res) => {
 
 exports.closeItem = async (req, res) => {
     try {
-
-        await machiner.isMachineActiveByAccessId(data.permissionId)
-        res.status(201).json(data)
+        const user = req.user
+        const data = matchedData(req);
+        if (data.permissionId !== undefined) data.perm = await permissioner.permissionGetById(data.permissionId)
+        if (data.permission !== undefined) data.perm = await permissioner.permissionGetByName(data.permission)
+        const assignedPermission = await permissioner.permissionIsAssigned(user, data.perm._id, 'PERMISSION_IS_NOT_ASSIGNED')
+        await permissioner.permissionIsRevokedActive(user, assignedPermission._id, 'PERMISSION_REVOKE_IS_ASSIGNED', true)
+        const userPermAccess =  JSON.parse(JSON.stringify(await machiner.isMachineActiveByPermId(data.permissionId, "MACHINE_NOT_IN_USE", true)))
+        const act = {ipaddress: data.perm.ipaddress, userId: user._id, userName: user.name}
+        if (process.env.NODE_ENV === 'production') await machiner.deactivateMachine(act)
+        else console.log("deactivate:", act)
+        const resolve = await closeAccessItem(userPermAccess[0]._id)
+        res.status(201).json(resolve)
     } catch (error) {
         utils.handleError(res, error)
     }
