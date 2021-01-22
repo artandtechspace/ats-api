@@ -1,5 +1,7 @@
 const userPermAccessModel = require('../models/userPermissionAccess')
+const utils = require('../middleware/utils')
 const {itemAlreadyExists, itemNotFound} = require('../middleware/utils')
+const axios = require('axios')
 
 module.exports = {
 
@@ -27,9 +29,27 @@ module.exports = {
         })
     },
 
-    async activateMachine(Id){
+    async activateMachine(data) {
         return new Promise((resolve, reject) => {
-            resolve()
+            axios.post(data.ip + "/activate", data)
+                .then(function (response) {
+                    resolve(response)
+                })
+                .catch(function (error) {
+                    reject(utils.buildErrObject(422, error))
+                });
         })
-    }
+    },
+
+    async deactivateMachine(data) {
+        return new Promise((resolve, reject) => {
+            axios.post(data.ip + "/deactivate", data)
+                .then(function (response) {
+                    resolve(response)
+                })
+                .catch(function (error) {
+                    reject(utils.buildErrObject(422, error))
+                });
+        })
+    },
 }
