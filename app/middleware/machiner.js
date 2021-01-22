@@ -5,33 +5,35 @@ const axios = require('axios')
 
 module.exports = {
 
-    async isMachineActiveByPermId(Id) {
+    async isMachineActiveByPermId(permId, message, invert = false) {
         return new Promise((resolve, reject) => {
-            userPermAccessModel.find({permissionId: Id.toString()})
+            userPermAccessModel.find({permissionId: permId.toString()})
                 .where('end')
                 .equals('false')
                 .exec((err, item) => {
-                    if (item.length > 0) itemAlreadyExists(err, item, reject, 'MACHINE_ALREADY_IN_USE')
-                    resolve()
+                    if (invert && item.length > 0) resolve(item)
+                    if (invert || item.length > 0) itemAlreadyExists(err, item, reject, message)
+                    resolve(item)
                 })
         })
     },
 
-    async isMachineActiveByAccessId(Id) {
+    async isMachineActiveByAccessId(accessId, message, invert = false) {
         return new Promise((resolve, reject) => {
-            userPermAccessModel.find({permissionId: Id.toString()})
+            userPermAccessModel.find({_id: accessId.toString()})
                 .where('end')
                 .equals('false')
                 .exec((err, item) => {
-                    if (item.length > 0) itemAlreadyExists(err, item, reject, 'MACHINE_ALREADY_IN_USE')
-                    resolve()
+                    if (invert && item.length > 0) resolve(item)
+                    if (invert || item.length > 0) itemAlreadyExists(err, item, reject, message)
+                    resolve(item)
                 })
         })
     },
 
     async activateMachine(data) {
         return new Promise((resolve, reject) => {
-            axios.post(data.ip + "/activate", data)
+            axios.post(data.ipaddress + "/activate", data)
                 .then(function (response) {
                     resolve(response)
                 })
@@ -43,7 +45,7 @@ module.exports = {
 
     async deactivateMachine(data) {
         return new Promise((resolve, reject) => {
-            axios.post(data.ip + "/deactivate", data)
+            axios.post(data.ipaddress + "/deactivate", data)
                 .then(function (response) {
                     resolve(response)
                 })
