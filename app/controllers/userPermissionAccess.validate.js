@@ -6,7 +6,7 @@ const {check, oneOf} = require('express-validator');
 /**
  * Validates create new item request
  */
-exports.createItem = [
+exports.actItem = [
     oneOf([
         check('permissionId')
             .exists()
