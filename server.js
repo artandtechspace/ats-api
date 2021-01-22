@@ -67,6 +67,8 @@ app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
 app.use(require('./app/routes'))
 app.listen(app.get('port'))
+
+// List all api endpoints
 console.table(listEndpoints(app), ['path', 'methods'])
 
 // Init MongoDB
