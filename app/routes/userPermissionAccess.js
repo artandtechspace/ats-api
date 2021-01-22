@@ -30,8 +30,17 @@ router.post(
     requireAuth,
     AuthController.roleAuthorization(['user', 'admin']),
     trimRequest.all,
-    validate.createItem,
+    validate.actItem,
     controller.createItem
+)
+
+router.post(
+    '/deactivate',
+    requireAuth,
+    AuthController.roleAuthorization(['user', 'admin']),
+    trimRequest.all,
+    validate.actItem,
+    controller.closeItem
 )
 
 router.post(
