@@ -12,6 +12,14 @@ const UserAccessSchema = new mongoose.Schema(
             lowercase: true,
             required: true
         },
+        userid: {
+            type: String,
+            required: true
+        },
+        userNameCache: {
+            type: String,
+            required: true
+        },
         ip: {
             type: String,
             required: true
