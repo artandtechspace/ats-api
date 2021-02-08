@@ -1,12 +1,8 @@
-const jwt = require('jsonwebtoken')
-const userModel = require('../models/user')
-const permModel = require('../models/permission')
 const userPermissionsAccessModel = require('../models/userPermissionAccess')
 const utils = require('../middleware/utils')
 const permissioner = require('../middleware/permissioner')
 const machiner = require('../middleware/machiner')
 const {matchedData} = require('express-validator')
-const auth = require('../middleware/auth')
 const db = require('../middleware/db')
 
 /**
@@ -53,7 +49,7 @@ exports.createItem = async (req, res) => {
         if (data.permissionId !== undefined) data.perm = await permissioner.permissionGetById(data.permissionId)
         if (data.permission !== undefined) data.perm = await permissioner.permissionGetByName(data.permission)
         data.userid = user._id
-        data.userNameCache = user.name
+        data.userNameCache = utils.getFullName(user)
         const assignedPermission = await permissioner.permissionIsAssigned(user, data.perm._id, 'PERMISSION_IS_NOT_ASSIGNED')
         await permissioner.permissionIsRevokedActive(user, assignedPermission._id, 'PERMISSION_REVOKE_IS_ASSIGNED', true)
         await machiner.isMachineActiveByPermId(data.permissionId, 'MACHINE_ALREADY_IN_USE')
