@@ -6,7 +6,13 @@ const {check} = require('express-validator')
  * Validates create new item request
  */
 exports.createItem = [
-    check('name')
+    check('firstname')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('lastname')
         .exists()
         .withMessage('MISSING')
         .not()
@@ -76,7 +82,13 @@ exports.createItem = [
  * Validates update item request
  */
 exports.updateItem = [
-    check('name')
+    check('firstname')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('lastname')
         .exists()
         .withMessage('MISSING')
         .not()
