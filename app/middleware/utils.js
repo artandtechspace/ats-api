@@ -136,3 +136,15 @@ exports.itemAlreadyExists = (err, item, reject, message) => {
         reject(this.buildErrObject(422, message))
     }
 }
+
+exports.datePlusHoursOlder = (date, hours) => {
+    if (new Date(date.getTime() + hours) >= Date.now()) {
+        console.log(true)
+        return true
+    }
+}
+
+exports.getFullName = (user) => {
+    if (user.secondFirstname) return user.firstname + " " + user.secondFirstname + " " + user.lastname
+    else return user.firstname + " " + user.lastname
+}
