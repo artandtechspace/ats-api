@@ -45,7 +45,8 @@ const generateToken = user => {
 const setUserInfo = req => {
     let user = {
         _id: req._id,
-        name: req.name,
+        firstname: req.firstname,
+        lastname: req.lastname,
         email: req.email,
         role: req.role,
         verified: req.verified
@@ -70,6 +71,8 @@ const saveUserAccessAndReturnToken = async (req, user) => {
         const userAccess = new UserAccess({
             email: user.email,
             ip: utils.getIP(req),
+            userid: user._id,
+            userNameCache: utils.getFullName(user),
             browser: utils.getBrowserInfo(req),
             country: utils.getCountry(req)
         })
@@ -222,7 +225,8 @@ const passwordsDoNotMatch = async user => {
 const registerUser = async req => {
     return new Promise((resolve, reject) => {
         const user = new User({
-            name: req.name,
+            firstname: req.firstname,
+            lastname: req.lastname,
             email: req.email,
             password: req.password,
             verification: uuid.v4()
