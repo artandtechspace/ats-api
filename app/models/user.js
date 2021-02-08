@@ -7,7 +7,15 @@ const UserPermissionRevokeSchema = require('./userPermissionRevoke')
 
 const UserSchema = new mongoose.Schema(
     {
-        name: {
+        firstname: {
+            type: String,
+            required: true
+        },
+        secondFirstname:{
+            type: String,
+            required: true
+        },
+        lastname:{
             type: String,
             required: true
         },
