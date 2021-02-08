@@ -18,6 +18,16 @@ const PermissionSchema = new mongoose.Schema(
             enum: ["machine", "door", "equipment"],
             required: true
         },
+        supervised: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        supervisedAdmin: {
+            type: Boolean,
+            required: true,
+            default: true
+        },
         ipaddress: {
             type: String,
             validate: {
