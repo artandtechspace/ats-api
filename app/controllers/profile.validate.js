@@ -6,8 +6,15 @@ const {check} = require('express-validator')
  * Validates update profile request
  */
 exports.updateProfile = [
-    check('name')
-        .optional()
+    check('firstname')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('lastname')
+        .exists()
+        .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
