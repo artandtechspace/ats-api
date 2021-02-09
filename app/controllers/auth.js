@@ -18,15 +18,17 @@ const LOGIN_ATTEMPTS = 5
 /**
  * Generates a token
  * @param {Object} user - user object
+ * @param {Object} userAccessId - userAccess object
  */
-const generateToken = user => {
+const generateToken = (user, userAccessId) => {
     // Gets expiration time
     const expiration = Math.floor(Date.now() / 1000) + 60 * process.env.JWT_EXPIRATION_IN_MINUTES
     // returns signed and encrypted token
     return auth.encrypt(jwt.sign(
         {
             data: {
-                _id: user
+                _id: user,
+                _aid: userAccessId
             },
             exp: expiration
         },
@@ -76,14 +78,17 @@ const saveUserAccessAndReturnToken = async (req, user) => {
             browser: utils.getBrowserInfo(req),
             country: utils.getCountry(req)
         })
-        userAccess.save(err => {
+        userAccess.save((err, item) => {
             if (err) {
                 reject(utils.buildErrObject(422, err.message))
             }
             const userInfo = setUserInfo(user)
+            if (process.env.NODE_ENV !== 'production') {
+                userInfo.verification = item.verification
+            }
             // Returns data with access.js token
             resolve({
-                token: generateToken(user._id),
+                token: generateToken(user._id, item._id),
                 user: userInfo
             })
         })
@@ -250,7 +255,7 @@ const returnRegisterToken = (item, userInfo) => {
         userInfo.verification = item.verification
     }
     const data = {
-        token: generateToken(item._id),
+        token: generateToken(item._id, userInfo._id),
         user: userInfo
     }
     return data
@@ -488,8 +493,7 @@ exports.register = async (req, res) => {
         const doesEmailExists = await emailer.emailExists(req.email)
         if (!doesEmailExists) {
             const item = await registerUser(req)
-            const userInfo = setUserInfo(item)
-            const response = returnRegisterToken(item, userInfo)
+            const response = saveUserAccessAndReturnToken(req, item)
             emailer.sendRegistrationEmailMessage(locale, item)
             res.status(201).json(response)
         }
