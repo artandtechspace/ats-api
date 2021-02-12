@@ -18,6 +18,11 @@ exports.updateProfile = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('secondFirstname')
+        .optional()
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('phone')
         .optional()
         .not()
