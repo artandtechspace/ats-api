@@ -1,7 +1,19 @@
 const userPermAccessModel = require('../models/userPermissionAccess')
-const utils = require('../middleware/utils')
-const {itemAlreadyExists, itemNotFound} = require('../middleware/utils')
+const {itemAlreadyExists, buildErrObject} = require('../middleware/utils')
 const axios = require('axios')
+
+
+const isSupervised = async (permission, user, reject) => {
+    if (permission.supervised) {
+        if (permission.supervisedAdmin && user.role === "admin")
+            return true
+        else {
+            //check for active supervisor
+        }
+    } else {
+        return true
+    }
+}
 
 module.exports = {
 
@@ -57,7 +69,7 @@ module.exports = {
                     resolve(response)
                 })
                 .catch(function (error) {
-                    reject(utils.buildErrObject(422, error))
+                    reject(buildErrObject(422, error))
                 });
         })
     },
@@ -76,7 +88,7 @@ module.exports = {
                     resolve(response)
                 })
                 .catch(function (error) {
-                    reject(utils.buildErrObject(422, error))
+                    reject(buildErrObject(422, error))
                 });
         })
     },
