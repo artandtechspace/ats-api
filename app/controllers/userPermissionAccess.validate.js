@@ -1,7 +1,5 @@
 const {validationResult} = require('../middleware/utils')
-
 const {check, oneOf} = require('express-validator');
-
 
 /**
  * Validates create new item request
