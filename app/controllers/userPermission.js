@@ -1,6 +1,7 @@
 const userModel = require('../models/user')
 const utils = require('../middleware/utils')
 const permissioner = require('../middleware/permissioner')
+const permissionModel = require('../models/permission')
 const {matchedData} = require('express-validator')
 const db = require('../middleware/db')
 
@@ -139,6 +140,18 @@ const findUserById = async userId => {
 }
 
 /**
+ * Finds user by ID
+ * @param permissionID
+ */
+const findPermissionById = async permissionID => {
+    return new Promise((resolve, reject) => {
+        permissionModel.findById(permissionID, (err, item) => {
+            resolve(item)
+        })
+    })
+}
+
+/**
  * Create item function called by route
  * @param {Object} req - request object
  * @param {Object} res - response object
@@ -151,6 +164,40 @@ exports.getItems = async (req, res) => {
             permission: user.permission
         }
         res.status(200).json(_data)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+
+/**
+ * Create item function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.getUserItems = async (req, res) => {
+    try {
+        let user = await findUserById(req.user._id)
+        const data = {permissions:[]}
+        for (let permission of user.permissions) {
+            if (permission.permissionId) {
+                permission = JSON.parse(JSON.stringify(permission))
+                const item = await findPermissionById(permission.permissionId)
+                permission.revoke = []
+                user.permissionsRevoke.forEach(revoke => {
+                    if (revoke.permissionIdLink === permission._id) permission.revoke.push(revoke)
+                })
+                permission.permission = item.permission
+                permission.permissionName = item.permissionName
+                permission.type = item.type
+                permission.description = item.description
+                permission.supervised = item.supervised
+                permission.supervisedAdmin = item.supervisedAdmin
+                console.log(permission)
+                data.permissions.push(permission)
+            }
+        }
+        res.status(200).json(JSON.parse(JSON.stringify(data)))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -185,7 +232,7 @@ exports.createItem = async (req, res) => {
         const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
         await permissioner.permissionIsIdGood(req.body.permission)
-        await permissioner.permissionIsAssigned(user, req.body.permission, 'PERMISSION_ALREADY_ASSIGNED')
+        await permissioner.permissionIsAlreadyAssigned(user, req.body.permission, 'PERMISSION_ALREADY_ASSIGNED')
         const item = await createItem(user, req)
         res.status(201).json(item)
     } catch (error) {
@@ -216,7 +263,7 @@ exports.pardonRevokeItem = async (req, res) => {
         const id = await utils.isIDGood(req.params.id)
         let user = await db.getItem(id, userModel)
         await permissioner.permissionIdIsLinkAssigned(user, req.body.permissionIdLink)
-        await permissioner.permissionIsRevokedActive(user, req.body.permissionIdLink, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED', true)
+        await permissioner.permissionIsRevokedActive(user, req.body.permissionIdLink, 'PERMISSION_REVOKE_IS_NOT_ASSIGNED')
         const item = await pardonRevokeItem(user, req.body.permissionIdLink)
         res.status(201).json(item)
     } catch (error) {
