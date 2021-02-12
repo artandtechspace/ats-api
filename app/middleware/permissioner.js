@@ -54,9 +54,31 @@ module.exports = {
      */
     async permissionIsAssigned(user, id, message) {
         return new Promise((resolve, reject) => {
-            const item = user.permissions.find(buffer => buffer.permissionId === id.toString());
+            let item = user.permissions.find(buffer => buffer.permissionId === id.toString());
+            if (item === undefined) {
+                item = null
+            }
             itemNotFound(null, item, reject, message)
             resolve(item)
+        })
+    },
+
+
+    /**
+     * Checks if permission id exists in user document
+     * @param {Object} user - user as model
+     * @param {string} id - permissionId
+     * @param {string} message - error json message
+     * @return {Object} permission
+     */
+    async permissionIsAlreadyAssigned(user, id, message) {
+        return new Promise((resolve, reject) => {
+            let item = user.permissions.find(buffer => buffer.permissionId === id.toString());
+            if (item === undefined) {
+                item = null
+            }
+            itemAlreadyExists(null, item, reject, message)
+            resolve(true)
         })
     },
 
