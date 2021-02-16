@@ -24,7 +24,7 @@ const generateToken = (user, userAccessId) => {
     // Gets expiration time
     const expiration = Math.floor(Date.now() / 1000) + 60 * process.env.JWT_EXPIRATION_IN_MINUTES
     // returns signed and encrypted token
-    return auth.encrypt(jwt.sign(
+    return jwt.sign(
         {
             data: {
                 _id: user,
@@ -36,7 +36,6 @@ const generateToken = (user, userAccessId) => {
         {
             algorithm: 'HS512',
         }
-        )
     )
 }
 
@@ -421,6 +420,7 @@ const forgotPasswordResponse = item => {
 /**
  * Checks against user if has quested role
  * @param {Object} data - data object
+ * @param req
  * @param {*} next - next callback
  */
 const checkPermissions = async (data, req, next) => {
@@ -442,7 +442,7 @@ const checkPermissions = async (data, req, next) => {
 const getUserIdFromToken = async token => {
     return new Promise((resolve, reject) => {
         // Decrypts, verifies and decode token
-        jwt.verify(auth.decrypt(token), process.env.JWT_SECRET, (err, decoded) => {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
                 reject(utils.buildErrObject(409, 'BAD_TOKEN'))
             }
