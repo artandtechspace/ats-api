@@ -11,11 +11,11 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        secondFirstname:{
+        secondFirstname: {
             type: String,
             required: false
         },
-        lastname:{
+        lastname: {
             type: String,
             required: true
         },
@@ -62,14 +62,18 @@ const UserSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
+        birthday:{
+            type: String,
+            required:false
+        },
         phone: {
             type: String
         },
-        city: {
-            type: String
+        customerId: {
+            type: String,
         },
-        country: {
-            type: String
+        addressId:{
+            type:String
         },
         idDiscord: {
             type: String,
