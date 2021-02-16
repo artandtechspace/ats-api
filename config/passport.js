@@ -18,10 +18,6 @@ const jwtExtractor = req => {
     } else if (req.query.token) {
         token = req.query.token.trim()
     }
-    if (token) {
-        // Decrypts token
-        token = auth.decrypt(token)
-    }
     return token
 }
 
