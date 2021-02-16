@@ -1,5 +1,5 @@
 const {validationResult} = require('../middleware/utils')
-const {check} = require('express-validator')
+const {check, param} = require('express-validator')
 
 exports.paymentCustomerCreateAddress = [
     check('firstname')
