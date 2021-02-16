@@ -12,7 +12,7 @@ const TRANSACTION_SUCCESS_STATUSES = [
     Transaction.Status.SubmittedForSettlement,
 ];
 
-const createCustomer = async (req, firstname, lastname, email, company = null, phone = null) => {
+const createCustomer = async (req, firstName, lastName, email, company = null, phone = null) => {
     return new Promise((resolve, reject) => {
         if (typeof req.user.customerId !== 'undefined') {
             gateway.customer.find(req.user.customerId)
@@ -27,8 +27,8 @@ const createCustomer = async (req, firstname, lastname, email, company = null, p
                 })
         } else {
             gateway.customer.create({
-                firstName: firstname,
-                lastName: lastname,
+                firstName: firstName,
+                lastName: lastName,
                 email: email,
                 company: company,
                 phone: phone
@@ -77,8 +77,9 @@ const createAddress = async (customerId, firstName, lastName, company = null, st
             countryCodeAlpha2: countryCodeAlpha2
         })
             .then(result => {
-                setAddress(result.id)
-                resolve(result)
+                setAddress(result.id) // aösoghaädsgj#aäpog
+                if (!result.success) reject(utils.buildErrObject(402, "CAN_NOT_FIND_ADDRESS"))
+                resolve(result.address)
             })
             .catch(err => {
                 reject(utils.buildErrObject(500, "INTERNAL_SERVER_ERROR " + err))
@@ -86,8 +87,9 @@ const createAddress = async (customerId, firstName, lastName, company = null, st
     })
 }
 
-const setAddress = async (userId, addressId) => {
+const userSetAddress = async (userId, addressId) => {
     return new Promise((resolve, reject) => {
+        console.log("err")
         userModel.findByIdAndUpdate(
             {_id: userId},
             {addressId: addressId},
@@ -96,7 +98,7 @@ const setAddress = async (userId, addressId) => {
                 if (!user) {
                     reject(utils.buildErrObject(500, "Fatal error contact Admin"))
                 }
-                resolve(result.customer)
+                resolve(user)
             }
         )
     })
@@ -104,7 +106,8 @@ const setAddress = async (userId, addressId) => {
 
 const updateAddress = async (customerId, addressId, address) => {
     return new Promise((resolve, reject) => {
-        gateway.address.create(customerId, addressId, address)
+        console.log(address)
+        gateway.address.update(customerId, addressId, address)
             .then(result => {
                 resolve(result)
             })
@@ -116,7 +119,19 @@ const updateAddress = async (customerId, addressId, address) => {
 
 const removeAddress = async (customerId, addressId) => {
     return new Promise((resolve, reject) => {
-        gateway.address.create(customerId, addressId)
+        gateway.address.delete(customerId, addressId)
+            .then(result => {
+                resolve("success")
+            })
+            .catch(err => {
+                reject(utils.buildErrObject(500, "INTERNAL_SERVER_ERROR " + err))
+            })
+    })
+}
+
+const getAddress = async (customerId, addressId) => {
+    return new Promise((resolve, reject) => {
+        gateway.address.find(customerId, addressId)
             .then(result => {
                 resolve(result)
             })
@@ -126,7 +141,7 @@ const removeAddress = async (customerId, addressId) => {
     })
 }
 
-const getAddress = async (customerId, addressId) => {
+const getUserAddress = async (customerId, addressId) => {
     return new Promise((resolve, reject) => {
         if (addressId === "") reject(utils.buildErrObject(402, "ADDRESS_IS_NOT_SET_AT_USER"))
         gateway.address.find(customerId, addressId)
@@ -168,7 +183,7 @@ const getPlan = async => {
 
 exports.createCheckout = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstname, req.user.lastname, email)
+        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, email)
         res.status(200).json(await createClientToken(customer.id))
     } catch (error) {
         utils.handleError(res, error)
@@ -177,7 +192,7 @@ exports.createCheckout = async (req, res, next) => {
 
 exports.getCustomer = async (req, res, next) => {
     try {
-        res.status(200).json(await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email))
+        res.status(200).json(await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -185,7 +200,7 @@ exports.getCustomer = async (req, res, next) => {
 
 exports.createAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email)
+        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
         if (!req.body.company) req.body.company = ""
         if (!req.body.extendedAddress) req.body.extendedAddress = ""
         res.status(200).json(await createAddress(customer.id, req.body.firstName, req.body.lastName, req.body.company, req.body.streetAddress, req.body.extendedAddress, req.body.locality, req.body.region, req.body.postalCode, req.body.countryCodeAlpha2))
@@ -196,7 +211,7 @@ exports.createAddress = async (req, res, next) => {
 
 exports.updateAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email)
+        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
         const address = await getAddress(customer.id, req.params.id)
         res.status(200).json(await updateAddress(customer.id, address.id, req.body))
     } catch (error) {
@@ -206,8 +221,9 @@ exports.updateAddress = async (req, res, next) => {
 
 exports.removeAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email)
-        res.status(200).json(await removeAddress(customer.id, req.body.addressId))
+        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
+        const address = await getAddress(customer.id,req.params.id)
+        res.status(200).json(await removeAddress(customer.id, address.id))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -215,9 +231,9 @@ exports.removeAddress = async (req, res, next) => {
 
 exports.getAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email)
+        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
         if (!req.user.addressId) req.user.addressId = ""
-        res.status(200).json(await getAddress(customer.id, req.user.addressId))
+        res.status(200).json(await getUserAddress(customer.id, req.user.addressId))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -225,10 +241,10 @@ exports.getAddress = async (req, res, next) => {
 
 exports.setAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email)
-        if (!req.user.addressId) req.user.addressId = ""
-        const address = await getAddress(customer.id, req.user.addressId)
-        res.status(200).json(await setAddress(req.user._id, address.id))
+        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
+        if (!req.params.id) req.params.id = ""
+        const address = await getAddress(customer.id, req.params.id)
+        res.status(201).json(await userSetAddress(req.user._id, address.id))
     } catch (error) {
         utils.handleError(res, error)
     }
