@@ -2,13 +2,13 @@ const {validationResult} = require('../middleware/utils')
 const {check, param} = require('express-validator')
 
 exports.paymentCustomerCreateAddress = [
-    check('firstname')
+    check('firstName')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('lastname')
+    check('lastName')
         .exists()
         .withMessage('MISSING')
         .not()
@@ -82,12 +82,12 @@ exports.paymentCustomerUpdateAddress = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('firstname')
+    check('firstName')
         .optional()
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('lastname')
+    check('lastName')
         .optional()
         .not()
         .isEmpty()
