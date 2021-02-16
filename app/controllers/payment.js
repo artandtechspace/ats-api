@@ -62,6 +62,8 @@ const createCustomer = async (req, firstname, lastname, email, company = null, p
 
 const createAddress = async (customerId, firstName, lastName, company = null, streetAddress, extendedAddress = null, locality, region, postalCode, countryCodeAlpha2) => {
     return new Promise((resolve, reject) => {
+        if (company === "") company = null
+        if (extendedAddress === "") extendedAddress = null
         gateway.address.create({
             customerId: customerId,
             firstName: firstName,
@@ -124,9 +126,9 @@ const removeAddress = async (customerId, addressId) => {
     })
 }
 
-const getAddress = async (customerId, addressId = null) => {
+const getAddress = async (customerId, addressId) => {
     return new Promise((resolve, reject) => {
-        if (addressId) reject(utils.buildErrObject(402, "ADDRESS_IS_NOT_SET"))
+        if (addressId === "") reject(utils.buildErrObject(402, "ADDRESS_IS_NOT_SET_AT_USER"))
         gateway.address.find(customerId, addressId)
             .then(result => {
                 resolve(result)
@@ -184,8 +186,8 @@ exports.getCustomer = async (req, res, next) => {
 exports.createAddress = async (req, res, next) => {
     try {
         const customer = await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email)
-        if (!req.body.company) req.body.company = null
-        if (!req.body.extendedAddress) req.body.extendedAddress = null
+        if (!req.body.company) req.body.company = ""
+        if (!req.body.extendedAddress) req.body.extendedAddress = ""
         res.status(200).json(await createAddress(customer.id, req.body.firstName, req.body.lastName, req.body.company, req.body.streetAddress, req.body.extendedAddress, req.body.locality, req.body.region, req.body.postalCode, req.body.countryCodeAlpha2))
     } catch (error) {
         utils.handleError(res, error)
@@ -214,6 +216,7 @@ exports.removeAddress = async (req, res, next) => {
 exports.getAddress = async (req, res, next) => {
     try {
         const customer = await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email)
+        if (!req.user.addressId) req.user.addressId = ""
         res.status(200).json(await getAddress(customer.id, req.user.addressId))
     } catch (error) {
         utils.handleError(res, error)
@@ -223,7 +226,7 @@ exports.getAddress = async (req, res, next) => {
 exports.setAddress = async (req, res, next) => {
     try {
         const customer = await createCustomer(req, req.user.firstname, req.user.lastname, req.user.email)
-        if (!req.user.addressId) req.user.addressId = null
+        if (!req.user.addressId) req.user.addressId = ""
         const address = await getAddress(customer.id, req.user.addressId)
         res.status(200).json(await setAddress(req.user._id, address.id))
     } catch (error) {
