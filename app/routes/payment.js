@@ -85,7 +85,7 @@ router.post(
  * Create customer address route
  */
 router.patch(
-    '/customer/address:id',
+    '/customer/address/:id',
     requireAuth,
     AuthController.roleAuthorization(['user', 'admin']),
     trimRequest.all,
@@ -97,7 +97,7 @@ router.patch(
  * Create customer address route
  */
 router.delete(
-    '/customer/address:id',
+    '/customer/address/:id',
     requireAuth,
     AuthController.roleAuthorization(['user', 'admin']),
     trimRequest.all,
@@ -109,7 +109,7 @@ router.delete(
  * Create customer address route
  */
 router.put(
-    '/customer/address:id',
+    '/customer/address/:id',
     requireAuth,
     AuthController.roleAuthorization(['user', 'admin']),
     trimRequest.all,
