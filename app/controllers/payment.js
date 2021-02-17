@@ -133,9 +133,11 @@ const getAddress = async (customerId, addressId) => {
     return new Promise((resolve, reject) => {
         gateway.address.find(customerId, addressId)
             .then(result => {
+                console.log(result)
                 resolve(result)
             })
             .catch(err => {
+                if (err.type === "notFoundError") reject(utils.buildErrObject(500, "ADDRESS_DO_NOT_EXITS"))
                 reject(utils.buildErrObject(500, "INTERNAL_SERVER_ERROR " + err))
             })
     })
@@ -165,6 +167,21 @@ const createClientToken = async customerId => {
             })
             .catch(err => {
                 reject(utils.buildErrObject(500, "INTERNAL_SERVER_ERROR " + err))
+            })
+    })
+}
+
+const unsetUserAddressId = async (userId) => {
+    return new Promise((resolve, reject) => {
+        userModel.findByIdAndUpdate(
+            userId,
+            {addressId: undefined},
+            {overwrite: true},
+            function (err, user) {
+                if (!user) {
+                    reject(utils.buildErrObject(500, "FAILED_TO_UNSET_USER_ADDRESS_ID"))
+                }
+                resolve(user)
             })
     })
 }
@@ -222,7 +239,8 @@ exports.updateAddress = async (req, res, next) => {
 exports.removeAddress = async (req, res, next) => {
     try {
         const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
-        const address = await getAddress(customer.id,req.params.id)
+        const address = await getAddress(customer.id, req.params.id)
+        if (req.params.id === req.user.addressId) await unsetUserAddressId(req.user._id, address.id)
         res.status(200).json(await removeAddress(customer.id, address.id))
     } catch (error) {
         utils.handleError(res, error)
