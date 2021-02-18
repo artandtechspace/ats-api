@@ -463,6 +463,7 @@ const getUserIdFromToken = async token => {
 exports.login = async (req, res) => {
     try {
         const data = matchedData(req)
+        console.log(req)
         const user = await findUser(data.email)
         await userIsBlocked(user)
         await checkLoginAttemptsAndBlockExpires(user)
@@ -488,13 +489,17 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
     try {
         // Gets locale from header 'Accept-Language'
+        const header = {
+            headers: req.headers,
+            connection: req.connection
+        }
         const locale = req.getLocale()
         req = matchedData(req)
         const doesEmailExists = await emailer.emailExists(req.email)
         if (!doesEmailExists) {
             const item = await registerUser(req)
-            const response = saveUserAccessAndReturnToken(req, item)
-            emailer.sendRegistrationEmailMessage(locale, item)
+            const response = await saveUserAccessAndReturnToken(header, item)
+            await emailer.sendRegistrationEmailMessage(locale, item)
             res.status(201).json(response)
         }
     } catch (error) {
