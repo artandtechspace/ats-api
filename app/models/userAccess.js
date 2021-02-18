@@ -22,15 +22,15 @@ const UserAccessSchema = new mongoose.Schema(
         },
         ip: {
             type: String,
-            required: true
+            required: false
         },
         browser: {
             type: String,
-            required: true
+            required: false
         },
         country: {
             type: String,
-            required: true
+            required: false
         }
     },
     {
