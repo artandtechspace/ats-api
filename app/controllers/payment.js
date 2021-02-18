@@ -2,6 +2,8 @@ const {Transaction} = require("braintree")
 const gateway = require("../../config/gateway")
 const userModel = require("../models/user")
 const utils = require('../middleware/utils')
+const payment = require('../middleware/payment')
+const {matchedData} = require('express-validator')
 const TRANSACTION_SUCCESS_STATUSES = [
     Transaction.Status.Authorizing,
     Transaction.Status.Authorized,
@@ -11,54 +13,6 @@ const TRANSACTION_SUCCESS_STATUSES = [
     Transaction.Status.SettlementPending,
     Transaction.Status.SubmittedForSettlement,
 ];
-
-const createCustomer = async (req, firstName, lastName, email, company = null, phone = null) => {
-    return new Promise((resolve, reject) => {
-        if (typeof req.user.customerId !== 'undefined') {
-            gateway.customer.find(req.user.customerId)
-                .then(response => {
-                    if (!response.success) {
-                        utils.buildErrObject(500, "CAN_NOT_GET_CUSTOMER")
-                    }
-                    resolve(response)
-                })
-                .catch(err => {
-                    reject(utils.buildErrObject(500, "INTERNAL_SERVER_ERROR " + err))
-                })
-        } else {
-            gateway.customer.create({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                company: company,
-                phone: phone
-            })
-                .then(result => {
-                    if (result.success) {
-                        userModel.findByIdAndUpdate(
-                            {_id: req.user._id},
-                            {customerId: result.customer.id},
-                            {new: true},
-                            function (err, user) {
-                                if (!user) {
-                                    gateway.customer.delete(result.customer.id).catch(err => {
-                                        if (err) utils.buildErrObject(500, "Fatal error contact Admin")
-                                        utils.buildErrObject(500, "ERROR_WITH_MONGODB")
-                                    });
-                                }
-                                resolve(result.customer)
-                            }
-                        )
-                    } else {
-                        reject(utils.buildErrObject(500, message))
-                    }
-                })
-                .catch(err => {
-                    reject(utils.buildErrObject(500, "INTERNAL_SERVER_ERROR " + err))
-                })
-        }
-    })
-}
 
 const createAddress = async (customerId, firstName, lastName, company = null, streetAddress, extendedAddress = null, locality, region, postalCode, countryCodeAlpha2) => {
     return new Promise((resolve, reject) => {
@@ -77,7 +31,7 @@ const createAddress = async (customerId, firstName, lastName, company = null, st
             countryCodeAlpha2: countryCodeAlpha2
         })
             .then(result => {
-                setAddress(result.id) // aösoghaädsgj#aäpog
+                userSetAddress(result.id) // aösoghaädsgj#aäpog
                 if (!result.success) reject(utils.buildErrObject(402, "CAN_NOT_FIND_ADDRESS"))
                 resolve(result.address)
             })
@@ -133,7 +87,6 @@ const getAddress = async (customerId, addressId) => {
     return new Promise((resolve, reject) => {
         gateway.address.find(customerId, addressId)
             .then(result => {
-                console.log(result)
                 resolve(result)
             })
             .catch(err => {
@@ -198,9 +151,23 @@ const getPlan = async => {
     })
 }
 
+const getCustomer = async (user) => {
+    if (typeof user.customerId !== 'undefined') {
+        const customer = await payment.customerFind(user.customerId).catch((error) => console.log(error))
+        if (customer) return customer
+    }
+    const customer = await payment.createCustomer(user.firstname, user.lastname, user.email)
+    await payment.setCustomerId(user._id, customer.id)
+        .catch(() => {
+            payment.deleteCustomer(customer.id)
+        })
+    return customer
+}
+
 exports.createCheckout = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, email)
+        const user = req.user
+        const customer = await getCustomer(user)
         res.status(200).json(await createClientToken(customer.id))
     } catch (error) {
         utils.handleError(res, error)
@@ -209,7 +176,8 @@ exports.createCheckout = async (req, res, next) => {
 
 exports.getCustomer = async (req, res, next) => {
     try {
-        res.status(200).json(await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email))
+        const user = req.user
+        return res.status(200).json(await getCustomer(user))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -217,10 +185,12 @@ exports.getCustomer = async (req, res, next) => {
 
 exports.createAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
-        if (!req.body.company) req.body.company = ""
-        if (!req.body.extendedAddress) req.body.extendedAddress = ""
-        res.status(200).json(await createAddress(customer.id, req.body.firstName, req.body.lastName, req.body.company, req.body.streetAddress, req.body.extendedAddress, req.body.locality, req.body.region, req.body.postalCode, req.body.countryCodeAlpha2))
+        const user = req.user
+        const data = matchedData(req)
+        const customer = await getCustomer(user)
+        if (!data.body.company) data.body.company = ""
+        if (!data.body.extendedAddress) data.body.extendedAddress = ""
+        res.status(200).json(await createAddress(customer.id, data.body.firstName, data.body.lastName, data.body.company, data.body.streetAddress, data.body.extendedAddress, data.body.locality, data.body.region, data.body.postalCode, data.body.countryCodeAlpha2))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -228,9 +198,11 @@ exports.createAddress = async (req, res, next) => {
 
 exports.updateAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
-        const address = await getAddress(customer.id, req.params.id)
-        res.status(200).json(await updateAddress(customer.id, address.id, req.body))
+        const user = req.user
+        const data = matchedData(req)
+        const customer = await getCustomer(user)
+        const address = await getAddress(customer.id, data.params.id)
+        res.status(200).json(await updateAddress(customer.id, address.id, data.body))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -238,9 +210,11 @@ exports.updateAddress = async (req, res, next) => {
 
 exports.removeAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
-        const address = await getAddress(customer.id, req.params.id)
-        if (req.params.id === req.user.addressId) await unsetUserAddressId(req.user._id, address.id)
+        const user = req.user
+        const data = matchedData(req)
+        const customer = await getCustomer(user)
+        const address = await getAddress(customer.id, data.params.id)
+        if (data.params.id === user.addressId) await unsetUserAddressId(user._id, address.id)
         res.status(200).json(await removeAddress(customer.id, address.id))
     } catch (error) {
         utils.handleError(res, error)
@@ -249,9 +223,11 @@ exports.removeAddress = async (req, res, next) => {
 
 exports.getAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
-        if (!req.user.addressId) req.user.addressId = ""
-        res.status(200).json(await getUserAddress(customer.id, req.user.addressId))
+        const user = req.user
+        const data = matchedData(req)
+        const customer = await getCustomer(user)
+        if (!user.addressId) user.addressId = ""
+        res.status(200).json(await getUserAddress(customer.id, user.addressId))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -259,10 +235,12 @@ exports.getAddress = async (req, res, next) => {
 
 exports.setAddress = async (req, res, next) => {
     try {
-        const customer = await createCustomer(req, req.user.firstName, req.user.lastName, req.user.email)
-        if (!req.params.id) req.params.id = ""
-        const address = await getAddress(customer.id, req.params.id)
-        res.status(201).json(await userSetAddress(req.user._id, address.id))
+        const user = req.user
+        const data = matchedData(req)
+        const customer = await getCustomer(user)
+        if (!data.params.id) data.params.id = ""
+        const address = await getAddress(customer.id, data.params.id)
+        res.status(201).json(await userSetAddress(user._id, address.id))
     } catch (error) {
         utils.handleError(res, error)
     }
