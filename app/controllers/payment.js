@@ -85,6 +85,7 @@ const removeAddress = async (customerId, addressId) => {
 
 const getAddress = async (customerId, addressId) => {
     return new Promise((resolve, reject) => {
+        console.log(customerId,addressId)
         gateway.address.find(customerId, addressId)
             .then(result => {
                 resolve(result)
@@ -186,11 +187,11 @@ exports.getCustomer = async (req, res, next) => {
 exports.createAddress = async (req, res, next) => {
     try {
         const user = req.user
-        const data = matchedData(req)
+        let data = matchedData(req)
         const customer = await getCustomer(user)
-        if (!data.body.company) data.body.company = ""
-        if (!data.body.extendedAddress) data.body.extendedAddress = ""
-        res.status(200).json(await createAddress(customer.id, data.body.firstName, data.body.lastName, data.body.company, data.body.streetAddress, data.body.extendedAddress, data.body.locality, data.body.region, data.body.postalCode, data.body.countryCodeAlpha2))
+        if (!data.company) data.company = ""
+        if (!data.extendedAddress) data.extendedAddress = ""
+        return res.status(200).json(await createAddress(customer.id, data.firstName, data.lastName, data.company, data.streetAddress, data.extendedAddress, data.locality, data.region, data.postalCode, data.countryCodeAlpha2))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -201,8 +202,9 @@ exports.updateAddress = async (req, res, next) => {
         const user = req.user
         const data = matchedData(req)
         const customer = await getCustomer(user)
-        const address = await getAddress(customer.id, data.params.id)
-        res.status(200).json(await updateAddress(customer.id, address.id, data.body))
+        const address = await getAddress(customer.id, data.id)
+        console.log(address)
+        res.status(200).json(await updateAddress(customer.id, address.id, data))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -213,8 +215,8 @@ exports.removeAddress = async (req, res, next) => {
         const user = req.user
         const data = matchedData(req)
         const customer = await getCustomer(user)
-        const address = await getAddress(customer.id, data.params.id)
-        if (data.params.id === user.addressId) await unsetUserAddressId(user._id, address.id)
+        const address = await getAddress(customer.id, data.id)
+        if (data.id === user.addressId) await unsetUserAddressId(user._id, address.id)
         res.status(200).json(await removeAddress(customer.id, address.id))
     } catch (error) {
         utils.handleError(res, error)
@@ -224,7 +226,7 @@ exports.removeAddress = async (req, res, next) => {
 exports.getAddress = async (req, res, next) => {
     try {
         const user = req.user
-        const data = matchedData(req)
+        matchedData(req)
         const customer = await getCustomer(user)
         if (!user.addressId) user.addressId = ""
         res.status(200).json(await getUserAddress(customer.id, user.addressId))
@@ -238,8 +240,8 @@ exports.setAddress = async (req, res, next) => {
         const user = req.user
         const data = matchedData(req)
         const customer = await getCustomer(user)
-        if (!data.params.id) data.params.id = ""
-        const address = await getAddress(customer.id, data.params.id)
+        if (!data.id) data.id = ""
+        const address = await getAddress(customer.id, data.id)
         res.status(201).json(await userSetAddress(user._id, address.id))
     } catch (error) {
         utils.handleError(res, error)
