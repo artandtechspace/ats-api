@@ -16,7 +16,7 @@ const createAccessItem = async req => {
             userid: req.userid,
             userNameCache: req.userNameCache,
             permissionId: req.perm._id,
-            permissionNameCache: req.perm.permission
+            permissionNameCache: req.perm.permissionName
         })
         userPermissionsAccess.save((err, item) => {
             if (err) {
