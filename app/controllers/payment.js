@@ -4,15 +4,7 @@ const userModel = require("../models/user")
 const utils = require('../middleware/utils')
 const payment = require('../middleware/payment')
 const {matchedData} = require('express-validator')
-const TRANSACTION_SUCCESS_STATUSES = [
-    Transaction.Status.Authorizing,
-    Transaction.Status.Authorized,
-    Transaction.Status.Settled,
-    Transaction.Status.Settling,
-    Transaction.Status.SettlementConfirmed,
-    Transaction.Status.SettlementPending,
-    Transaction.Status.SubmittedForSettlement,
-];
+
 
 const createAddress = async (customerId, firstName, lastName, company = null, streetAddress, extendedAddress = null, locality, region, postalCode, countryCodeAlpha2) => {
     return new Promise((resolve, reject) => {
@@ -85,7 +77,7 @@ const removeAddress = async (customerId, addressId) => {
 
 const getAddress = async (customerId, addressId) => {
     return new Promise((resolve, reject) => {
-        console.log(customerId,addressId)
+        console.log(customerId, addressId)
         gateway.address.find(customerId, addressId)
             .then(result => {
                 resolve(result)
@@ -117,7 +109,7 @@ const createClientToken = async customerId => {
         })
             .then(response => {
                 if (!response.success) reject(utils.buildErrObject(500, "CAN_NOT_CREATE_CLIENT_TOKEN"))
-                resolve(response.clientToken)
+                resolve({token: response.clientToken})
             })
             .catch(err => {
                 reject(utils.buildErrObject(500, "INTERNAL_SERVER_ERROR " + err))
