@@ -46,7 +46,7 @@ const UserSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ['user', 'admin'],
+            enum: ['user', 'admin', 'member'],
             default: 'user'
         },
         permissions: [UserPermissionSchema],
@@ -62,9 +62,9 @@ const UserSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-        birthday:{
+        birthday: {
             type: String,
-            required:false
+            required: false
         },
         phone: {
             type: String
@@ -72,8 +72,8 @@ const UserSchema = new mongoose.Schema(
         customerId: {
             type: String,
         },
-        addressId:{
-            type:String
+        addressId: {
+            type: String
         },
         idDiscord: {
             type: String,
