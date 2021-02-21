@@ -15,7 +15,7 @@ const PermissionSchema = new mongoose.Schema(
         },
         type: {
             type: String,
-            enum: ["machine", "door", "equipment"],
+            enum: ["machine", "equipment"],
             required: true
         },
         supervised: {
@@ -40,7 +40,7 @@ const PermissionSchema = new mongoose.Schema(
         description: {
             type: String,
             required: true
-        },
+        }
     },
     {
         versionKey: false,
