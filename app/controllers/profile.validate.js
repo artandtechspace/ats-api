@@ -7,14 +7,12 @@ const {check} = require('express-validator')
  */
 exports.updateProfile = [
     check('firstname')
-        .exists()
-        .withMessage('MISSING')
+        .optional()
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('lastname')
-        .exists()
-        .withMessage('MISSING')
+        .optional()
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
