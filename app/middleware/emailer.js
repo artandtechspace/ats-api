@@ -11,13 +11,16 @@ const {itemAlreadyExists} = require('../middleware/utils')
  */
 const sendEmail = async (data, callback) => {
     const auth = {
+        host: process.env.EMAIL_SMTP_DOMAIN_HOST, // smtp host for sending
+        port: process.env.EMAIL_SMTP_PORT, // secure false
+        secure: false, // true for 465, false for other ports
         auth: {
-            // eslint-disable-next-line camelcase
-            api_key: process.env.EMAIL_SMTP_API_MAILGUN,
-            domain: process.env.EMAIL_SMTP_DOMAIN_MAILGUN
-        }
+            user: process.env.EMAIL_SMTP_USER, // generated ethereal user
+            pass: process.env.EMAIL_SMTP_PASS, // generated ethereal password
+        },
     }
-    const transporter = nodemailer.createTransport(mg(auth))
+
+    const transporter = nodemailer.createTransport(auth)
     const mailOptions = {
         from: `${process.env.EMAIL_FROM_NAME} <${process.env.EMAIL_FROM_ADDRESS}>`,
         to: `${data.user.name} <${data.user.email}>`,
