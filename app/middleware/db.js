@@ -9,7 +9,7 @@ const {
  * @param {string} sort - field to sort from
  * @param {number} order - order for query (1,-1)
  */
-const buildSort = (sort, order) => {
+const buildSort = (sort = '', order = 1) => {
     const sortBy = {}
     sortBy[sort] = order
     return sortBy
@@ -19,7 +19,7 @@ const buildSort = (sort, order) => {
  * Hack for mongoose-paginate, removes 'id' from results
  * @param {Object} result - result object
  */
-const cleanPaginationID = result => {
+const cleanPaginationID = (result = {}) => {
     result.docs.map(element => delete element.id)
     return result
 }
@@ -28,20 +28,25 @@ const cleanPaginationID = result => {
  * Builds initial options for query
  * @param {Object} query - query object
  */
-const listInitOptions = async req => {
-    return new Promise(resolve => {
-        const order = req.query.order || -1
-        const sort = req.query.sort || 'createdAt'
-        const sortBy = buildSort(sort, order)
-        const page = parseInt(req.query.page, 10) || 1
-        const limit = parseInt(req.query.limit, 10) || 5
-        const options = {
-            sort: sortBy,
-            lean: true,
-            page,
-            limit
+const listInitOptions = async (req = {}) => {
+    return new Promise((resolve, reject) => {
+        try {
+            const order = req.query.order || -1
+            const sort = req.query.sort || 'createdAt'
+            const sortBy = buildSort(sort, order)
+            const page = parseInt(req.query.page, 10) || 1
+            const limit = parseInt(req.query.limit, 10) || 5
+            const options = {
+                sort: sortBy,
+                lean: true,
+                page,
+                limit
+            }
+            resolve(options)
+        } catch (error) {
+            console.log(error.message)
+            reject(buildErrObject(422, 'ERROR_WITH_INIT_OPTIONS'))
         }
-        resolve(options)
     })
 }
 
@@ -52,10 +57,9 @@ module.exports = {
      * query.fields should be the fields to search into (array)
      * @param {Object} query - query object
      */
-    async checkQueryString(query) {
+    async checkQueryString(query = {}) {
         return new Promise((resolve, reject) => {
             try {
-                console.log(query)
                 if (
                     typeof query.filter !== 'undefined' &&
                     typeof query.fields !== 'undefined'
@@ -67,7 +71,7 @@ module.exports = {
                     // Takes fields param and builds an array by splitting with ','
                     const arrayFields = query.fields.split(',')
                     // Adds SQL Like %word% with regex
-                    arrayFields.map(item => {
+                    arrayFields.map((item) => {
                         array.push({
                             [item]: {
                                 $regex: new RegExp(query.filter, 'i')
@@ -93,7 +97,7 @@ module.exports = {
      * @param model
      * @param {Object} query - query object
      */
-    async getItems(req, model, query) {
+    async getItems(req = {}, model = {}, query = {}) {
         const options = await listInitOptions(req)
         return new Promise((resolve, reject) => {
             model.paginate(query, options, (err, items) => {
@@ -112,8 +116,12 @@ module.exports = {
     async getItem(id, model) {
         return new Promise((resolve, reject) => {
             model.findById(id, (err, item) => {
-                itemNotFound(err, item, reject, 'NOT_FOUND')
-                resolve(item)
+                try {
+                    itemNotFound(err, item, 'NOT_FOUND')
+                    resolve(item)
+                } catch (error) {
+                    reject(error)
+                }
             })
         })
     },
@@ -121,8 +129,9 @@ module.exports = {
     /**
      * Creates a new item in database
      * @param {Object} req - request object
+     * @param model
      */
-    async createItem(req, model) {
+    async createItem(req = {}, model = {}) {
         return new Promise((resolve, reject) => {
             model.create(req, (err, item) => {
                 if (err) {
@@ -148,9 +157,13 @@ module.exports = {
                     new: true,
                     runValidators: true
                 },
-                (err, item) => {
-                    itemNotFound(err, item, reject, 'NOT_FOUND')
-                    resolve(item)
+                async (err, item) => {
+                    try {
+                        await itemNotFound(err, item, 'NOT_FOUND')
+                        resolve(item)
+                    } catch (error) {
+                        reject(error)
+                    }
                 }
             )
         })
@@ -160,11 +173,15 @@ module.exports = {
      * Deletes an item from database by id
      * @param {string} id - id of item
      */
-    async deleteItem(id, model) {
+    async deleteItem(id = '', model = {}) {
         return new Promise((resolve, reject) => {
             model.findByIdAndRemove(id, (err, item) => {
-                itemNotFound(err, item, reject, 'NOT_FOUND')
-                resolve(buildSuccObject('DELETED'))
+                try {
+                    itemNotFound(err, item, 'NOT_FOUND')
+                    resolve(buildSuccObject('DELETED'))
+                } catch (error) {
+                    reject(error)
+                }
             })
         })
     }
