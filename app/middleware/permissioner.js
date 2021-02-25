@@ -24,7 +24,7 @@ module.exports = {
     async permissionIsIdGood(id) {
         return new Promise((resolve, reject) => {
             permModel.findById(id, (err, item) => {
-                    itemNotFound(err, item, reject, 'PERMISSION_DOES_NOT_EXISTS')
+                    itemNotFound(err, item, 'PERMISSION_DOES_NOT_EXISTS')
                     resolve(true)
                 }
             )
@@ -40,7 +40,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             user = JSON.parse(JSON.stringify(user))
             const item = user.permissions.find(buffer => buffer._id === id);
-            itemNotFound(null, item, reject, 'PERMISSION_LINK_IS_NOT_ASSIGNED')
+            itemNotFound(null, item, 'PERMISSION_LINK_IS_NOT_ASSIGNED')
             resolve(true)
         })
     },
@@ -58,7 +58,7 @@ module.exports = {
             if (item === undefined) {
                 item = null
             }
-            itemNotFound(null, item, reject, message)
+            itemNotFound(null, item, message)
             resolve(item)
         })
     },
@@ -91,7 +91,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             user = JSON.parse(JSON.stringify(user))
             const item = user.permissionsRevoke.find(buffer => buffer._id === id);
-            itemNotFound(null, item, reject, 'PERMISSION_REVOKE_DOES_NOT_EXISTS')
+            itemNotFound(null, item, 'PERMISSION_REVOKE_DOES_NOT_EXISTS')
             resolve(true)
         })
     },
@@ -115,7 +115,7 @@ module.exports = {
     async permissionGetById(id) {
         return new Promise((resolve, reject) => {
             permModel.findOne({_id: id}, (err, item) => {
-                itemNotFound(err, item, reject, 'PERMISSION_DOES_NOT_EXISTS')
+                itemNotFound(err, item, 'PERMISSION_DOES_NOT_EXISTS')
                 resolve(item)
             })
         })
@@ -124,7 +124,7 @@ module.exports = {
     async permissionGetByName(permission) {
         return new Promise((resolve, reject) => {
             permModel.findOne({permission: permission}, (err, item) => {
-                itemNotFound(err, item, reject, 'PERMISSION_DOES_NOT_EXISTS')
+                itemNotFound(err, item, 'PERMISSION_DOES_NOT_EXISTS')
                 resolve(item)
             })
         })

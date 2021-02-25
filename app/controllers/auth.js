@@ -185,7 +185,7 @@ const findUser = async email => {
             },
             'password loginAttempts blockExpires name email role verified verification',
             (err, item) => {
-                utils.itemNotFound(err, item, reject, 'USER_DOES_NOT_EXIST')
+                utils.itemNotFound(err, item, 'USER_DOES_NOT_EXIST')
                 resolve(item)
             }
         )
@@ -199,7 +199,7 @@ const findUser = async email => {
 const findUserById = async userId => {
     return new Promise((resolve, reject) => {
         User.findById(userId, (err, item) => {
-            utils.itemNotFound(err, item, reject, 'USER_DOES_NOT_EXIST')
+            utils.itemNotFound(err, item, 'USER_DOES_NOT_EXIST')
             resolve(item)
         })
     })
@@ -272,7 +272,7 @@ const verificationExists = async id => {
             },
             (err, user) => {
                 console.log(user)
-                utils.itemNotFound(err, user, reject, 'NOT_FOUND_OR_ALREADY_VERIFIED')
+                utils.itemNotFound(err, user, 'NOT_FOUND_OR_ALREADY_VERIFIED')
                 resolve(user)
             }
         )
@@ -284,7 +284,7 @@ const isVerificationIdGood = async id => {
         id = auth.decrypt(id)
         if (id.split(":")[0] === "v" || id.split(":")[0] === "vEC") {
             resolve(id)
-        } else utils.itemNotFound(null, null, reject, 'ID_MALFORMED')
+        } else utils.itemNotFound(null, null, 'ID_MALFORMED')
     })
 }
 
@@ -319,7 +319,7 @@ const markResetPasswordAsUsed = async (req, forgot) => {
         forgot.browserChanged = utils.getBrowserInfo(req)
         forgot.countryChanged = utils.getCountry(req)
         forgot.save((err, item) => {
-            utils.itemNotFound(err, item, reject, 'NOT_FOUND')
+            utils.itemNotFound(err, item, 'NOT_FOUND')
             resolve(utils.buildSuccObject('PASSWORD_CHANGED'))
         })
     })
@@ -334,7 +334,7 @@ const updatePassword = async (password, user) => {
     return new Promise((resolve, reject) => {
         user.password = password
         user.save((err, item) => {
-            utils.itemNotFound(err, item, reject, 'NOT_FOUND')
+            utils.itemNotFound(err, item, 'NOT_FOUND')
             resolve(item)
         })
     })
@@ -351,7 +351,7 @@ const findUserToResetPassword = async email => {
                 email
             },
             (err, user) => {
-                utils.itemNotFound(err, user, reject, 'NOT_FOUND')
+                utils.itemNotFound(err, user, 'NOT_FOUND')
                 resolve(user)
             }
         )
@@ -370,7 +370,7 @@ const findForgotPassword = async id => {
                 used: false
             },
             (err, item) => {
-                utils.itemNotFound(err, item, reject, 'NOT_FOUND_OR_ALREADY_USED')
+                utils.itemNotFound(err, item, 'NOT_FOUND_OR_ALREADY_USED')
                 resolve(item)
             }
         )
@@ -426,7 +426,7 @@ const forgotPasswordResponse = item => {
 const checkPermissions = async (data, req, next) => {
     return new Promise((resolve, reject) => {
         User.findById(data.id, (err, result) => {
-            utils.itemNotFound(err, result, reject, 'NOT_FOUND')
+            utils.itemNotFound(err, result, 'NOT_FOUND')
             if (data.roles.indexOf(result.role) > -1) {
                 return resolve(next())
             }
@@ -538,7 +538,7 @@ exports.forgotPassword = async (req, res) => {
         const data = matchedData(req)
         await findUser(data.email)
         const item = await saveForgotPassword(req)
-        emailer.sendResetPasswordEmailMessage(locale, item)
+        await emailer.sendResetPasswordEmailMessage(locale, item)
         res.status(200).json(forgotPasswordResponse(item))
     } catch (error) {
         utils.handleError(res, error)

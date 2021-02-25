@@ -133,7 +133,7 @@ const revokeItemUpdate = async (user, req) => {
 const findUserById = async userId => {
     return new Promise((resolve, reject) => {
         userModel.findById(userId, (err, item) => {
-            utils.itemNotFound(err, item, reject, 'USER_DOES_NOT_EXIST')
+            utils.itemNotFound(err, item, 'USER_DOES_NOT_EXIST')
             resolve(item)
         })
     })
@@ -178,7 +178,7 @@ exports.getItems = async (req, res) => {
 exports.getUserItems = async (req, res) => {
     try {
         let user = await findUserById(req.user._id)
-        const data = {permissions:[]}
+        const data = {permissions: []}
         for (let permission of user.permissions) {
             if (permission.permissionId) {
                 permission = JSON.parse(JSON.stringify(permission))

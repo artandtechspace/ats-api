@@ -16,7 +16,7 @@ const uuid = require('uuid')
 const getProfileFromDB = async id => {
     return new Promise((resolve, reject) => {
         model.findById(id, '-_id -updatedAt -createdAt', (err, user) => {
-            utils.itemNotFound(err, user, reject, 'NOT_FOUND')
+            utils.itemNotFound(err, user, 'NOT_FOUND')
             resolve(user)
         })
     })
@@ -42,7 +42,7 @@ const updateProfileInDB = async (req, id) => {
                 select: '-role -_id -updatedAt -createdAt'
             },
             (err, user) => {
-                utils.itemNotFound(err, user, reject, 'NOT_FOUND')
+                utils.itemNotFound(err, user, 'NOT_FOUND')
                 resolve(user)
             }
         )
@@ -56,7 +56,7 @@ const updateProfileInDB = async (req, id) => {
 const findUser = async id => {
     return new Promise((resolve, reject) => {
         model.findById(id, (err, user) => {
-            utils.itemNotFound(err, user, reject, 'USER_DOES_NOT_EXIST')
+            utils.itemNotFound(err, user, 'USER_DOES_NOT_EXIST')
             resolve(user)
         })
     })
@@ -80,7 +80,7 @@ const passwordsDoNotMatch = async () => {
 const changePasswordInDB = async (id, req) => {
     return new Promise((resolve, reject) => {
         model.findById(id, '+password', (err, user) => {
-            utils.itemNotFound(err, user, reject, 'NOT_FOUND')
+            utils.itemNotFound(err, user, 'NOT_FOUND')
 
             // Assigns new password to user
             user.password = req.newPassword
