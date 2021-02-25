@@ -71,7 +71,7 @@ exports.closeItem = async (req, res) => {
         if (data.permission !== undefined) data.perm = await permissioner.permissionGetByName(data.permission)
         const assignedPermission = await permissioner.permissionIsAssigned(user, data.perm._id, 'PERMISSION_IS_NOT_ASSIGNED')
         await permissioner.permissionIsRevokedActive(user, assignedPermission._id, 'PERMISSION_REVOKE_IS_ASSIGNED', true)
-        const userPermAccess =  JSON.parse(JSON.stringify(await machiner.isMachineActiveByPermId(data.permissionId, "MACHINE_NOT_IN_USE", true)))
+        const userPermAccess = JSON.parse(JSON.stringify(await machiner.isMachineActiveByPermId(data.permissionId, "MACHINE_NOT_IN_USE", true)))
         const act = {ipaddress: data.perm.ipaddress, userId: user._id, userName: user.name}
         if (process.env.NODE_ENV === 'production') await machiner.deactivateMachine(act)
         else console.log("deactivate:", act)
