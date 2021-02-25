@@ -2,14 +2,15 @@ const nodemailer = require('nodemailer')
 const mg = require('nodemailer-mailgun-transport')
 const i18n = require('i18n')
 const User = require('../models/user')
+const {buildErrObject} = require("./utils");
 const {itemAlreadyExists} = require('../middleware/utils')
 
 /**
  * Sends email
  * @param {Object} data - data
- * @param {boolean} callback - callback
+ * @param {function(*): void} callback - callback
  */
-const sendEmail = async (data, callback) => {
+const sendEmail = async (data = {}, callback) => {
     const auth = {
         host: process.env.EMAIL_SMTP_DOMAIN_HOST, // smtp host for sending
         port: process.env.EMAIL_SMTP_PORT, // secure false
@@ -41,7 +42,7 @@ const sendEmail = async (data, callback) => {
  * @param {string} subject - subject
  * @param {string} htmlMessage - html message
  */
-const prepareToSendEmail = (user, subject, htmlMessage) => {
+const prepareToSendEmail = (user = {}, subject = '', htmlMessage = '') => {
     user = {
         name: user.name,
         email: user.email,
@@ -53,7 +54,7 @@ const prepareToSendEmail = (user, subject, htmlMessage) => {
         htmlMessage
     }
     if (process.env.NODE_ENV === 'production') {
-        sendEmail(data, messageSent =>
+        sendEmail(data, (messageSent) =>
             messageSent
                 ? console.log(`Email SENT to: ${user.email}`)
                 : console.log(`Email FAILED to: ${user.email}`)
@@ -75,7 +76,8 @@ module.exports = {
                     email
                 },
                 (err, item) => {
-                    itemAlreadyExists(err, item, reject, 'EMAIL_ALREADY_EXISTS')
+                    if (err) return reject(buildErrObject(422, err.message))
+                    if (item) return reject(buildErrObject(422, 'EMAIL_ALREADY_EXISTS'))
                     resolve(false)
                 }
             )
@@ -97,7 +99,8 @@ module.exports = {
                     }
                 },
                 (err, item) => {
-                    itemAlreadyExists(err, item, reject, 'EMAIL_ALREADY_EXISTS')
+                    if (err) return reject(buildErrObject(422, err.message))
+                    if (item) return reject(buildErrObject(422, 'EMAIL_ALREADY_EXISTS'))
                     resolve(false)
                 }
             )
@@ -109,7 +112,7 @@ module.exports = {
      * @param {string} locale - locale
      * @param {Object} user - user object
      */
-    async sendRegistrationEmailMessage(locale, user) {
+    async sendRegistrationEmailMessage(locale = '', user = {}) {
         i18n.setLocale(locale)
         const subject = i18n.__('registration.SUBJECT')
         const htmlMessage = i18n.__(
@@ -121,7 +124,7 @@ module.exports = {
         prepareToSendEmail(user, subject, htmlMessage)
     },
 
-    async sendChangeEmailMessage(locale, user) {
+    async sendChangeEmailMessage(locale = '', user = {}) {
         i18n.setLocale(locale)
         const subject = i18n.__('changeEmail.SUBJECT')
         const htmlMessage = i18n.__(
@@ -139,7 +142,7 @@ module.exports = {
      * @param {string} locale - locale
      * @param {Object} user - user object
      */
-    async sendResetPasswordEmailMessage(locale, user) {
+    async sendResetPasswordEmailMessage(locale = '', user = {}) {
         i18n.setLocale(locale)
         const subject = i18n.__('forgotPassword.SUBJECT')
         const htmlMessage = i18n.__(
