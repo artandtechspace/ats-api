@@ -20,7 +20,7 @@ const trimRequest = require('trim-request')
 router.get(
     '/',
     requireAuth,
-    AuthController.roleAuthorization(['user','admin']),
+    AuthController.roleAuthorization(['user', 'admin']),
     trimRequest.all,
     controller.getUserItems
 )
