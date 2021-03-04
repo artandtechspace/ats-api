@@ -24,6 +24,8 @@ module.exports = () => {
                     console.log('****************************')
                     console.log('*    Starting Server')
                     console.log(`*    Port: ${process.env.PORT || 3000}`)
+                    if (process.env.USE_SECURE === 'true')
+                        console.log(`*    Secure Port: ${process.env.SECURE_PORT || 3443}`)
                     console.log(`*    NODE_ENV: ${process.env.NODE_ENV}`)
                     console.log(`*    Database: MongoDB`)
                     console.log(dbStatus)
