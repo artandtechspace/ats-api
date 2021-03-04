@@ -1,16 +1,19 @@
 require('dotenv-safe').config()
 const express = require('express')
-const listEndpoints = require("express-list-endpoints");
+const listEndpoints = require("express-list-endpoints")
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const compression = require('compression')
 const helmet = require('helmet')
 const cors = require('cors')
+const https = require('https')
+const http = require('http')
 const passport = require('passport')
 const app = express()
 const i18n = require('i18n')
 const initMongo = require('./config/mongo')
 const path = require('path')
+const fs = require('fs')
 // Setup express server port from ENV, default: 3000
 app.set('port', process.env.PORT || 3000)
 
@@ -41,6 +44,7 @@ app.use(
         limit: '20mb'
     })
 )
+
 // for parsing application/x-www-form-urlencoded
 app.use(
     bodyParser.urlencoded({
@@ -69,7 +73,21 @@ app.set('views', path.join(__dirname, 'views'))
 app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
 app.use(require('./app/routes'))
-app.listen(app.get('port'))
+
+const httpServer = http.createServer(app);
+httpServer.listen(app.get('port'), () => {
+    console.log('HTTP Server running on port ' + app.get('port'));
+});
+
+if (process.env.USE_SECURE === 'true') {
+    const httpsServer = https.createServer({
+        key: fs.readFileSync(process.env.SECURE_PRIVKEY),
+        cert: fs.readFileSync(process.env.SECURE_FULLCHAIN),
+    }, app)
+    httpsServer.listen(process.env.SECURE_PORT || 3443, () => {
+        console.log('SECURE Server running on port ' + process.env.SECURE_PORT || 3443);
+    })
+}
 
 // List all api endpoints
 console.table(listEndpoints(app), ['path', 'methods'])
