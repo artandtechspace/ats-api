@@ -35,7 +35,6 @@ const createAddress = async (customerId, firstName, lastName, company = null, st
 
 const userSetAddress = async (userId, addressId) => {
     return new Promise((resolve, reject) => {
-        console.log("err")
         userModel.findByIdAndUpdate(
             {_id: userId},
             {addressId: addressId},
@@ -52,7 +51,6 @@ const userSetAddress = async (userId, addressId) => {
 
 const updateAddress = async (customerId, addressId, address) => {
     return new Promise((resolve, reject) => {
-        console.log(address)
         gateway.address.update(customerId, addressId, address)
             .then(result => {
                 resolve(result)
@@ -77,7 +75,6 @@ const removeAddress = async (customerId, addressId) => {
 
 const getAddress = async (customerId, addressId) => {
     return new Promise((resolve, reject) => {
-        console.log(customerId, addressId)
         gateway.address.find(customerId, addressId)
             .then(result => {
                 resolve(result)
@@ -195,7 +192,6 @@ exports.updateAddress = async (req, res, next) => {
         const data = matchedData(req)
         const customer = await getCustomer(user)
         const address = await getAddress(customer.id, data.id)
-        console.log(address)
         res.status(200).json(await updateAddress(customer.id, address.id, data))
     } catch (error) {
         utils.handleError(res, error)

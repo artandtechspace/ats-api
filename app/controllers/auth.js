@@ -6,6 +6,7 @@ const utils = require('../middleware/utils')
 const uuid = require('uuid')
 const {addHours} = require('date-fns')
 const {matchedData} = require('express-validator')
+const ldapLogin = require('../../config/passport-ldap')
 const auth = require('../middleware/auth')
 const emailer = require('../middleware/emailer')
 const HOURS_TO_BLOCK = 2
@@ -271,7 +272,6 @@ const verificationExists = async id => {
                 verification: id
             },
             (err, user) => {
-                console.log(user)
                 utils.itemNotFound(err, user, 'NOT_FOUND_OR_ALREADY_VERIFIED')
                 resolve(user)
             }
@@ -463,7 +463,6 @@ const getUserIdFromToken = async token => {
 exports.login = async (req, res) => {
     try {
         const data = matchedData(req)
-        console.log(req)
         const user = await findUser(data.email)
         await userIsBlocked(user)
         await checkLoginAttemptsAndBlockExpires(user)

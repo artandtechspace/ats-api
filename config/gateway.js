@@ -11,7 +11,7 @@ if (
 ) {
     throw new Error(
         'Cannot find necessary environment variables. See https://github.com/braintree/braintree_express_example#setup-instructions for instructions'
-    );
+    )
 }
 
 localEnvironment = `${process.env.BRAINTREE_ENVIRONMENT.charAt(

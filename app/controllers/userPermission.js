@@ -83,7 +83,6 @@ const pardonRevokeItem = async (user, id) => {
                 }
             })
         }
-        console.log(item)
         user.save((err, item) => {
             if (err) {
                 reject(utils.buildErrObject(422, err.message))
@@ -193,7 +192,6 @@ exports.getUserItems = async (req, res) => {
                 permission.description = item.description
                 permission.supervised = item.supervised
                 permission.supervisedAdmin = item.supervisedAdmin
-                console.log(permission)
                 data.permissions.push(permission)
             }
         }
