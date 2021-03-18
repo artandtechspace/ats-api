@@ -24,4 +24,4 @@ const LendItemSchema = new mongoose.Schema(
 )
 
 LendItemSchema.plugin(mongoosePaginate)
-module.exports = mongoose.model('LendItem', LandItemSchema)
+module.exports = mongoose.model('LendItem', LendItemSchema)
