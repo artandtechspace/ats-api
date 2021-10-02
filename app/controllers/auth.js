@@ -6,7 +6,6 @@ const utils = require('../middleware/utils')
 const uuid = require('uuid')
 const {addHours} = require('date-fns')
 const {matchedData} = require('express-validator')
-const ldapLogin = require('../../config/passport-ldap')
 const auth = require('../middleware/auth')
 const emailer = require('../middleware/emailer')
 const HOURS_TO_BLOCK = 2
@@ -88,7 +87,8 @@ const saveUserAccessAndReturnToken = async (req, user) => {
             }
             // Returns data with access.js token
             resolve({
-                token: generateToken(user._id, item._id),
+                keyToken: generateToken(user._id, item._id),
+                accessToken: generateToken(user._id, item._id),
                 user: userInfo
             })
         })
@@ -167,6 +167,7 @@ const checkLoginAttemptsAndBlockExpires = async user => {
  */
 const userIsBlocked = async user => {
     return new Promise((resolve, reject) => {
+        console.log(user)
         if (user.blockExpires > new Date()) {
             reject(utils.buildErrObject(409, 'BLOCKED_USER'))
         }
@@ -229,11 +230,9 @@ const passwordsDoNotMatch = async user => {
  */
 const registerUser = async req => {
     return new Promise((resolve, reject) => {
+
         const user = new User({
-            firstname: req.firstname,
-            lastname: req.lastname,
             email: req.email,
-            password: req.password,
             verification: uuid.v4()
         })
         user.save((err, item) => {
@@ -339,6 +338,7 @@ const updatePassword = async (password, user) => {
         })
     })
 }
+
 
 /**
  * Finds user by email to reset password

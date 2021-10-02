@@ -144,12 +144,6 @@ exports.updateProfile = async (req, res) => {
                 await emailer.sendChangeEmailMessage(locale, verification)
             }
         }
-        if (req.idDiscord) {
-
-        }
-        if (req.urlGitHub) {
-
-        }
         res.status(200).json(await updateProfileInDB(req, id))
     } catch (error) {
         utils.handleError(res, error)

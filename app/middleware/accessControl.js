@@ -5,35 +5,17 @@ const secret = process.env.JWT_SECRET
 const IV_LENGTH = 16
 
 module.exports = {
-    /**
-     * Checks is password matches
-     * @param {string} password - password
-     * @param {Object} user - user object
-     * @returns {boolean}
-     */
-    async checkPassword(password, user) {
-        return new Promise((resolve, reject) => {
-            user.comparePassword(password, (err, isMatch) => {
-                if (err) {
-                    reject(buildErrObject(422, err.message))
-                }
-                if (!isMatch) {
-                    resolve(false)
-                }
-                resolve(true)
-            })
-        })
-    },
 
     /**
      * Checks is desfireSecret matches
-     * @param {string} desfireSecret - Desfire Secret
-     * @param {Object} user - user object
+     * @param {string} accessControlSecret - Desfire Secret
+     * @param {Object} accessControl
      * @returns {boolean}
      */
-    async checkDesfireSecret(desfireSecret, user) {
-        return new Promise((resolve, reject) => {
-            user.compareDesfireSecret(desfireSecret, (err, isMatch) => {
+    async checkAccessControlSecret(accessControlSecret, accessControl) {
+        return new Promise(async (resolve, reject) => {
+            console.log("lol2")
+            await accessControl.compareDeviceSecret(accessControlSecret, (err, isMatch) => {
                 if (err) {
                     reject(buildErrObject(422, err.message))
                 }
@@ -42,13 +24,6 @@ module.exports = {
                 }
                 resolve(true)
             })
-        })
-    },
-
-    async createDesfireSecret() {
-        return new Promise(async (resolve, reject) => {
-            const token = crypto.randomBytes(64).toString('hex');
-            return resolve(token)
         })
     },
 

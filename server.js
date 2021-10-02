@@ -16,6 +16,7 @@ const path = require('path')
 const fs = require('fs')
 // Setup express server port from ENV, default: 3000
 app.set('port', process.env.PORT || 3000)
+app.set('accessToken', null)
 
 // Enable only in development HTTP request logger middleware
 if (process.env.NODE_ENV === 'development') {
@@ -74,10 +75,10 @@ app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
 app.use(require('./app/routes'))
 
+
+// Init HTTP server
 const httpServer = http.createServer(app);
-httpServer.listen(app.get('port'), () => {
-    console.log('HTTP Server running on port ' + app.get('port'));
-});
+httpServer.listen(app.get('port'));
 
 if (process.env.USE_SECURE === 'true') {
     const httpsServer = https.createServer({
@@ -95,4 +96,4 @@ console.table(listEndpoints(app), ['path', 'methods'])
 // Init MongoDB
 initMongo()
 
-module.exports = app // for testing
+module.exports = app

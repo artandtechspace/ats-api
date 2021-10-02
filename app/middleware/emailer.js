@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer')
-const mg = require('nodemailer-mailgun-transport')
 const i18n = require('i18n')
 const User = require('../models/user')
 const {buildErrObject} = require("./utils");

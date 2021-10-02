@@ -1,5 +1,5 @@
 const controller = require('../controllers/profile')
-const validate = require('../controllers/profile.validate')
+const validate = require('../validate/profile.validate')
 const AuthController = require('../controllers/auth')
 const express = require('express')
 const router = express.Router()
@@ -11,11 +11,15 @@ const requireAuth = passport.authenticate('jwt', {
 const trimRequest = require('trim-request')
 
 /*
- * Profile routes
+ * Profile endpoints
  */
 
-/*
- * Get profile route
+
+/**
+ * Empty profile endpoint
+ * @type get
+ * @authorization user, admin
+ * @author Luca Schöneberg
  */
 router.get(
     '/',
@@ -26,7 +30,7 @@ router.get(
 )
 
 /*
- * Update profile route
+ * Update profile endpoint
  */
 router.patch(
     '/',
@@ -38,7 +42,7 @@ router.patch(
 )
 
 /*
- * Change password route
+ * Change password endpoint
  */
 router.post(
     '/changePassword',

@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validator = require('validator')
 const mongoosePaginate = require('mongoose-paginate-v2')
-const UserPermissionSchema = require('./userPermission')
-const UserPermissionRevokeSchema = require('./userPermissionRevoke')
+const {buildErrObject} = require("../middleware/utils");
 
 const UserSchema = new mongoose.Schema(
     {
@@ -39,9 +38,15 @@ const UserSchema = new mongoose.Schema(
             unique: true,
             sparse: true
         },
-        password: {
+        adUuid: {
             type: String,
             required: true,
+            unique: true,
+        },
+        desfireSecret: {
+            type: String,
+            required: false,
+            unique: true,
             select: false
         },
         role: {
@@ -49,8 +54,6 @@ const UserSchema = new mongoose.Schema(
             enum: ['user', 'admin', 'member'],
             default: 'user'
         },
-        permissions: [UserPermissionSchema],
-        permissionsRevoke: [UserPermissionRevokeSchema],
         verification: {
             type: String
         },
@@ -74,10 +77,6 @@ const UserSchema = new mongoose.Schema(
         },
         addressId: {
             type: String
-        },
-        idDiscord: {
-            type: String,
-            lowercase: true
         },
         idGitHub: {
             type: String,
@@ -105,17 +104,42 @@ const UserSchema = new mongoose.Schema(
         timestamps: true
     }
 )
-
-const hash = (user, salt, next) => {
-    bcrypt.hash(user.password, salt, (error, newHash) => {
-        if (error) {
-            return next(error)
-        }
-        user.password = newHash
-        return next()
-    })
+/**
+ * Replaceses the password and desfireSecret with salted hash
+ * @module userShemaMiddelware
+ * @function
+ * @param {Object} user
+ * @param {number} salt
+ * @param {Function} next
+ */
+const hash = async (user, salt, next) => {
+    if (user.isModified('password')) {
+        await bcrypt.hash(user.password, salt, (error, newHash) => {
+            if (error) {
+                return next(error)
+            }
+            user.password = newHash
+        })
+    }
+    if (user.isModified('desfireSecret')) {
+        await bcrypt.hash(user.desfireSecret, salt, (error, newHash) => {
+            if (error) {
+                return next(error)
+            }
+            user.desfireSecret = newHash
+        })
+    }
+    return next()
 }
 
+/**
+ * Generates a hash with user infomation and hash function
+ * @module userShemaMiddelware
+ * @function
+ * @param {Object} user
+ * @param {number} SALT_FACTOR
+ * @param {Function} next
+ */
 const genSalt = (user, SALT_FACTOR, next) => {
     bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
         if (err) {
@@ -128,14 +152,19 @@ const genSalt = (user, SALT_FACTOR, next) => {
 UserSchema.pre('save', function (next) {
     const that = this
     const SALT_FACTOR = 5
-    if (!that.isModified('password')) {
-        return next()
-    }
+    if (!that.isModified('password') || !that.isModified('desfireSecret')) return next()
     return genSalt(that, SALT_FACTOR, next)
 })
 
 UserSchema.methods.comparePassword = function (passwordAttempt, cb) {
+    console.log(this.password, passwordAttempt)
     bcrypt.compare(passwordAttempt, this.password, (err, isMatch) =>
+        err ? cb(err) : cb(null, isMatch)
+    ).catch((err) => console.log(err))
+}
+
+UserSchema.methods.compareDesfireSecret = function (desfireSecretAttempt, cb) {
+    bcrypt.compare(desfireSecretAttempt, this.desfireSecret, (err, isMatch) =>
         err ? cb(err) : cb(null, isMatch)
     )
 }

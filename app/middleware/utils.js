@@ -1,6 +1,16 @@
 const requestIp = require('request-ip')
 const {validationResult} = require('express-validator')
 const bson = require('bson')
+const crypto = require("crypto");
+
+
+buildErrObject = (code = '', message = {}) => {
+    return {
+        code,
+        message
+    }
+}
+
 /**
  * Removes extension from file
  * @param {string} file - filename
@@ -142,4 +152,11 @@ exports.datePlusHoursOlder = (date, hours) => {
 exports.getFullName = (user) => {
     if (user.secondFirstname) return user.firstname + " " + user.secondFirstname + " " + user.lastname
     else return user.firstname + " " + user.lastname
+}
+
+exports.createSecret = async () => {
+    return new Promise(async (resolve, reject) => {
+        const token = crypto.randomBytes(16).toString('hex');
+        return resolve(token)
+    })
 }

@@ -21,7 +21,6 @@ const createItem = async req => {
             password: req.password,
             role: req.role,
             phone: req.phone,
-            city: req.city,
             country: req.country,
             verification: uuid.v4()
         })
@@ -111,7 +110,7 @@ exports.createItem = async (req, res) => {
         const doesEmailExists = await emailer.emailExists(req.email)
         if (!doesEmailExists) {
             const item = await createItem(req)
-            emailer.sendRegistrationEmailMessage(locale, item)
+            await emailer.sendRegistrationEmailMessage(locale, item)
             res.status(201).json(item)
         }
     } catch (error) {
